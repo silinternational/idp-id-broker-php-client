@@ -24,7 +24,7 @@ Example:
 use Sil\Idp\IdBroker\Client\UserClient;
 
 $userClient = new UserClient([
-    // Authentication values...
+    // API authentication values...
 ]);
 
 $users = $userClient->list();
