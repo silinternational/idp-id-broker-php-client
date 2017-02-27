@@ -68,7 +68,7 @@ class BaseClient extends GuzzleClient
         // Load service description data.
         $data = is_readable($config['description_path'])
             ? include $config['description_path']
-            : null;
+            : [];
 
         // Override description from local config if set
         if (isset($config['description_override'])) {
