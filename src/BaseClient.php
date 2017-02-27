@@ -17,7 +17,7 @@ class BaseClient extends GuzzleClient
             /** @todo Changed... find equivalent. */
             //'max_retries' => 3,
         ];
-
+        
         // Create the client.
         parent::__construct(
             $this->getHttpClientFromConfig($config),
@@ -27,24 +27,24 @@ class BaseClient extends GuzzleClient
             null,
             $config
         );
-
+        
         // Ensure that the credentials are set.
         $this->applyCredentials($config);
     }
-
+    
     private function getHttpClientFromConfig(array $config)
     {
         // If a client was provided, return it.
         if (isset($config['http_client'])) {
             return $config['http_client'];
         }
-
+        
         // Create a Guzzle HttpClient.
         $clientOptions = isset($config['http_client_options'])
             ? $config['http_client_options']
             : [];
         $client = new HttpClient($clientOptions);
-
+        
         // Attach request retry logic.
         /** @todo Changed... find equivalent. */
 //        $client->getEmitter()->attach(new RetrySubscriber([
@@ -54,30 +54,30 @@ class BaseClient extends GuzzleClient
 //                RetrySubscriber::createCurlFilter(),
 //            ]),
 //        ]));
-
+        
         return $client;
     }
-
+    
     private function getDescriptionFromConfig(array $config)
     {
         // If a description was provided, return it.
         if (isset($config['description'])) {
             return $config['description'];
         }
-
+        
         // Load service description data.
         $data = is_readable($config['description_path'])
             ? include $config['description_path']
             : [];
-
+        
         // Override description from local config if set
         if (isset($config['description_override'])) {
             $data = array_replace_recursive($data, $config['description_override']);
         }
-
+        
         return new Description($data);
     }
-
+    
     private function applyCredentials(array $config)
     {
         /** @todo Ensure that the credentials have been provided. */
