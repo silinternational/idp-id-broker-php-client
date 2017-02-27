@@ -72,7 +72,7 @@ class BaseClient extends GuzzleClient
 
         // Override description from local config if set
         if (isset($config['description_override'])) {
-            $data = array_merge($data, $config['description_override']);
+            $data = array_replace_recursive($data, $config['description_override']);
         }
 
         return new Description($data);
