@@ -2,8 +2,9 @@
 namespace Sil\Idp\IdBroker\Client\tests;
 
 use Sil\Idp\IdBroker\Client\PasswordClient;
+use PHPUnit\Framework\TestCase;
 
-class PasswordTest extends \PHPUnit_Framework_TestCase
+class PasswordTest extends TestCase
 {
     private function getPasswordClient($extra = [])
     {

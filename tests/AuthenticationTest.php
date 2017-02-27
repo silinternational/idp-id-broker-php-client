@@ -2,8 +2,9 @@
 namespace Sil\Idp\IdBroker\Client\tests;
 
 use Sil\Idp\IdBroker\Client\AuthenticationClient;
+use PHPUnit\Framework\TestCase;
 
-class AuthenticationTest extends \PHPUnit_Framework_TestCase
+class AuthenticationTest extends TestCase
 {
     private function getAuthenticationClient($extra = [])
     {

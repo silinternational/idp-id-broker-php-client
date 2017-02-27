@@ -2,8 +2,9 @@
 namespace Sil\Idp\IdBroker\Client\tests;
 
 use Sil\Idp\IdBroker\Client\UserClient;
+use PHPUnit\Framework\TestCase;
 
-class UserTest extends \PHPUnit_Framework_TestCase
+class UserTest extends TestCase
 {
     private function getUserClient($extra = [])
     {
