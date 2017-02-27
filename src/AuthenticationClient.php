@@ -15,7 +15,7 @@ class AuthenticationClient extends BaseClient
     {
         // Apply some defaults.
         $config += [
-            'description_path' => \realpath(__DIR__ . '/descriptions/authentications.php'),
+            'description_path' => \realpath(__DIR__ . '/descriptions/authentication.php'),
         ];
 
         // Create the client.
