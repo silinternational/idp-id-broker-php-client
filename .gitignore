@@ -4,3 +4,5 @@ composer.phar
 /nbproject/
 *.local.php
 composer.lock
+.vagrant/
+auth.json
