@@ -1,5 +1,5 @@
 <?php
-namespace tests;
+namespace Sil\Idp\IdBroker\Client\tests;
 
 use Sil\Idp\IdBroker\Client\UserClient;
 
