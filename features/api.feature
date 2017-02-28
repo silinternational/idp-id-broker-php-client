@@ -5,5 +5,6 @@ Feature: Call the ID Broker API
       And I provide a username of "abc"
       And I provide a password of "def"
     When I call authenticate
-    Then the url should be "https://api.example.com/authentication"
+    Then the method should be "POST"
+      And the url should be "https://api.example.com/authentication"
       And the body should be '{"username":"abc","password":"def"}'

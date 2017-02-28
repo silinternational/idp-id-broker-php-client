@@ -122,4 +122,14 @@ class FeatureContext implements Context
         $actualBodyText = (string)$request->getBody();
         $this->assertSame($expectedBodyText, $actualBodyText);
     }
+
+    /**
+     * @Then the method should be :expectedMethod
+     */
+    public function theMethodShouldBe($expectedMethod)
+    {
+        $request = $this->getRequestFromHistory();
+        $actualMethod = $request->getMethod();
+        $this->assertSame($expectedMethod, $actualMethod);
+    }
 }
