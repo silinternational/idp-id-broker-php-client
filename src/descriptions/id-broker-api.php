@@ -1,5 +1,27 @@
 <?php return [
     'operations' => [
+        'activateUser' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/user/{employee_id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                
+                /** @todo Add authentication credential parameters. */
+                
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+                'active' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'default' => 'yes',
+                    'static' => true,
+                ],
+            ],
+        ],
         'authenticate' => [
             'httpMethod' => 'POST',
             'uri' => '/authentication',
@@ -77,6 +99,8 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
+                    'default' => 'no',
+                    'static' => true,
                 ],
             ],
         ],
