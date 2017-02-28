@@ -8,7 +8,7 @@ use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\Assert;
-use Sil\Idp\IdBroker\Client\AuthenticationClient;
+use Sil\Idp\IdBroker\Client\IdBrokerClient;
 
 /**
  * Defines application features from the specific context.
@@ -55,6 +55,19 @@ class FeatureContext implements Context
     }
     
     /**
+     * @return IdBrokerClient
+     */
+    protected function getIdBrokerClient()
+    {
+        return new IdBrokerClient([
+            'description_override' => [
+                'baseUri' => $this->baseUri,
+            ],
+            'http_client' => $this->getHttpClientForTests(),
+        ]);
+    }
+    
+    /**
      * @return Request
      */
     protected function getRequestFromHistory()
@@ -91,13 +104,7 @@ class FeatureContext implements Context
      */
     public function iCallAuthenticate()
     {
-        $authenticationClient = new AuthenticationClient([
-            'description_override' => [
-                'baseUri' => $this->baseUri,
-            ],
-            'http_client' => $this->getHttpClientForTests(),
-        ]);
-        $authenticationClient->authenticate([
+        $this->getIdBrokerClient()->authenticate([
             'username' => $this->username,
             'password' => $this->password,
         ]);

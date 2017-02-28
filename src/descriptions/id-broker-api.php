@@ -1,6 +1,26 @@
 <?php return [
     'operations' => [
-        'create' => [
+        'authenticate' => [
+            'httpMethod' => 'POST',
+            'uri' => '/authentication',
+            'responseModel' => 'Result',
+            'parameters' => [
+                
+                /** @todo Add API authentication credential parameters. */
+                
+                'username' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'password' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
+        'createUser' => [
             'httpMethod' => 'POST',
             'uri' => '/user',
             'responseModel' => 'Result',
@@ -40,7 +60,7 @@
                 ],
             ],
         ],
-        'deactivate' => [
+        'deactivateUser' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
@@ -60,7 +80,7 @@
                 ],
             ],
         ],
-        'find' => [
+        'findUsers' => [
             'httpMethod' => 'GET',
             'uri' => '/user',
             'responseModel' => 'Result',
@@ -75,7 +95,7 @@
                 ],
             ],
         ],
-        'get' => [
+        'getUser' => [
             'httpMethod' => 'GET',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
@@ -90,7 +110,7 @@
                 ],
             ],
         ],
-        'list' => [
+        'listUsers' => [
             'httpMethod' => 'GET',
             'uri' => '/user',
             'responseModel' => 'Result',
@@ -100,7 +120,27 @@
                 
             ],
         ],
-        'update' => [
+        'setPassword' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/user/{employee_id}/password',
+            'responseModel' => 'Result',
+            'parameters' => [
+                
+                /** @todo Add authentication credential parameters. */
+                
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+                'password' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
+        'updateUser' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
