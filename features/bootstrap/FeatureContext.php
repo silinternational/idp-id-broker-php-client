@@ -31,6 +31,15 @@ class FeatureContext implements Context
     {
     }
     
+    protected function assertSame($expected, $actual)
+    {
+        Assert::assertSame($expected, $actual, sprintf(
+            'Expected %s, not %s.',
+            var_export($expected, true),
+            var_export($actual, true)
+        ));
+    }
+    
     protected function getHttpClientForTests()
     {
         $mockHandler = new MockHandler([
@@ -101,11 +110,7 @@ class FeatureContext implements Context
     {
         $request = $this->getRequestFromHistory();
         $actualUri = (string)$request->getUri();
-        Assert::assertSame($expectedUri, $actualUri, sprintf(
-            'Expected %s, not %s.',
-            var_export($expectedUri, true),
-            var_export($actualUri, true)
-        ));
+        $this->assertSame($expectedUri, $actualUri);
     }
 
     /**
@@ -115,10 +120,6 @@ class FeatureContext implements Context
     {
         $request = $this->getRequestFromHistory();
         $actualBodyText = (string)$request->getBody();
-        Assert::assertSame($expectedBodyText, $actualBodyText, sprintf(
-            'Expected %s, not %s.',
-            var_export($expectedBodyText, true),
-            var_export($actualBodyText, true)
-        ));
+        $this->assertSame($expectedBodyText, $actualBodyText);
     }
 }
