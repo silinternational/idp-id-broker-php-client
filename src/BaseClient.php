@@ -75,6 +75,10 @@ class BaseClient extends GuzzleClient
             $data = array_replace_recursive($data, $config['description_override']);
         }
         
+        if ( ! isset($data['baseUri'])) {
+            throw new \Exception('A baseUri is required.', 1488211973);
+        }
+        
         return new Description($data);
     }
     
