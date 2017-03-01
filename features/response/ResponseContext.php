@@ -1,11 +1,11 @@
 <?php
-namespace Sil\Idp\IdBroker\Client\features\context;
+namespace Sil\Idp\IdBroker\Client\features\response;
 
 use Behat\Behat\Context\Context;
 
 /**
  * Defines application features from the specific context.
  */
-class ResponsesContext implements Context
+class ResponseContext implements Context
 {
 }

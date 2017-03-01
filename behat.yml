@@ -1,8 +1,8 @@
 default:
     suites:
-        test:
-            paths:
-                - features
-            contexts:
-                - Sil\Idp\IdBroker\Client\features\context\RequestsContext
-                - Sil\Idp\IdBroker\Client\features\context\ResponsesContext
+        request_features:
+            paths:    [ features/request ]
+            contexts: [ Sil\Idp\IdBroker\Client\features\request\RequestContext ]
+        response_features:
+            paths:    [ features/response ]
+            contexts: [ Sil\Idp\IdBroker\Client\features\response\ResponseContext ]

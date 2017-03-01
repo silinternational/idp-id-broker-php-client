@@ -1,5 +1,5 @@
 <?php
-namespace Sil\Idp\IdBroker\Client\features\context;
+namespace Sil\Idp\IdBroker\Client\features\request;
 
 use Behat\Behat\Context\Context;
 use GuzzleHttp\Handler\MockHandler;
@@ -14,7 +14,7 @@ use Sil\Idp\IdBroker\Client\IdBrokerClient;
 /**
  * Defines application features from the specific context.
  */
-class RequestsContext implements Context
+class RequestContext implements Context
 {
     private $baseUri;
     
