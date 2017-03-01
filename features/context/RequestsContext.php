@@ -1,8 +1,7 @@
 <?php
+namespace Sil\Idp\IdBroker\Client\features\context;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
-use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -15,7 +14,7 @@ use Sil\Idp\IdBroker\Client\IdBrokerClient;
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context
+class RequestsContext implements Context
 {
     private $baseUri;
     

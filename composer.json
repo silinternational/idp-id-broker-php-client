@@ -25,6 +25,7 @@
   "autoload": {
     "psr-4": {
       "Sil\\Idp\\IdBroker\\Client\\": "src/",
+      "Sil\\Idp\\IdBroker\\Client\\features\\": "features/",
       "Sil\\Idp\\IdBroker\\Client\\tests\\": "tests/"
     }
   }
