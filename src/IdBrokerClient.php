@@ -4,6 +4,7 @@ namespace Sil\Idp\IdBroker\Client;
 /**
  * IdP ID Broker API client implemented with Guzzle.
  *
+ * @method array activateUser(array $config = [])
  * @method array authenticate(array $config = [])
  * @method array createUser(array $config = [])
  * @method array deactivateUser(array $config = [])
