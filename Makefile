@@ -1,6 +1,6 @@
 
 # Set up the default (i.e. - first) make entry.
-test: composer behat phpunit
+test: composer behat
 
 bash:
 	docker-compose run --rm php bash
@@ -24,9 +24,6 @@ composerrequire:
 
 composerupdate:
 	docker-compose run --rm php bash -c "composer update --no-scripts"
-
-phpunit:
-	docker-compose run --rm php bash -c "cd tests && ../vendor/bin/phpunit ."
 
 ps:
 	docker-compose ps
