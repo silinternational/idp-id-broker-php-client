@@ -12,24 +12,35 @@ class BaseClient extends GuzzleClient
      */
     public function __construct(array $config = [])
     {
+        // Ensure that the credentials have been provided.
+        if ( ! isset($config['access_token'])) {
+            throw new \InvalidArgumentException(
+                'You must provide an Access Token.'
+            );
+        }
+        
         // Apply some defaults.
-        $config += [
+        $mergedConfig = array_replace_recursive($config, [
             /** @todo Changed... find equivalent. */
             //'max_retries' => 3,
-        ];
+            
+            'http_client_options' => [
+                'http_errors' => false,
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $config['access_token'],
+                ],
+            ],
+        ]);
         
         // Create the client.
         parent::__construct(
-            $this->getHttpClientFromConfig($config),
-            $this->getDescriptionFromConfig($config),
+            $this->getHttpClientFromConfig($mergedConfig),
+            $this->getDescriptionFromConfig($mergedConfig),
             null,
             null,
             null,
-            $config
+            $mergedConfig
         );
-        
-        // Ensure that the credentials are set.
-        $this->applyCredentials($config);
     }
     
     private function getHttpClientFromConfig(array $config)
@@ -80,32 +91,5 @@ class BaseClient extends GuzzleClient
         }
         
         return new Description($data);
-    }
-    
-    private function applyCredentials(array $config)
-    {
-        /** @todo Ensure that the credentials have been provided. */
-        
-        //if (!isset($config['api_key'])) {
-        //    throw new \InvalidArgumentException(
-        //        'You must provide an api_key.'
-        //    );
-        //}
-        //if (!isset($config['api_secret'])) {
-        //    throw new \InvalidArgumentException(
-        //        'You must provide an api_secret.'
-        //    );
-        //}
-        //
-        //// Set the credentials in default variables so that we don't have to
-        //// pass them to every method individually.
-        //$this->setConfig(
-        //    'defaults/api_key',
-        //    $config['api_key']
-        //);
-        //$this->setConfig(
-        //    'defaults/api_secret',
-        //    $config['api_secret']
-        //);
     }
 }

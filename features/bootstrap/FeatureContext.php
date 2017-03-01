@@ -49,7 +49,7 @@ class FeatureContext implements Context
         ));
     }
     
-    protected function getHttpClientForTests()
+    protected function getHttpClientHandlerForTests()
     {
         $mockHandler = new MockHandler([
             new Response(),
@@ -60,7 +60,7 @@ class FeatureContext implements Context
         $historyMiddleware = Middleware::history($this->requestHistory);
         $handlerStack->push($historyMiddleware);
         
-        return new HttpClient(['handler' => $handlerStack]);
+        return $handlerStack;
     }
     
     /**
@@ -68,11 +68,10 @@ class FeatureContext implements Context
      */
     protected function getIdBrokerClient()
     {
-        return new IdBrokerClient([
-            'description_override' => [
-                'baseUri' => $this->baseUri,
+        return new IdBrokerClient($this->baseUri, 'DummyAccessToken', [
+            'http_client_options' => [
+                'handler' => $this->getHttpClientHandlerForTests(),
             ],
-            'http_client' => $this->getHttpClientForTests(),
         ]);
     }
     
@@ -286,5 +285,15 @@ class FeatureContext implements Context
     public function iProvideAnEmailOf($email)
     {
         $this->email = $email;
+    }
+
+    /**
+     * @Then an authorization header should be present
+     */
+    public function anAuthorizationHeaderShouldBePresent()
+    {
+        $request = $this->getRequestFromHistory();
+        $headerLine = $request->getHeaderLine('Authorization');
+        Assert::assertContains('Bearer ', $headerLine);
     }
 }

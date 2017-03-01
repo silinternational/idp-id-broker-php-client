@@ -16,18 +16,27 @@ namespace Sil\Idp\IdBroker\Client;
 class IdBrokerClient extends BaseClient
 {
     /**
-     * @param array $config
+     * Constructor.
+     *
+     * @param string $baseUri - The base of the API's URL.
+     *     Example: 'https://api.example.com/'.
+     * @param string $accessToken - Your authorization access (bearer) token.
+     * @param array $config - Any other configuration settings.
      */
-    public function __construct(array $config = [])
-    {
-        // Apply some defaults.
-        $config += [
+    public function __construct(
+        string $baseUri,
+        string $accessToken,
+        array $config = []
+    ) {
+        // Create the client (applying some defaults).
+        parent::__construct(array_replace_recursive([
             'description_path' => \realpath(
                 __DIR__ . '/descriptions/id-broker-api.php'
             ),
-        ];
-
-        // Create the client.
-        parent::__construct($config);
+            'description_override' => [
+                'baseUri' => $baseUri,
+            ],
+            'access_token' => $accessToken,
+        ], $config));
     }
 }

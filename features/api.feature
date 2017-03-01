@@ -6,6 +6,7 @@ Feature: Call the ID Broker API
     When I call activateUser
     Then the method should be "PUT"
       And the url should be "https://api.example.com/user/123"
+      And an authorization header should be present
       And the body should be '{"active":"yes"}'
 
   Scenario: Authentication
@@ -15,6 +16,7 @@ Feature: Call the ID Broker API
     When I call authenticate
     Then the method should be "POST"
       And the url should be "https://api.example.com/authentication"
+      And an authorization header should be present
       And the body should be '{"username":"abc","password":"def"}'
 
   Scenario: Creating a user
@@ -27,6 +29,7 @@ Feature: Call the ID Broker API
     When I call createUser
     Then the method should be "POST"
       And the url should be "https://api.example.com/user"
+      And an authorization header should be present
 
   Scenario: Deactivating a user
     Given I am using a baseUri of "https://api.example.com/"
@@ -34,6 +37,7 @@ Feature: Call the ID Broker API
     When I call deactivateUser
     Then the method should be "PUT"
       And the url should be "https://api.example.com/user/123"
+      And an authorization header should be present
       And the body should be '{"active":"no"}'
 
   Scenario: Finding users
@@ -42,6 +46,7 @@ Feature: Call the ID Broker API
     When I call findUsers
     Then the method should be "GET"
       And the url should be 'https://api.example.com/user?username=abc'
+      And an authorization header should be present
 
   Scenario: Getting a user
     Given I am using a baseUri of "https://api.example.com/"
@@ -49,6 +54,7 @@ Feature: Call the ID Broker API
     When I call getUser
     Then the method should be "GET"
       And the url should be 'https://api.example.com/user/123'
+      And an authorization header should be present
 
   Scenario: Listing users
     Given I am using a baseUri of "https://api.example.com/"
@@ -62,6 +68,7 @@ Feature: Call the ID Broker API
     When I call updateUser
     Then the method should be "PUT"
       And the url should be 'https://api.example.com/user/123'
+      And an authorization header should be present
       And the body should contain json
       And the body should not contain a "password" field
 
@@ -72,4 +79,5 @@ Feature: Call the ID Broker API
     When I call setPassword
     Then the method should be "PUT"
       And the url should be 'https://api.example.com/user/123/password'
+      And an authorization header should be present
       And the body should be '{"password":"def"}'
