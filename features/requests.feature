@@ -1,4 +1,4 @@
-Feature: Call the ID Broker API
+Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Activating a user
     Given I am using a baseUri of "https://api.example.com/"
