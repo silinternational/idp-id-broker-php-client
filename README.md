@@ -21,13 +21,14 @@ Example:
 ```php
 <?php
 
-use Sil\Idp\IdBroker\Client\UserClient;
+use Sil\Idp\IdBroker\Client\IdBrokerClient;
 
-$userClient = new UserClient([
-    // API authentication values...
+$idBrokerClient = new IdBrokerClient(
+    'https://api.example.com/', // The base URI for the API.
+    'DummyAccessToken', // Your HTTP header authorization bearer token.
 ]);
 
-$users = $userClient->list();
+$users = $idBrokerClient->listUsers();
 ```
 
 
