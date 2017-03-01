@@ -5,9 +5,6 @@
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
             'parameters' => [
-                
-                /** @todo Add authentication credential parameters. */
-                
                 'employee_id' => [
                     'required' => true,
                     'type' => 'string',
@@ -27,9 +24,6 @@
             'uri' => '/authentication',
             'responseModel' => 'Result',
             'parameters' => [
-                
-                /** @todo Add API authentication credential parameters. */
-                
                 'username' => [
                     'required' => true,
                     'type' => 'string',
@@ -47,9 +41,6 @@
             'uri' => '/user',
             'responseModel' => 'Result',
             'parameters' => [
-                
-                /** @todo Add authentication credential parameters. */
-                
                 'employee_id' => [
                     'required' => true,
                     'type' => 'string',
@@ -87,9 +78,6 @@
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
             'parameters' => [
-                
-                /** @todo Add authentication credential parameters. */
-                
                 'employee_id' => [
                     'required' => true,
                     'type' => 'string',
@@ -109,9 +97,6 @@
             'uri' => '/user',
             'responseModel' => 'Result',
             'parameters' => [
-                
-                /** @todo Add authentication credential parameters. */
-                
                 'username' => [
                     'required' => true,
                     'type'     => 'string',
@@ -124,9 +109,6 @@
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
             'parameters' => [
-                
-                /** @todo Add authentication credential parameters. */
-                
                 'employee_id' => [
                     'required' => true,
                     'type' => 'string',
@@ -138,20 +120,12 @@
             'httpMethod' => 'GET',
             'uri' => '/user',
             'responseModel' => 'Result',
-            'parameters' => [
-                
-                /** @todo Add authentication credential parameters. */
-                
-            ],
         ],
         'setPassword' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}/password',
             'responseModel' => 'Result',
             'parameters' => [
-                
-                /** @todo Add authentication credential parameters. */
-                
                 'employee_id' => [
                     'required' => true,
                     'type' => 'string',
@@ -169,9 +143,6 @@
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
             'parameters' => [
-                
-                /** @todo Add authentication credential parameters. */
-                
                 'employee_id' => [
                     'required' => true,
                     'type' => 'string',
