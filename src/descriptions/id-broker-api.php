@@ -92,7 +92,7 @@
                 ],
             ],
         ],
-        'findUsers' => [
+        'findUser' => [
             'httpMethod' => 'GET',
             'uri' => '/user',
             'responseModel' => 'Result',

@@ -200,11 +200,11 @@ class RequestContext implements Context
     }
 
     /**
-     * @When I call findUsers
+     * @When I call findUser
      */
-    public function iCallFindUsers()
+    public function iCallFindUser()
     {
-        $this->getIdBrokerClient()->findUsers([
+        $this->getIdBrokerClient()->findUser([
             'username' => $this->username,
         ]);
     }

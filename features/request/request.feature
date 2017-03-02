@@ -43,7 +43,7 @@ Feature: Formatting requests for sending to the ID Broker API
   Scenario: Finding users
     Given I am using a baseUri of "https://api.example.com/"
       And I provide a username of "abc"
-    When I call findUsers
+    When I call findUser
     Then the method should be "GET"
       And the url should be 'https://api.example.com/user?username=abc'
       And an authorization header should be present
