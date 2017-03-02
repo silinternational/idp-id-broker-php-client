@@ -1,12 +1,10 @@
 
 # Set up the default (i.e. - first) make entry.
-test: composer behat
+test:
+	docker-compose run --rm php bash -c "./run-tests.sh"
 
 bash:
 	docker-compose run --rm php bash
-
-behat:
-	docker-compose run --rm php bash -c "vendor/bin/behat --stop-on-failure"
 
 behatappend:
 	docker-compose run --rm php bash -c "vendor/bin/behat --append-snippets"

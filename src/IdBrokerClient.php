@@ -8,7 +8,7 @@ namespace Sil\Idp\IdBroker\Client;
  * @method array authenticate(array $config = [])
  * @method array createUser(array $config = [])
  * @method array deactivateUser(array $config = [])
- * @method array findUsers(array $config = [])
+ * @method array findUser(array $config = [])
  * @method array getUser(array $config = [])
  * @method array listUsers(array $config = [])
  * @method array setPassword(array $config = [])
