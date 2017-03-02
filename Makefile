@@ -6,9 +6,6 @@ test:
 bash:
 	docker-compose run --rm php bash
 
-behat:
-	docker-compose run --rm php bash -c "vendor/bin/behat --stop-on-failure"
-
 behatappend:
 	docker-compose run --rm php bash -c "vendor/bin/behat --append-snippets"
 
