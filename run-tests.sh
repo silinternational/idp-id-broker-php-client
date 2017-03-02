@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Try to install composer dev dependencies
-composer install --no-interaction --optimize-autoloader --no-scripts --no-plugins
+composer install --no-interaction --no-scripts --no-plugins
 
 # If that failed, exit.
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
