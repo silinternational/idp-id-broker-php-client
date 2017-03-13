@@ -1,7 +1,7 @@
 Feature: Handling responses from the ID Broker API
 
   Scenario: Getting an existing user
-    Given a call to "getUser" will return a 200 response with following data:
+    Given a call to "getUser" will return a 200 response with the following data:
         """
         {
           "employee_id": "123",

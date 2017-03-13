@@ -43,9 +43,9 @@ class ResponseContext implements Context
     }
 
     /**
-     * @Given a call to :methodName will return a :statusCode response with following data:
+     * @Given a call to :methodName will return a :statusCode response with the following data:
      */
-    public function aCallToWillReturnAResponseWithFollowingData(
+    public function aCallToWillReturnAResponseWithTheFollowingData(
         $methodName,
         $statusCode,
         PyStringNode $responseData
