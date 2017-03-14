@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- Fix return types in doc. comments: `\GuzzleHttp\Command\Result` (not `array`).
 
 ## [0.2.0] - 2017-03-02
 ### Added
