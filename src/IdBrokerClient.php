@@ -1,18 +1,20 @@
 <?php
 namespace Sil\Idp\IdBroker\Client;
 
+use GuzzleHttp\Command\Result;
+
 /**
  * IdP ID Broker API client implemented with Guzzle.
  *
- * @method array activateUser(array $config = [])
- * @method array authenticate(array $config = [])
- * @method array createUser(array $config = [])
- * @method array deactivateUser(array $config = [])
- * @method array findUser(array $config = [])
- * @method array getUser(array $config = [])
- * @method array listUsers(array $config = [])
- * @method array setPassword(array $config = [])
- * @method array updateUser(array $config = [])
+ * @method Result activateUser(array $config = [])
+ * @method Result authenticate(array $config = [])
+ * @method Result createUser(array $config = [])
+ * @method Result deactivateUser(array $config = [])
+ * @method Result findUser(array $config = [])
+ * @method Result getUser(array $config = [])
+ * @method Result listUsers(array $config = [])
+ * @method Result setPassword(array $config = [])
+ * @method Result updateUser(array $config = [])
  */
 class IdBrokerClient extends BaseClient
 {

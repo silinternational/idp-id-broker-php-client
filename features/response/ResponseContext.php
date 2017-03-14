@@ -43,9 +43,9 @@ class ResponseContext implements Context
     }
 
     /**
-     * @Given a call to :methodName will return a :statusCode response with following data:
+     * @Given a call to :methodName will return a :statusCode response with the following data:
      */
-    public function aCallToWillReturnAResponseWithFollowingData(
+    public function aCallToWillReturnAResponseWithTheFollowingData(
         $methodName,
         $statusCode,
         PyStringNode $responseData
@@ -100,5 +100,76 @@ class ResponseContext implements Context
     {
         Assert::assertNotEmpty($this->result);
         Assert::assertSame($this->result[$field], $value);
+    }
+
+    /**
+     * @Given a call to authenticate will be successful
+     */
+    public function aCallToAuthenticateWillBeSuccessful()
+    {
+        $this->response = new Response(200, [], \json_encode([
+          'employee_id' => '123',
+          'first_name' => 'John',
+          'last_name' => 'Smith',
+          'display_name' => 'John Smith',
+          'username' => 'john_smith',
+          'email' => 'john_smith@example.com',
+          'locked' => 'no'
+        ]));
+    }
+
+    /**
+     * @When I call authenticate with the necessary data
+     */
+    public function iCallAuthenticateWithTheNecessaryData()
+    {
+        $this->result = $this->getIdBrokerClient()->authenticate([
+            'username' => 'john_smith',
+            'password' => 'dummy password',
+        ]);
+    }
+
+    /**
+     * @Then the response should contain information about that user
+     */
+    public function theResponseShouldContainInformationAboutThatUser()
+    {
+        Assert::assertNotEmpty($this->result);
+        Assert::assertSame($this->result['email'], 'john_smith@example.com');
+    }
+
+    /**
+     * @Given a call to authenticate will be rejected
+     */
+    public function aCallToAuthenticateWillBeRejected()
+    {
+        $this->response = new Response(400);
+    }
+
+    /**
+     * @Then the response should not contain any user information
+     */
+    public function theResponseShouldNotContainAnyUserInformation()
+    {
+        Assert::assertArrayNotHasKey('employee_id', $this->result);
+        Assert::assertArrayNotHasKey('first_name', $this->result);
+        Assert::assertArrayNotHasKey('last_name', $this->result);
+        Assert::assertArrayNotHasKey('display_name', $this->result);
+        Assert::assertArrayNotHasKey('username', $this->result);
+        Assert::assertArrayNotHasKey('email', $this->result);
+        Assert::assertArrayNotHasKey('locked', $this->result);
+    }
+
+    /**
+     * @When I call it with a :fieldOne and a :fieldTwo
+     */
+    public function iCallItWithAAndA($fieldOne, $fieldTwo)
+    {
+        Assert::assertNotEmpty($this->methodName);
+        $methodName = $this->methodName;
+        $this->result = $this->getIdBrokerClient()->$methodName([
+            $fieldOne => 'dummy value one',
+            $fieldTwo => 'dummy value two',
+        ]);
     }
 }

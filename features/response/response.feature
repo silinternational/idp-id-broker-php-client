@@ -1,7 +1,7 @@
 Feature: Handling responses from the ID Broker API
 
   Scenario: Getting an existing user
-    Given a call to "getUser" will return a 200 response with following data:
+    Given a call to "getUser" will return a 200 response with the following data:
         """
         {
           "employee_id": "123",
@@ -27,3 +27,22 @@ Feature: Handling responses from the ID Broker API
     Given a call to "getUser" will return a 404 response
     When I call it with an "employee_id" of "123"
     Then the status code should be 404
+      And the response should not contain any user information
+
+  Scenario: Handling a successful authentication
+    Given a call to authenticate will be successful
+    When I call authenticate with the necessary data
+    Then the status code should be 200
+      And the response should contain information about that user
+
+  Scenario: Handling an unsuccessful authentication
+    Given a call to authenticate will be rejected
+    When I call authenticate with the necessary data
+    Then the status code should be 400
+      And the response should not contain any user information
+
+  Scenario: Handling an authentication that returns an unexpected response
+    Given a call to "authenticate" will return a 404 response
+    When I call it with a "username" and a "password"
+    Then the status code should be 404
+      And the response should not contain any user information
