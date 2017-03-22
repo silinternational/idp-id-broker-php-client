@@ -1,6 +1,7 @@
 <?php
 namespace Sil\Idp\IdBroker\Client\features\request;
 
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -142,27 +143,11 @@ class RequestContext implements Context
     }
 
     /**
-     * @Given I provide a first name of :firstName
+     * @Given I provide a(n) :fieldName of :fieldValue
      */
-    public function iProvideAFirstNameOf($firstName)
+    public function iProvideAOf($fieldName, $fieldValue)
     {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @Given I provide a last name of :lastName
-     */
-    public function iProvideALastNameOf($lastName)
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @Given I provide an email of :email
-     */
-    public function iProvideAnEmailOf($email)
-    {
-        $this->email = $email;
+        $this->requestData[$fieldName] = $fieldValue;
     }
 
     /**
@@ -173,5 +158,17 @@ class RequestContext implements Context
         $request = $this->getRequestFromHistory();
         $headerLine = $request->getHeaderLine('Authorization');
         Assert::assertContains('Bearer ', $headerLine);
+    }
+
+    /**
+     * @Then the body should equal the following:
+     */
+    public function theBodyShouldEqualTheFollowing(PyStringNode $expectedBodyText)
+    {
+        $request = $this->getRequestFromHistory();
+        Assert::assertJsonStringEqualsJsonString(
+            (string)$expectedBodyText,
+            (string)$request->getBody()
+        );
     }
 }
