@@ -17,14 +17,7 @@ use Sil\Idp\IdBroker\Client\IdBrokerClient;
 class RequestContext implements Context
 {
     private $baseUri;
-    
-    private $employeeId;
-    private $firstName;
-    private $lastName;
-    private $username;
-    private $password;
-    private $email;
-    
+    private $requestData = [];
     private $requestHistory = [];
     
     /**
@@ -91,33 +84,6 @@ class RequestContext implements Context
     }
 
     /**
-     * @Given I provide a username of :username
-     */
-    public function iProvideAUsernameOf($username)
-    {
-        $this->username = $username;
-    }
-
-    /**
-     * @Given I provide a password of :password
-     */
-    public function iProvideAPasswordOf($password)
-    {
-        $this->password = $password;
-    }
-
-    /**
-     * @When I call authenticate
-     */
-    public function iCallAuthenticate()
-    {
-        $this->getIdBrokerClient()->authenticate([
-            'username' => $this->username,
-            'password' => $this->password,
-        ]);
-    }
-
-    /**
      * @Then the url should be :expectedUri
      */
     public function theUrlShouldBe($expectedUri)
@@ -158,98 +124,11 @@ class RequestContext implements Context
     }
 
     /**
-     * @When I call activateUser
+     * @When I call :methodName
      */
-    public function iCallActivateUser()
+    public function iCall($methodName)
     {
-        $this->getIdBrokerClient()->activateUser([
-            'employee_id' => $this->employeeId,
-        ]);
-    }
-
-    /**
-     * @When I call createUser
-     */
-    public function iCallCreateUser()
-    {
-        $this->getIdBrokerClient()->createUser([
-            'employee_id' => $this->employeeId,
-            'first_name' => $this->firstName,
-            'last_name' => $this->lastName,
-            'username' => $this->username,
-            'email' => $this->email,
-        ]);
-    }
-
-    /**
-     * @Given I provide an employee_id of :employeeId
-     */
-    public function iProvideAnEmployeeIdOf($employeeId)
-    {
-        $this->employeeId = $employeeId;
-    }
-
-    /**
-     * @When I call deactivateUser
-     */
-    public function iCallDeactivateUser()
-    {
-        $this->getIdBrokerClient()->deactivateUser([
-            'employee_id' => $this->employeeId,
-        ]);
-    }
-
-    /**
-     * @When I call findUser
-     */
-    public function iCallFindUser()
-    {
-        $this->getIdBrokerClient()->findUser([
-            'username' => $this->username,
-        ]);
-    }
-
-    /**
-     * @When I call getUser
-     */
-    public function iCallGetUser()
-    {
-        $this->getIdBrokerClient()->getUser([
-            'employee_id' => $this->employeeId,
-        ]);
-    }
-
-    /**
-     * @When I call listUsers
-     */
-    public function iCallListUsers()
-    {
-        $this->getIdBrokerClient()->listUsers();
-    }
-
-    /**
-     * @When I call setPassword
-     */
-    public function iCallSetPassword()
-    {
-        $this->getIdBrokerClient()->setPassword([
-            'employee_id' => $this->employeeId,
-            'password' => $this->password,
-        ]);
-    }
-
-    /**
-     * @When I call updateUser
-     */
-    public function iCallUpdateUser()
-    {
-        $this->getIdBrokerClient()->updateUser([
-            'employee_id' => $this->employeeId,
-            'first_name' => $this->firstName,
-            'last_name' => $this->lastName,
-            'username' => $this->username,
-            'email' => $this->email,
-        ]);
+        $this->getIdBrokerClient()->$methodName($this->requestData);
     }
 
     /**
