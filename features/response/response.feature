@@ -19,10 +19,18 @@ Feature: Handling responses from the ID Broker API
       And the result should NOT contain an error message
 
   Scenario: Handling an unsuccessful authentication
-    Given a call to "authenticate" will return a 400 response
+    Given a call to "authenticate" will return a 400 with the following data:
+      """
+      {
+        "name": "Bad Request",
+        "message": "Some error message about an invalid login.",
+        "code": 0,
+        "status": 400
+      }
+      """
     When I call authenticate with the necessary data
     Then the result should NOT contain user information
-      And the result should NOT contain an error message
+      And the result SHOULD contain an error message
 
   Scenario: Handling an authentication call that errors out
     Given a call to "authenticate" will return a 500 with the following data:
