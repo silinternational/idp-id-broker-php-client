@@ -36,7 +36,7 @@
                 ],
             ],
         ],
-        'createUser' => [
+        'createOrUpdateUser' => [
             'httpMethod' => 'POST',
             'uri' => '/user',
             'responseModel' => 'Result',
@@ -133,43 +133,6 @@
                 ],
                 'password' => [
                     'required' => true,
-                    'type' => 'string',
-                    'location' => 'json',
-                ],
-            ],
-        ],
-        'updateUser' => [
-            'httpMethod' => 'PUT',
-            'uri' => '/user/{employee_id}',
-            'responseModel' => 'Result',
-            'parameters' => [
-                'employee_id' => [
-                    'required' => true,
-                    'type' => 'string',
-                    'location' => 'uri',
-                ],
-                'first_name' => [
-                    'required' => false,
-                    'type' => 'string',
-                    'location' => 'json',
-                ],
-                'last_name' => [
-                    'required' => false,
-                    'type' => 'string',
-                    'location' => 'json',
-                ],
-                'display_name' => [
-                    'required' => false,
-                    'type' => 'string',
-                    'location' => 'json',
-                ],
-                'username' => [
-                    'required' => false,
-                    'type' => 'string',
-                    'location' => 'json',
-                ],
-                'email' => [
-                    'required' => false,
                     'type' => 'string',
                     'location' => 'json',
                 ],

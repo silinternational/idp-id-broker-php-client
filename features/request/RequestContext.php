@@ -1,6 +1,7 @@
 <?php
 namespace Sil\Idp\IdBroker\Client\features\request;
 
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -17,14 +18,7 @@ use Sil\Idp\IdBroker\Client\IdBrokerClient;
 class RequestContext implements Context
 {
     private $baseUri;
-    
-    private $employeeId;
-    private $firstName;
-    private $lastName;
-    private $username;
-    private $password;
-    private $email;
-    
+    private $requestData = [];
     private $requestHistory = [];
     
     /**
@@ -91,33 +85,6 @@ class RequestContext implements Context
     }
 
     /**
-     * @Given I provide a username of :username
-     */
-    public function iProvideAUsernameOf($username)
-    {
-        $this->username = $username;
-    }
-
-    /**
-     * @Given I provide a password of :password
-     */
-    public function iProvideAPasswordOf($password)
-    {
-        $this->password = $password;
-    }
-
-    /**
-     * @When I call authenticate
-     */
-    public function iCallAuthenticate()
-    {
-        $this->getIdBrokerClient()->authenticate([
-            'username' => $this->username,
-            'password' => $this->password,
-        ]);
-    }
-
-    /**
      * @Then the url should be :expectedUri
      */
     public function theUrlShouldBe($expectedUri)
@@ -158,98 +125,11 @@ class RequestContext implements Context
     }
 
     /**
-     * @When I call activateUser
+     * @When I call :methodName
      */
-    public function iCallActivateUser()
+    public function iCall($methodName)
     {
-        $this->getIdBrokerClient()->activateUser([
-            'employee_id' => $this->employeeId,
-        ]);
-    }
-
-    /**
-     * @When I call createUser
-     */
-    public function iCallCreateUser()
-    {
-        $this->getIdBrokerClient()->createUser([
-            'employee_id' => $this->employeeId,
-            'first_name' => $this->firstName,
-            'last_name' => $this->lastName,
-            'username' => $this->username,
-            'email' => $this->email,
-        ]);
-    }
-
-    /**
-     * @Given I provide an employee_id of :employeeId
-     */
-    public function iProvideAnEmployeeIdOf($employeeId)
-    {
-        $this->employeeId = $employeeId;
-    }
-
-    /**
-     * @When I call deactivateUser
-     */
-    public function iCallDeactivateUser()
-    {
-        $this->getIdBrokerClient()->deactivateUser([
-            'employee_id' => $this->employeeId,
-        ]);
-    }
-
-    /**
-     * @When I call findUser
-     */
-    public function iCallFindUser()
-    {
-        $this->getIdBrokerClient()->findUser([
-            'username' => $this->username,
-        ]);
-    }
-
-    /**
-     * @When I call getUser
-     */
-    public function iCallGetUser()
-    {
-        $this->getIdBrokerClient()->getUser([
-            'employee_id' => $this->employeeId,
-        ]);
-    }
-
-    /**
-     * @When I call listUsers
-     */
-    public function iCallListUsers()
-    {
-        $this->getIdBrokerClient()->listUsers();
-    }
-
-    /**
-     * @When I call setPassword
-     */
-    public function iCallSetPassword()
-    {
-        $this->getIdBrokerClient()->setPassword([
-            'employee_id' => $this->employeeId,
-            'password' => $this->password,
-        ]);
-    }
-
-    /**
-     * @When I call updateUser
-     */
-    public function iCallUpdateUser()
-    {
-        $this->getIdBrokerClient()->updateUser([
-            'employee_id' => $this->employeeId,
-            'first_name' => $this->firstName,
-            'last_name' => $this->lastName,
-            'username' => $this->username,
-            'email' => $this->email,
-        ]);
+        $this->getIdBrokerClient()->$methodName($this->requestData);
     }
 
     /**
@@ -263,27 +143,11 @@ class RequestContext implements Context
     }
 
     /**
-     * @Given I provide a first name of :firstName
+     * @Given I provide a(n) :fieldName of :fieldValue
      */
-    public function iProvideAFirstNameOf($firstName)
+    public function iProvideAOf($fieldName, $fieldValue)
     {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @Given I provide a last name of :lastName
-     */
-    public function iProvideALastNameOf($lastName)
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @Given I provide an email of :email
-     */
-    public function iProvideAnEmailOf($email)
-    {
-        $this->email = $email;
+        $this->requestData[$fieldName] = $fieldValue;
     }
 
     /**
@@ -294,5 +158,17 @@ class RequestContext implements Context
         $request = $this->getRequestFromHistory();
         $headerLine = $request->getHeaderLine('Authorization');
         Assert::assertContains('Bearer ', $headerLine);
+    }
+
+    /**
+     * @Then the body should equal the following:
+     */
+    public function theBodyShouldEqualTheFollowing(PyStringNode $expectedBodyText)
+    {
+        $request = $this->getRequestFromHistory();
+        Assert::assertJsonStringEqualsJsonString(
+            (string)$expectedBodyText,
+            (string)$request->getBody()
+        );
     }
 }
