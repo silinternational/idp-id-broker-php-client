@@ -6,7 +6,6 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
@@ -118,5 +117,93 @@ class ResponseContext implements Context
     public function theResultShouldContainAnErrorMessage()
     {
         Assert::assertArrayHasKey('message', $this->result);
+    }
+
+    /**
+     * @When I call getUser with the necessary data
+     */
+    public function iCallGetuserWithTheNecessaryData()
+    {
+        $this->result = $this->getIdBrokerClient()->getUser([
+            'employee_id' => '123245',
+        ]);
+    }
+
+    /**
+     * @When I call listUsers with the necessary data
+     */
+    public function iCallListusersWithTheNecessaryData()
+    {
+        $this->result = $this->getIdBrokerClient()->listUsers();
+    }
+
+    /**
+     * @Then the result SHOULD contain a list of users' information
+     */
+    public function theResultShouldContainAListOfUsersInformation()
+    {
+        foreach ($this->result as $resultEntry) {
+            $foundSomeUserInfo = false;
+            foreach ($this->userInfoFields as $fieldName) {
+                if (array_key_exists($fieldName, $resultEntry)) {
+                    $foundSomeUserInfo = true;
+                    break;
+                }
+            }
+            Assert::assertTrue($foundSomeUserInfo);
+        }
+    }
+
+    /**
+     * @Then the result should NOT contain a list of users' information
+     */
+    public function theResultShouldNotContainAListOfUsersInformation()
+    {
+        foreach ($this->result as $resultEntry) {
+            if ( ! is_array($resultEntry)) {
+                continue;
+            }
+            foreach ($this->userInfoFields as $fieldName) {
+                if (array_key_exists($fieldName, $resultEntry)) {
+                    Assert::fail();
+                }
+            }
+        }
+    }
+
+    /**
+     * @When I call createUser with the necessary data
+     */
+    public function iCallCreateuserWithTheNecessaryData()
+    {
+        $this->result = $this->getIdBrokerClient()->createUser([
+            'employee_id' => '12345',
+            'first_name' => 'John',
+            'last_name' => 'Smith',
+            'username' => 'john_smith',
+            'email' => 'john_smith@example.com',
+        ]);
+    }
+
+    /**
+     * @When I call updateUser with the necessary data
+     */
+    public function iCallUpdateuserWithTheNecessaryData()
+    {
+        $this->result = $this->getIdBrokerClient()->updateUser([
+            'employee_id' => '12345',
+            'first_name' => 'John',
+        ]);
+    }
+
+    /**
+     * @When I call setPassword with the necessary data
+     */
+    public function iCallSetpasswordWithTheNecessaryData()
+    {
+        $this->result = $this->getIdBrokerClient()->setPassword([
+            'employee_id' => '12345',
+            'password' => 'correcthorsebatterystaple',
+        ]);
     }
 }

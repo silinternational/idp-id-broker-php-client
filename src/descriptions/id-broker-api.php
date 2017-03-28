@@ -1,24 +1,5 @@
 <?php return [
     'operations' => [
-        'activateUser' => [
-            'httpMethod' => 'PUT',
-            'uri' => '/user/{employee_id}',
-            'responseModel' => 'Result',
-            'parameters' => [
-                'employee_id' => [
-                    'required' => true,
-                    'type' => 'string',
-                    'location' => 'uri',
-                ],
-                'active' => [
-                    'required' => true,
-                    'type' => 'string',
-                    'location' => 'json',
-                    'default' => 'yes',
-                    'static' => true,
-                ],
-            ],
-        ],
         'authenticate' => [
             'httpMethod' => 'POST',
             'uri' => '/authentication',
@@ -36,7 +17,7 @@
                 ],
             ],
         ],
-        'createOrUpdateUser' => [
+        'createUser' => [
             'httpMethod' => 'POST',
             'uri' => '/user',
             'responseModel' => 'Result',
@@ -71,6 +52,16 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'active' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                ],
+                'locked' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                ],
             ],
         ],
         'deactivateUser' => [
@@ -92,18 +83,6 @@
                 ],
             ],
         ],
-        'findUser' => [
-            'httpMethod' => 'GET',
-            'uri' => '/user',
-            'responseModel' => 'Result',
-            'parameters' => [
-                'username' => [
-                    'required' => true,
-                    'type'     => 'string',
-                    'location' => 'query',
-                ],
-            ],
-        ],
         'getUser' => [
             'httpMethod' => 'GET',
             'uri' => '/user/{employee_id}',
@@ -116,7 +95,7 @@
                 ],
             ],
         ],
-        'listUsers' => [
+        'listUsersInternal' => [
             'httpMethod' => 'GET',
             'uri' => '/user',
             'responseModel' => 'Result',
@@ -138,6 +117,53 @@
                 ],
             ],
         ],
+        'updateUser' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/user/{employee_id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+                'first_name' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'last_name' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'display_name' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'username' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'active' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                ],
+                'locked' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                ],
+            ],
+        ],
     ],
     'models' => [
         'Result' => [
@@ -147,7 +173,7 @@
             ],
             'additionalProperties' => [
                 'location' => 'json'
-            ]
-        ]
+            ],
+        ],
     ]
 ];

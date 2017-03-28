@@ -49,14 +49,46 @@ Feature: Handling responses from the ID Broker API
   Scenario: Handling a successful getUser call
     Given a call to "getUser" will return a 200 with the following data:
       """
+      {
+        "employee_id": "12345",
+        "first_name": "John",
+        "last_name": "Smith",
+        "display_name": "John Smith",
+        "username": "john_smith",
+        "email": "john_smith@example.com",
+        "active": "yes",
+        "locked": "no"
+      }
+      """
+    When I call getUser with the necessary data
+    Then the result SHOULD contain user information
+      And the result should NOT contain an error message
+
+  Scenario: Handling a successful listUsers call
+    Given a call to "listUsers" will return a 200 with the following data:
+      """
       [
         {"employee_id": "11111", "active": "yes"},
         {"employee_id": "22222", "active": "no"}
       ]
       """
-    When I call getUser
+    When I call listUsers with the necessary data
     Then the result SHOULD contain a list of users' information
       And the result should NOT contain an error message
+
+  Scenario: Handling a listUsers call that errors out
+    Given a call to "listUsers" will return a 500 with the following data:
+      """
+      {
+        "name": "Internal Server Error",
+        "message": "Some error message.",
+        "code": 0,
+        "status": 500
+      }
+      """
+    When I call listUsers with the necessary data
+    Then the result should NOT contain a list of users' information
+      And the result SHOULD contain an error message
 
   Scenario: Handling a successful createUser call
     Given a call to "createUser" will return a 200 response
