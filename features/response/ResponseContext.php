@@ -4,6 +4,7 @@ namespace Sil\Idp\IdBroker\Client\features\response;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
+use Exception;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
@@ -28,6 +29,7 @@ class ResponseContext implements Context
     private $methodName;
     private $response = null;
     private $result;
+    private $exceptionThrown = null;
     
     protected function getHttpClientHandlerForTests()
     {
@@ -77,10 +79,14 @@ class ResponseContext implements Context
      */
     public function iCallAuthenticateWithTheNecessaryData()
     {
-        $this->result = $this->getIdBrokerClient()->authenticate([
-            'username' => 'john_smith',
-            'password' => 'dummy password',
-        ]);
+        try {
+            $this->result = $this->getIdBrokerClient()->authenticate([
+                'username' => 'john_smith',
+                'password' => 'dummy password',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
     }
     
     /**
@@ -88,8 +94,10 @@ class ResponseContext implements Context
      */
     public function theResultShouldNotContainUserInformation()
     {
-        foreach ($this->userInfoFields as $fieldName) {
-            Assert::assertArrayNotHasKey($fieldName, $this->result);
+        if (is_array($this->result)) {
+            foreach ($this->userInfoFields as $fieldName) {
+                Assert::assertArrayNotHasKey($fieldName, $this->result);
+            }
         }
     }
     
@@ -124,9 +132,13 @@ class ResponseContext implements Context
      */
     public function iCallGetuserWithTheNecessaryData()
     {
-        $this->result = $this->getIdBrokerClient()->getUser([
-            'employee_id' => '123245',
-        ]);
+        try {
+            $this->result = $this->getIdBrokerClient()->getUser([
+                'employee_id' => '123245',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
     }
 
     /**
@@ -134,7 +146,11 @@ class ResponseContext implements Context
      */
     public function iCallListusersWithTheNecessaryData()
     {
-        $this->result = $this->getIdBrokerClient()->listUsers();
+        try {
+            $this->result = $this->getIdBrokerClient()->listUsers();
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
     }
 
     /**
@@ -159,13 +175,15 @@ class ResponseContext implements Context
      */
     public function theResultShouldNotContainAListOfUsersInformation()
     {
-        foreach ($this->result as $resultEntry) {
-            if ( ! is_array($resultEntry)) {
-                continue;
-            }
-            foreach ($this->userInfoFields as $fieldName) {
-                if (array_key_exists($fieldName, $resultEntry)) {
-                    Assert::fail();
+        if (is_array($this->result)) {
+            foreach ($this->result as $resultEntry) {
+                if ( ! is_array($resultEntry)) {
+                    continue;
+                }
+                foreach ($this->userInfoFields as $fieldName) {
+                    if (array_key_exists($fieldName, $resultEntry)) {
+                        Assert::fail();
+                    }
                 }
             }
         }
@@ -176,13 +194,17 @@ class ResponseContext implements Context
      */
     public function iCallCreateuserWithTheNecessaryData()
     {
-        $this->result = $this->getIdBrokerClient()->createUser([
-            'employee_id' => '12345',
-            'first_name' => 'John',
-            'last_name' => 'Smith',
-            'username' => 'john_smith',
-            'email' => 'john_smith@example.com',
-        ]);
+        try {
+            $this->result = $this->getIdBrokerClient()->createUser([
+                'employee_id' => '12345',
+                'first_name' => 'John',
+                'last_name' => 'Smith',
+                'username' => 'john_smith',
+                'email' => 'john_smith@example.com',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
     }
 
     /**
@@ -190,10 +212,14 @@ class ResponseContext implements Context
      */
     public function iCallUpdateuserWithTheNecessaryData()
     {
-        $this->result = $this->getIdBrokerClient()->updateUser([
-            'employee_id' => '12345',
-            'first_name' => 'John',
-        ]);
+        try {
+            $this->result = $this->getIdBrokerClient()->updateUser([
+                'employee_id' => '12345',
+                'first_name' => 'John',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
     }
 
     /**
@@ -201,9 +227,37 @@ class ResponseContext implements Context
      */
     public function iCallSetpasswordWithTheNecessaryData()
     {
-        $this->result = $this->getIdBrokerClient()->setPassword([
-            'employee_id' => '12345',
-            'password' => 'correcthorsebatterystaple',
-        ]);
+        try {
+            $this->result = $this->getIdBrokerClient()->setPassword([
+                'employee_id' => '12345',
+                'password' => 'correcthorsebatterystaple',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @Then an exception should NOT have been thrown
+     */
+    public function anExceptionShouldNotHaveBeenThrown()
+    {
+        Assert::assertNull($this->exceptionThrown);
+    }
+
+    /**
+     * @Then an exception SHOULD have been thrown
+     */
+    public function anExceptionShouldHaveBeenThrown()
+    {
+        Assert::assertInstanceOf(Exception::class, $this->exceptionThrown);
+    }
+
+    /**
+     * @Then the result should be null
+     */
+    public function theResultShouldBeNull()
+    {
+        Assert::assertNull($this->result);
     }
 }
