@@ -34,6 +34,16 @@ class IdBrokerClient extends BaseClient
         ], $config));
     }
     
+    /**
+     * Attempt to authenticate using the given credentials, getting back
+     * information about the authenticated user (if the credentials were
+     * acceptable) or null (if unacceptable).
+     *
+     * @param array $config An array key/value pairs for 'username' and
+     *     'password'.
+     * @return array|null An array of user information (if valid), or null.
+     * @throws Exception
+     */
     public function authenticate(array $config = [])
     {
         $result = $this->authenticateInternal($config);
@@ -51,6 +61,14 @@ class IdBrokerClient extends BaseClient
         );
     }
     
+    /**
+     * Create a user with the given information.
+     *
+     * @param array $config An array key/value pairs of attributes for the new
+     *     user.
+     * @return array An array of information about the new user.
+     * @throws Exception
+     */
     public function createUser(array $config = [])
     {
         $result = $this->createUserInternal($config);
@@ -66,19 +84,23 @@ class IdBrokerClient extends BaseClient
         );
     }
     
+    /**
+     * Deactivate a user.
+     *
+     * @param array $config An array with an 'employee_id' entry.
+     * @throws Exception
+     */
     public function deactivateUser(array $config = [])
     {
         $result = $this->deactivateUserInternal($config);
         $statusCode = (int)$result['statusCode'];
         
-        if ($statusCode === 200) {
-            return $this->getResultWithoutStatusCode($result);
+        if ($statusCode !== 200) {
+            throw new Exception(
+                $result['message'] ?? 'Unknown error: ' . $statusCode,
+                1490808523
+            );
         }
-        
-        throw new Exception(
-            $result['message'] ?? 'Unknown error: ' . $statusCode,
-            1490808523
-        );
     }
     
     protected function getResultWithoutStatusCode($result)
@@ -87,6 +109,14 @@ class IdBrokerClient extends BaseClient
         return $result;
     }
     
+    /**
+     * Get information about the specified user.
+     *
+     * @param array $config An array with an 'employee_id' entry.
+     * @return array|null An array of information about the new user, or null if
+     *     no such user was found.
+     * @throws Exception
+     */
     public function getUser(array $config = [])
     {
         $result = $this->getUserInternal($config);
@@ -105,9 +135,10 @@ class IdBrokerClient extends BaseClient
     }
     
     /**
-     * 
+     * Get a list of all users.
+     *
      * @param array $config
-     * @return Result
+     * @return array An array with a sub-array about each user.
      */
     public function listUsers(array $config = [])
     {
@@ -124,21 +155,33 @@ class IdBrokerClient extends BaseClient
         );
     }
     
+    /**
+     * Set the password for the specified user.
+     *
+     * @param array $config An array with an 'employee_id' entry and a
+     *     'password' entry.
+     * @throws Exception
+     */
     public function setPassword(array $config = [])
     {
         $result = $this->setPasswordInternal($config);
         $statusCode = (int)$result['statusCode'];
         
-        if ($statusCode === 200) {
-            return $this->getResultWithoutStatusCode($result);
+        if ($statusCode !== 200) {
+            throw new Exception(
+                $result['message'] ?? 'Unknown error: ' . $statusCode,
+                1490808839
+            );
         }
-        
-        throw new Exception(
-            $result['message'] ?? 'Unknown error: ' . $statusCode,
-            1490808839
-        );
     }
     
+    /**
+     * Update the specified user with the given information.
+     *
+     * @param array $config An array key/value pairs of attributes for the user.
+     *     Must include at least an 'employee_id' entry.
+     * @throws Exception
+     */
     public function updateUser(array $config = [])
     {
         $result = $this->updateUserInternal($config);
