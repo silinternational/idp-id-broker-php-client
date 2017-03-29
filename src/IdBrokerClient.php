@@ -12,7 +12,6 @@ use GuzzleHttp\Command\Result;
  * @method Result deactivateUser(array $config = [])
  * @method Result findUser(array $config = [])
  * @method Result getUser(array $config = [])
- * @method Result listUsers(array $config = [])
  * @method Result setPassword(array $config = [])
  * @method Result updateUser(array $config = [])
  */
@@ -41,5 +40,21 @@ class IdBrokerClient extends BaseClient
             ],
             'access_token' => $accessToken,
         ], $config));
+    }
+    
+    /**
+     * 
+     * @param array $config
+     * @return Result
+     */
+    public function listUsers(array $config = [])
+    {
+        $internalResult = $this->listUsersInternal($config);
+        $statusCode = $internalResult['statusCode'] ?? null;
+        if ($statusCode == '200') {
+            unset($internalResult['statusCode']);
+            return $internalResult;
+        }
+        return $internalResult;
     }
 }

@@ -1,14 +1,5 @@
 Feature: Formatting requests for sending to the ID Broker API
 
-  Scenario: Activating a user
-    Given I am using a baseUri of "https://api.example.com/"
-      And I provide an "employee_id" of "123"
-    When I call activateUser
-    Then the method should be "PUT"
-      And the url should be "https://api.example.com/user/123"
-      And an authorization header should be present
-      And the body should be '{"active":"yes"}'
-
   Scenario: Authentication
     Given I am using a baseUri of "https://api.example.com/"
       And I provide a "username" of "john_smith"
@@ -25,14 +16,14 @@ Feature: Formatting requests for sending to the ID Broker API
         }
         """
 
-  Scenario: Creating/updating a user
+  Scenario: Creating a user
     Given I am using a baseUri of "https://api.example.com/"
       And I provide an "employee_id" of "12345"
       And I provide a "first_name" of "John"
       And I provide a "last_name" of "Smith"
       And I provide a "username" of "john_smith"
       And I provide an "email" of "john_smith@example.com"
-    When I call createOrUpdateUser
+    When I call createUser
     Then the method should be "POST"
       And the url should be "https://api.example.com/user"
       And an authorization header should be present
@@ -47,6 +38,21 @@ Feature: Formatting requests for sending to the ID Broker API
         }
         """
 
+  Scenario: Updating a user
+    Given I am using a baseUri of "https://api.example.com/"
+      And I provide an "employee_id" of "12345"
+      And I provide a "display_name" of "Johnny"
+    When I call updateUser
+    Then the method should be "PUT"
+      And the url should be "https://api.example.com/user/12345"
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "display_name": "Johnny"
+        }
+        """
+
   Scenario: Deactivating a user
     Given I am using a baseUri of "https://api.example.com/"
       And I provide an "employee_id" of "123"
@@ -55,15 +61,6 @@ Feature: Formatting requests for sending to the ID Broker API
       And the url should be "https://api.example.com/user/123"
       And an authorization header should be present
       And the body should be '{"active":"no"}'
-
-  # TODO: Do we need this? If so, how should we specify it in the RAML file?
-  Scenario: Finding users
-    Given I am using a baseUri of "https://api.example.com/"
-      And I provide a "username" of "abc"
-    When I call findUser
-    Then the method should be "GET"
-      And the url should be 'https://api.example.com/user?username=abc'
-      And an authorization header should be present
 
   Scenario: Getting a user
     Given I am using a baseUri of "https://api.example.com/"
