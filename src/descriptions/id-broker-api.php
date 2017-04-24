@@ -1,6 +1,6 @@
 <?php return [
     'operations' => [
-        'authenticate' => [
+        'authenticateInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/authentication',
             'responseModel' => 'Result',
@@ -17,7 +17,7 @@
                 ],
             ],
         ],
-        'createUser' => [
+        'createUserInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/user',
             'responseModel' => 'Result',
@@ -64,7 +64,7 @@
                 ],
             ],
         ],
-        'deactivateUser' => [
+        'deactivateUserInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
@@ -83,7 +83,7 @@
                 ],
             ],
         ],
-        'getUser' => [
+        'getUserInternal' => [
             'httpMethod' => 'GET',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
@@ -100,7 +100,7 @@
             'uri' => '/user',
             'responseModel' => 'Result',
         ],
-        'setPassword' => [
+        'setPasswordInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}/password',
             'responseModel' => 'Result',
@@ -117,7 +117,7 @@
                 ],
             ],
         ],
-        'updateUser' => [
+        'updateUserInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
