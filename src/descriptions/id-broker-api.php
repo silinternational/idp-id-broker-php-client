@@ -99,6 +99,13 @@
             'httpMethod' => 'GET',
             'uri' => '/user',
             'responseModel' => 'Result',
+            'parameters' => [
+                'fields' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ]
+            ]
         ],
         'setPasswordInternal' => [
             'httpMethod' => 'PUT',
