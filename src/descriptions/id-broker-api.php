@@ -1,25 +1,6 @@
 <?php return [
     'operations' => [
-        'activateUser' => [
-            'httpMethod' => 'PUT',
-            'uri' => '/user/{employee_id}',
-            'responseModel' => 'Result',
-            'parameters' => [
-                'employee_id' => [
-                    'required' => true,
-                    'type' => 'string',
-                    'location' => 'uri',
-                ],
-                'active' => [
-                    'required' => true,
-                    'type' => 'string',
-                    'location' => 'json',
-                    'default' => 'yes',
-                    'static' => true,
-                ],
-            ],
-        ],
-        'authenticate' => [
+        'authenticateInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/authentication',
             'responseModel' => 'Result',
@@ -36,7 +17,7 @@
                 ],
             ],
         ],
-        'createUser' => [
+        'createUserInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/user',
             'responseModel' => 'Result',
@@ -71,9 +52,19 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'active' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                ],
+                'locked' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                ],
             ],
         ],
-        'deactivateUser' => [
+        'deactivateUserInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
@@ -92,19 +83,7 @@
                 ],
             ],
         ],
-        'findUser' => [
-            'httpMethod' => 'GET',
-            'uri' => '/user',
-            'responseModel' => 'Result',
-            'parameters' => [
-                'username' => [
-                    'required' => true,
-                    'type'     => 'string',
-                    'location' => 'query',
-                ],
-            ],
-        ],
-        'getUser' => [
+        'getUserInternal' => [
             'httpMethod' => 'GET',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
@@ -116,12 +95,12 @@
                 ],
             ],
         ],
-        'listUsers' => [
+        'listUsersInternal' => [
             'httpMethod' => 'GET',
             'uri' => '/user',
             'responseModel' => 'Result',
         ],
-        'setPassword' => [
+        'setPasswordInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}/password',
             'responseModel' => 'Result',
@@ -138,7 +117,7 @@
                 ],
             ],
         ],
-        'updateUser' => [
+        'updateUserInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}',
             'responseModel' => 'Result',
@@ -173,6 +152,16 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'active' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                ],
+                'locked' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                ],
             ],
         ],
     ],
@@ -184,7 +173,7 @@
             ],
             'additionalProperties' => [
                 'location' => 'json'
-            ]
-        ]
+            ],
+        ],
     ]
 ];

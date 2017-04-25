@@ -31,6 +31,19 @@ $idBrokerClient = new IdBrokerClient(
 $users = $idBrokerClient->listUsers();
 ```
 
+## User Information ##
+Information about a user returned by this client (such as by `getUser(...)`) can
+include the following fields:
+
+- `employee_id` (string)
+- `first_name` (string)
+- `last_name` (string)
+- `display_name` (string)
+- `username` (string)
+- `email` (string)
+- `active` (string: 'yes' or 'no')
+- `locked` (string: 'yes' or 'no')
+
 
 ## Tests ##
 

@@ -2,19 +2,10 @@
 namespace Sil\Idp\IdBroker\Client;
 
 use GuzzleHttp\Command\Result;
+use Exception;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
- *
- * @method Result activateUser(array $config = [])
- * @method Result authenticate(array $config = [])
- * @method Result createUser(array $config = [])
- * @method Result deactivateUser(array $config = [])
- * @method Result findUser(array $config = [])
- * @method Result getUser(array $config = [])
- * @method Result listUsers(array $config = [])
- * @method Result setPassword(array $config = [])
- * @method Result updateUser(array $config = [])
  */
 class IdBrokerClient extends BaseClient
 {
@@ -41,5 +32,168 @@ class IdBrokerClient extends BaseClient
             ],
             'access_token' => $accessToken,
         ], $config));
+    }
+    
+    /**
+     * Attempt to authenticate using the given credentials, getting back
+     * information about the authenticated user (if the credentials were
+     * acceptable) or null (if unacceptable).
+     *
+     * @param array $config An array key/value pairs for 'username' and
+     *     'password'.
+     * @return array|null An array of user information (if valid), or null.
+     * @throws Exception
+     */
+    public function authenticate(array $config = [])
+    {
+        $result = $this->authenticateInternal($config);
+        $statusCode = (int)$result['statusCode'];
+        
+        if ($statusCode === 200) {
+            return $this->getResultWithoutStatusCode($result);
+        } elseif ($statusCode === 422) {
+            return null;
+        }
+        
+        throw new Exception(
+            $result['message'] ?? 'Unknown error: ' . $statusCode,
+            1490802360
+        );
+    }
+    
+    /**
+     * Create a user with the given information.
+     *
+     * @param array $config An array key/value pairs of attributes for the new
+     *     user.
+     * @return array An array of information about the new user.
+     * @throws Exception
+     */
+    public function createUser(array $config = [])
+    {
+        $result = $this->createUserInternal($config);
+        $statusCode = (int)$result['statusCode'];
+        
+        if ($statusCode === 200) {
+            return $this->getResultWithoutStatusCode($result);
+        }
+        
+        throw new Exception(
+            $result['message'] ?? 'Unknown error: ' . $statusCode,
+            1490802526
+        );
+    }
+    
+    /**
+     * Deactivate a user.
+     *
+     * @param array $config An array with an 'employee_id' entry.
+     * @throws Exception
+     */
+    public function deactivateUser(array $config = [])
+    {
+        $result = $this->deactivateUserInternal($config);
+        $statusCode = (int)$result['statusCode'];
+        
+        if ($statusCode !== 200) {
+            throw new Exception(
+                $result['message'] ?? 'Unknown error: ' . $statusCode,
+                1490808523
+            );
+        }
+    }
+    
+    protected function getResultWithoutStatusCode($result)
+    {
+        unset($result['statusCode']);
+        return $result;
+    }
+    
+    /**
+     * Get information about the specified user.
+     *
+     * @param array $config An array with an 'employee_id' entry.
+     * @return array|null An array of information about the new user, or null if
+     *     no such user was found.
+     * @throws Exception
+     */
+    public function getUser(array $config = [])
+    {
+        $result = $this->getUserInternal($config);
+        $statusCode = (int)$result['statusCode'];
+        
+        if ($statusCode === 200) {
+            return $this->getResultWithoutStatusCode($result);
+        } elseif ($statusCode === 204) {
+            return null;
+        }
+        
+        throw new Exception(
+            $result['message'] ?? 'Unknown error: ' . $statusCode,
+            1490808555
+        );
+    }
+    
+    /**
+     * Get a list of all users.
+     *
+     * @param array $config
+     * @return array An array with a sub-array about each user.
+     */
+    public function listUsers(array $config = [])
+    {
+        $result = $this->listUsersInternal($config);
+        $statusCode = (int)$result['statusCode'];
+        
+        if ($statusCode === 200) {
+            return $this->getResultWithoutStatusCode($result);
+        }
+        
+        throw new Exception(
+            $result['message'] ?? 'Unknown error: ' . $statusCode,
+            1490808715
+        );
+    }
+    
+    /**
+     * Set the password for the specified user.
+     *
+     * @param array $config An array with an 'employee_id' entry and a
+     *     'password' entry.
+     * @throws Exception
+     */
+    public function setPassword(array $config = [])
+    {
+        $result = $this->setPasswordInternal($config);
+        $statusCode = (int)$result['statusCode'];
+        
+        if ($statusCode !== 200) {
+            throw new Exception(
+                $result['message'] ?? 'Unknown error: ' . $statusCode,
+                1490808839
+            );
+        }
+    }
+    
+    /**
+     * Update the specified user with the given information.
+     *
+     * @param array $config An array key/value pairs of attributes for the user.
+     *     Must include at least an 'employee_id' entry.
+     * @throws Exception
+     */
+    public function updateUser(array $config = [])
+    {
+        $result = $this->updateUserInternal($config);
+        $statusCode = (int)$result['statusCode'];
+        
+        if ($statusCode === 200) {
+            return $this->getResultWithoutStatusCode($result);
+        }
+        
+        throw new Exception(
+            $result['message'] ?? 'Unknown error: ' . $statusCode,
+            1490808841
+        );
     }
 }

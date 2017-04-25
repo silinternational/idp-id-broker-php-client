@@ -9,6 +9,9 @@ bash:
 behatappend:
 	docker-compose run --rm php bash -c "vendor/bin/behat --append-snippets"
 
+behatv:
+	docker-compose run --rm php bash -c "vendor/bin/behat -v"
+
 clean:
 	docker-compose kill
 	docker-compose rm -f

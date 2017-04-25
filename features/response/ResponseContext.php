@@ -4,9 +4,9 @@ namespace Sil\Idp\IdBroker\Client\features\response;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
+use Exception;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
@@ -16,9 +16,20 @@ use Sil\Idp\IdBroker\Client\IdBrokerClient;
  */
 class ResponseContext implements Context
 {
+    private $userInfoFields = [
+        'employee_id',
+        'first_name',
+        'last_name',
+        'display_name',
+        'username',
+        'email',
+        'active',
+        'locked',
+    ];
     private $methodName;
     private $response = null;
     private $result;
+    private $exceptionThrown = null;
     
     protected function getHttpClientHandlerForTests()
     {
@@ -41,11 +52,11 @@ class ResponseContext implements Context
             ],
         ]);
     }
-
+    
     /**
-     * @Given a call to :methodName will return a :statusCode response with the following data:
+     * @Given a call to :methodName will return a :statusCode with the following data:
      */
-    public function aCallToWillReturnAResponseWithTheFollowingData(
+    public function aCallToWillReturnAWithTheFollowingData(
         $methodName,
         $statusCode,
         PyStringNode $responseData
@@ -53,26 +64,7 @@ class ResponseContext implements Context
         $this->methodName = $methodName;
         $this->response = new Response($statusCode, [], (string)$responseData);
     }
-
-    /**
-     * @Then the status code should be :expectedStatusCode
-     */
-    public function theStatusCodeShouldBe($expectedStatusCode)
-    {
-        Assert::assertNotEmpty($this->result);
-        Assert::assertEquals($this->result['statusCode'], $expectedStatusCode);
-    }
-
-    /**
-     * @When I call getUser
-     */
-    public function iCallGetuser()
-    {
-        $this->result = $this->getIdBrokerClient()->getUser([
-            'employee_id' => '123',
-        ]);
-    }
-
+    
     /**
      * @Given a call to :methodName will return a :statusCode response
      */
@@ -81,95 +73,191 @@ class ResponseContext implements Context
         $this->methodName = $methodName;
         $this->response = new Response($statusCode);
     }
-
-    /**
-     * @When I call it with a(n) :field of :value
-     */
-    public function iCallItWithAnOf($field, $value)
-    {
-        $methodName = $this->methodName;
-        $this->result = $this->getIdBrokerClient()->$methodName([
-            $field => $value,
-        ]);
-    }
-
-    /**
-     * @Then the resulting :field should be :value
-     */
-    public function theResultingShouldBe($field, $value)
-    {
-        Assert::assertNotEmpty($this->result);
-        Assert::assertSame($this->result[$field], $value);
-    }
-
-    /**
-     * @Given a call to authenticate will be successful
-     */
-    public function aCallToAuthenticateWillBeSuccessful()
-    {
-        $this->response = new Response(200, [], \json_encode([
-          'employee_id' => '123',
-          'first_name' => 'John',
-          'last_name' => 'Smith',
-          'display_name' => 'John Smith',
-          'username' => 'john_smith',
-          'email' => 'john_smith@example.com',
-          'locked' => 'no'
-        ]));
-    }
-
+    
     /**
      * @When I call authenticate with the necessary data
      */
     public function iCallAuthenticateWithTheNecessaryData()
     {
-        $this->result = $this->getIdBrokerClient()->authenticate([
-            'username' => 'john_smith',
-            'password' => 'dummy password',
-        ]);
+        try {
+            $this->result = $this->getIdBrokerClient()->authenticate([
+                'username' => 'john_smith',
+                'password' => 'dummy password',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+    
+    /**
+     * @Then the result should NOT contain user information
+     */
+    public function theResultShouldNotContainUserInformation()
+    {
+        if (is_array($this->result)) {
+            foreach ($this->userInfoFields as $fieldName) {
+                Assert::assertArrayNotHasKey($fieldName, $this->result);
+            }
+        }
+    }
+    
+    /**
+     * @Then the result SHOULD contain user information
+     */
+    public function theResultShouldContainUserInformation()
+    {
+        foreach ($this->userInfoFields as $fieldName) {
+            Assert::assertArrayHasKey($fieldName, $this->result);
+        }
     }
 
     /**
-     * @Then the response should contain information about that user
+     * @Then the result should NOT contain an error message
      */
-    public function theResponseShouldContainInformationAboutThatUser()
+    public function theResultShouldNotContainAnErrorMessage()
     {
-        Assert::assertNotEmpty($this->result);
-        Assert::assertSame($this->result['email'], 'john_smith@example.com');
+        Assert::assertArrayNotHasKey('message', $this->result);
+    }
+    
+    /**
+     * @Then the result SHOULD contain an error message
+     */
+    public function theResultShouldContainAnErrorMessage()
+    {
+        Assert::assertArrayHasKey('message', $this->result);
     }
 
     /**
-     * @Given a call to authenticate will be rejected
+     * @When I call getUser with the necessary data
      */
-    public function aCallToAuthenticateWillBeRejected()
+    public function iCallGetuserWithTheNecessaryData()
     {
-        $this->response = new Response(400);
+        try {
+            $this->result = $this->getIdBrokerClient()->getUser([
+                'employee_id' => '123245',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
     }
 
     /**
-     * @Then the response should not contain any user information
+     * @When I call listUsers with the necessary data
      */
-    public function theResponseShouldNotContainAnyUserInformation()
+    public function iCallListusersWithTheNecessaryData()
     {
-        Assert::assertArrayNotHasKey('employee_id', $this->result);
-        Assert::assertArrayNotHasKey('first_name', $this->result);
-        Assert::assertArrayNotHasKey('last_name', $this->result);
-        Assert::assertArrayNotHasKey('display_name', $this->result);
-        Assert::assertArrayNotHasKey('username', $this->result);
-        Assert::assertArrayNotHasKey('email', $this->result);
-        Assert::assertArrayNotHasKey('locked', $this->result);
+        try {
+            $this->result = $this->getIdBrokerClient()->listUsers();
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
     }
 
     /**
-     * @When I call it with a :fieldOne and a :fieldTwo
+     * @Then the result SHOULD contain a list of users' information
      */
-    public function iCallItWithAAndA($fieldOne, $fieldTwo)
+    public function theResultShouldContainAListOfUsersInformation()
     {
-        Assert::assertNotEmpty($this->methodName);
-        $methodName = $this->methodName;
-        $this->result = $this->getIdBrokerClient()->$methodName([
-            $fieldOne => 'dummy value one',
-            $fieldTwo => 'dummy value two',
-        ]);
+        foreach ($this->result as $resultEntry) {
+            $foundSomeUserInfo = false;
+            foreach ($this->userInfoFields as $fieldName) {
+                if (array_key_exists($fieldName, $resultEntry)) {
+                    $foundSomeUserInfo = true;
+                    break;
+                }
+            }
+            Assert::assertTrue($foundSomeUserInfo);
+        }
+    }
+
+    /**
+     * @Then the result should NOT contain a list of users' information
+     */
+    public function theResultShouldNotContainAListOfUsersInformation()
+    {
+        if (is_array($this->result)) {
+            foreach ($this->result as $resultEntry) {
+                if ( ! is_array($resultEntry)) {
+                    continue;
+                }
+                foreach ($this->userInfoFields as $fieldName) {
+                    if (array_key_exists($fieldName, $resultEntry)) {
+                        Assert::fail();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @When I call createUser with the necessary data
+     */
+    public function iCallCreateuserWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->createUser([
+                'employee_id' => '12345',
+                'first_name' => 'John',
+                'last_name' => 'Smith',
+                'username' => 'john_smith',
+                'email' => 'john_smith@example.com',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When I call updateUser with the necessary data
+     */
+    public function iCallUpdateuserWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->updateUser([
+                'employee_id' => '12345',
+                'first_name' => 'John',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When I call setPassword with the necessary data
+     */
+    public function iCallSetpasswordWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->setPassword([
+                'employee_id' => '12345',
+                'password' => 'correcthorsebatterystaple',
+            ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @Then an exception should NOT have been thrown
+     */
+    public function anExceptionShouldNotHaveBeenThrown()
+    {
+        Assert::assertNull($this->exceptionThrown);
+    }
+
+    /**
+     * @Then an exception SHOULD have been thrown
+     */
+    public function anExceptionShouldHaveBeenThrown()
+    {
+        Assert::assertInstanceOf(Exception::class, $this->exceptionThrown);
+    }
+
+    /**
+     * @Then the result should be null
+     */
+    public function theResultShouldBeNull()
+    {
+        Assert::assertNull($this->result);
     }
 }
