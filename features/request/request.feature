@@ -76,6 +76,15 @@ Feature: Formatting requests for sending to the ID Broker API
     Then the method should be "GET"
       And the url should be 'https://api.example.com/user'
 
+  Scenario: Listing users, but limiting returned fields
+    Given I am using a baseUri of "https://api.example.com/"
+    When I call listUsers and ask for these fields:
+        | fieldName   |
+        | employee_id |
+        | active      |
+    Then the method should be "GET"
+      And the url should be 'https://api.example.com/user?fields=employee_id%2Cactive'
+
   Scenario: Setting a password
     Given I am using a baseUri of "https://api.example.com/"
       And I provide an "employee_id" of "123"

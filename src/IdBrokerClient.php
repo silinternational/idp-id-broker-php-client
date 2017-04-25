@@ -1,7 +1,6 @@
 <?php
 namespace Sil\Idp\IdBroker\Client;
 
-use GuzzleHttp\Command\Result;
 use Exception;
 
 /**
@@ -39,14 +38,17 @@ class IdBrokerClient extends BaseClient
      * information about the authenticated user (if the credentials were
      * acceptable) or null (if unacceptable).
      *
-     * @param array $config An array key/value pairs for 'username' and
-     *     'password'.
+     * @param string $username The username.
+     * @param string $password The password (in plaintext).
      * @return array|null An array of user information (if valid), or null.
      * @throws Exception
      */
-    public function authenticate(array $config = [])
+    public function authenticate(string $username, string $password)
     {
-        $result = $this->authenticateInternal($config);
+        $result = $this->authenticateInternal([
+            'username' => $username,
+            'password' => $password,
+        ]);
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode === 200) {
@@ -87,12 +89,15 @@ class IdBrokerClient extends BaseClient
     /**
      * Deactivate a user.
      *
-     * @param array $config An array with an 'employee_id' entry.
+     * @param string $employeeId The Employee ID of the user to deactivate.
      * @throws Exception
      */
-    public function deactivateUser(array $config = [])
+    public function deactivateUser(string $employeeId)
     {
-        $result = $this->deactivateUserInternal($config);
+        $result = $this->deactivateUserInternal([
+            'employee_id' => $employeeId,
+            'active' => 'no',
+        ]);
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode !== 200) {
@@ -112,14 +117,16 @@ class IdBrokerClient extends BaseClient
     /**
      * Get information about the specified user.
      *
-     * @param array $config An array with an 'employee_id' entry.
-     * @return array|null An array of information about the new user, or null if
-     *     no such user was found.
+     * @param string $employeeId The Employee ID of the desired user.
+     * @return array|null An array of information about the specified user, or
+     *     null if no such user was found.
      * @throws Exception
      */
-    public function getUser(array $config = [])
+    public function getUser(string $employeeId)
     {
-        $result = $this->getUserInternal($config);
+        $result = $this->getUserInternal([
+            'employee_id' => $employeeId,
+        ]);
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode === 200) {
@@ -137,11 +144,16 @@ class IdBrokerClient extends BaseClient
     /**
      * Get a list of all users.
      *
-     * @param array $config
+     * @param array|null $fields (Optional:) The list of fields desired about
+     *     each user in the result.
      * @return array An array with a sub-array about each user.
      */
-    public function listUsers(array $config = [])
+    public function listUsers($fields = null)
     {
+        $config = [];
+        if ($fields !== null) {
+            $config['fields'] = join(',', $fields);
+        }
         $result = $this->listUsersInternal($config);
         $statusCode = (int)$result['statusCode'];
         
@@ -158,13 +170,17 @@ class IdBrokerClient extends BaseClient
     /**
      * Set the password for the specified user.
      *
-     * @param array $config An array with an 'employee_id' entry and a
-     *     'password' entry.
+     * @param string $employeeId The Employee ID of the user whose password we
+     *     are trying to set.
+     * @param string $password The desired (new) password, in plaintext.
      * @throws Exception
      */
-    public function setPassword(array $config = [])
+    public function setPassword(string $employeeId, string $password)
     {
-        $result = $this->setPasswordInternal($config);
+        $result = $this->setPasswordInternal([
+            'employee_id' => $employeeId,
+            'password' => $password,
+        ]);
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode !== 200) {
