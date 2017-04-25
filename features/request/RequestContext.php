@@ -1,6 +1,7 @@
 <?php
 namespace Sil\Idp\IdBroker\Client\features\request;
 
+use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
 use GuzzleHttp\Handler\MockHandler;
@@ -125,14 +126,6 @@ class RequestContext implements Context
     }
 
     /**
-     * @When I call :methodName
-     */
-    public function iCall($methodName)
-    {
-        $this->getIdBrokerClient()->$methodName($this->requestData);
-    }
-
-    /**
      * @Then the body should not contain a :fieldName field
      */
     public function theBodyShouldNotContainAField($fieldName)
@@ -170,5 +163,83 @@ class RequestContext implements Context
             (string)$expectedBodyText,
             (string)$request->getBody()
         );
+    }
+
+    /**
+     * @When I call authenticate
+     */
+    public function iCallAuthenticate()
+    {
+        $this->getIdBrokerClient()->authenticate(
+            $this->requestData['username'],
+            $this->requestData['password']
+        );
+    }
+
+    /**
+     * @When I call createUser
+     */
+    public function iCallCreateuser()
+    {
+        $this->getIdBrokerClient()->createUser($this->requestData);
+    }
+
+    /**
+     * @When I call deactivateUser
+     */
+    public function iCallDeactivateuser()
+    {
+        $this->getIdBrokerClient()->deactivateUser(
+            $this->requestData['employee_id']
+        );
+    }
+
+    /**
+     * @When I call getUser
+     */
+    public function iCallGetuser()
+    {
+        $this->getIdBrokerClient()->getUser(
+            $this->requestData['employee_id']
+        );
+    }
+
+    /**
+     * @When I call listUsers
+     */
+    public function iCallListusers()
+    {
+        $this->getIdBrokerClient()->listUsers();
+    }
+
+    /**
+     * @When I call setPassword
+     */
+    public function iCallSetpassword()
+    {
+        $this->getIdBrokerClient()->setPassword(
+            $this->requestData['employee_id'],
+            $this->requestData['password']
+        );
+    }
+
+    /**
+     * @When I call updateUser
+     */
+    public function iCallUpdateuser()
+    {
+        $this->getIdBrokerClient()->updateUser($this->requestData);
+    }
+
+    /**
+     * @When I call listUsers and ask for these fields:
+     */
+    public function iCallListusersAndAskForTheseFields(TableNode $table)
+    {
+        $fields = [];
+        foreach ($table as $row) {
+            $fields[] = $row['fieldName'];
+        }
+        $this->getIdBrokerClient()->listUsers($fields);
     }
 }

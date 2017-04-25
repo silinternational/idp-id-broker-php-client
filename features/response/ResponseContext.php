@@ -2,7 +2,6 @@
 namespace Sil\Idp\IdBroker\Client\features\response;
 
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Exception;
 use GuzzleHttp\Handler\MockHandler;
@@ -80,10 +79,10 @@ class ResponseContext implements Context
     public function iCallAuthenticateWithTheNecessaryData()
     {
         try {
-            $this->result = $this->getIdBrokerClient()->authenticate([
-                'username' => 'john_smith',
-                'password' => 'dummy password',
-            ]);
+            $this->result = $this->getIdBrokerClient()->authenticate(
+                'john_smith',
+                'dummy password'
+            );
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }
@@ -133,9 +132,7 @@ class ResponseContext implements Context
     public function iCallGetuserWithTheNecessaryData()
     {
         try {
-            $this->result = $this->getIdBrokerClient()->getUser([
-                'employee_id' => '123245',
-            ]);
+            $this->result = $this->getIdBrokerClient()->getUser('123245');
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }
@@ -228,10 +225,10 @@ class ResponseContext implements Context
     public function iCallSetpasswordWithTheNecessaryData()
     {
         try {
-            $this->result = $this->getIdBrokerClient()->setPassword([
-                'employee_id' => '12345',
-                'password' => 'correcthorsebatterystaple',
-            ]);
+            $this->result = $this->getIdBrokerClient()->setPassword(
+                '12345',
+                'correcthorsebatterystaple'
+            );
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }
