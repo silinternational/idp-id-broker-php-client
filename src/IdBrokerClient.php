@@ -144,11 +144,16 @@ class IdBrokerClient extends BaseClient
     /**
      * Get a list of all users.
      *
-     * @param array $config
+     * @param array|null $fields (Optional:) The list of fields desired about
+     *     each user in the result.
      * @return array An array with a sub-array about each user.
      */
-    public function listUsers(array $config = [])
+    public function listUsers($fields = null)
     {
+        $config = [];
+        if ($fields !== null) {
+            $config['fields'] = join(',', $fields);
+        }
         $result = $this->listUsersInternal($config);
         $statusCode = (int)$result['statusCode'];
         

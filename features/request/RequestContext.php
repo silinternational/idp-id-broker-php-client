@@ -1,6 +1,7 @@
 <?php
 namespace Sil\Idp\IdBroker\Client\features\request;
 
+use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
 use GuzzleHttp\Handler\MockHandler;
@@ -228,5 +229,17 @@ class RequestContext implements Context
     public function iCallUpdateuser()
     {
         $this->getIdBrokerClient()->updateUser($this->requestData);
+    }
+
+    /**
+     * @When I call listUsers and ask for these fields:
+     */
+    public function iCallListusersAndAskForTheseFields(TableNode $table)
+    {
+        $fields = [];
+        foreach ($table as $row) {
+            $fields[] = $row['fieldName'];
+        }
+        $this->getIdBrokerClient()->listUsers($fields);
     }
 }
