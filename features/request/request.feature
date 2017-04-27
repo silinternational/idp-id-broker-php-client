@@ -23,6 +23,8 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide a "last_name" of "Smith"
       And I provide a "username" of "john_smith"
       And I provide an "email" of "john_smith@example.com"
+      And I provide a "locked" of "no"
+      And I provide an "active" of "yes"
     When I call createUser
     Then the method should be "POST"
       And the url should be "https://api.example.com/user"
@@ -34,7 +36,9 @@ Feature: Formatting requests for sending to the ID Broker API
           "first_name": "John",
           "last_name": "Smith",
           "username": "john_smith",
-          "email": "john_smith@example.com"
+          "email": "john_smith@example.com",
+          "locked": "no",
+          "active": "yes"
         }
         """
 
@@ -42,6 +46,8 @@ Feature: Formatting requests for sending to the ID Broker API
     Given I am using a baseUri of "https://api.example.com/"
       And I provide an "employee_id" of "12345"
       And I provide a "display_name" of "Johnny"
+      And I provide a "locked" of "yes"
+      And I provide an "active" of "yes"
     When I call updateUser
     Then the method should be "PUT"
       And the url should be "https://api.example.com/user/12345"
@@ -49,7 +55,9 @@ Feature: Formatting requests for sending to the ID Broker API
       And the body should equal the following:
         """
         {
-          "display_name": "Johnny"
+          "display_name": "Johnny",
+          "locked": "yes",
+          "active": "yes"
         }
         """
 

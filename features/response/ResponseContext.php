@@ -1,6 +1,7 @@
 <?php
 namespace Sil\Idp\IdBroker\Client\features\response;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
 use Exception;
@@ -256,5 +257,13 @@ class ResponseContext implements Context
     public function theResultShouldBeNull()
     {
         Assert::assertNull($this->result);
+    }
+
+    /**
+     * @Then the result should be an array
+     */
+    public function theResultShouldBeAnArray()
+    {
+        Assert::assertInternalType('array', $this->result);
     }
 }
