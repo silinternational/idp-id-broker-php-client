@@ -58,10 +58,7 @@ class IdBrokerClient extends BaseClient
             return null;
         }
         
-        throw new Exception(
-            $result['message'] ?? 'Unknown error: ' . $statusCode,
-            1490802360
-        );
+        $this->reportUnexpectedResponse($result, 1490802360);
     }
     
     /**
@@ -81,10 +78,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
-        throw new Exception(
-            $result['message'] ?? 'Unknown error: ' . $statusCode,
-            1490802526
-        );
+        $this->reportUnexpectedResponse($result, 1490802526);
     }
     
     /**
@@ -102,10 +96,7 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode !== 200) {
-            throw new Exception(
-                $result['message'] ?? 'Unknown error: ' . $statusCode,
-                1490808523
-            );
+            $this->reportUnexpectedResponse($result, 1490808523);
         }
     }
     
@@ -142,10 +133,7 @@ class IdBrokerClient extends BaseClient
             return null;
         }
         
-        throw new Exception(
-            $result['message'] ?? 'Unknown error: ' . $statusCode,
-            1490808555
-        );
+        $this->reportUnexpectedResponse($result, 1490808555);
     }
     
     /**
@@ -168,10 +156,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
-        throw new Exception(
-            $result['message'] ?? 'Unknown error: ' . $statusCode,
-            1490808715
-        );
+        $this->reportUnexpectedResponse($result, 1490808715);
     }
     
     /**
@@ -191,11 +176,19 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode !== 200) {
-            throw new Exception(
-                $result['message'] ?? 'Unknown error: ' . $statusCode,
-                1490808839
-            );
+            $this->reportUnexpectedResponse($result, 1490808839);
         }
+    }
+    
+    protected function reportUnexpectedResponse($response, $uniqueErrorCode)
+    {
+        throw new Exception(
+            sprintf(
+                'Unexpected response: %s',
+                var_export($response, true)
+            ),
+            $uniqueErrorCode
+        );
     }
     
     /**
@@ -214,9 +207,6 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
-        throw new Exception(
-            $result['message'] ?? 'Unknown error: ' . $statusCode,
-            1490808841
-        );
+        $this->reportUnexpectedResponse($result, 1490808841);
     }
 }
