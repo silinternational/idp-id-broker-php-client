@@ -2,6 +2,7 @@
 namespace Sil\Idp\IdBroker\Client;
 
 use Exception;
+use GuzzleHttp\Command\Result;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
@@ -52,7 +53,7 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode === 200) {
-            return $this->getResultWithoutStatusCode($result);
+            return $this->getResultAsArrayWithoutStatusCode($result);
         } elseif ($statusCode === 422) {
             return null;
         }
@@ -77,7 +78,7 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode === 200) {
-            return $this->getResultWithoutStatusCode($result);
+            return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
         throw new Exception(
@@ -108,10 +109,16 @@ class IdBrokerClient extends BaseClient
         }
     }
     
-    protected function getResultWithoutStatusCode($result)
+    /**
+     * Convert the result of the Guzzle call to an array without a status code.
+     *
+     * @param Result $result The result of a Guzzle call.
+     * @return array
+     */
+    protected function getResultAsArrayWithoutStatusCode($result)
     {
         unset($result['statusCode']);
-        return $result;
+        return $result->toArray();
     }
     
     /**
@@ -130,7 +137,7 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode === 200) {
-            return $this->getResultWithoutStatusCode($result);
+            return $this->getResultAsArrayWithoutStatusCode($result);
         } elseif ($statusCode === 204) {
             return null;
         }
@@ -158,7 +165,7 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode === 200) {
-            return $this->getResultWithoutStatusCode($result);
+            return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
         throw new Exception(
@@ -204,7 +211,7 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result['statusCode'];
         
         if ($statusCode === 200) {
-            return $this->getResultWithoutStatusCode($result);
+            return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
         throw new Exception(

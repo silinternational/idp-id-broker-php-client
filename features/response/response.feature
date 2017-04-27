@@ -16,6 +16,7 @@ Feature: Handling responses from the ID Broker API
       """
     When I call authenticate with the necessary data
     Then the result SHOULD contain user information
+      And the result should be an array
       And an exception should NOT have been thrown
 
   Scenario: Handling an unsuccessful authentication
@@ -62,6 +63,7 @@ Feature: Handling responses from the ID Broker API
       """
     When I call getUser with the necessary data
     Then the result SHOULD contain user information
+      And the result should be an array
       And an exception should NOT have been thrown
 
   Scenario: Handling a getUser call for a non-existent user
@@ -80,6 +82,7 @@ Feature: Handling responses from the ID Broker API
       """
     When I call listUsers with the necessary data
     Then the result SHOULD contain a list of users' information
+      And the result should be an array
       And an exception should NOT have been thrown
 
   Scenario: Handling a listUsers call that errors out
@@ -100,11 +103,13 @@ Feature: Handling responses from the ID Broker API
     Given a call to "createUser" will return a 200 response
     When I call createUser with the necessary data
     Then an exception should NOT have been thrown
+      And the result should be an array
 
   Scenario: Handling a successful updateUser call
     Given a call to "updateUser" will return a 200 response
     When I call updateUser with the necessary data
     Then an exception should NOT have been thrown
+      And the result should be an array
 
   Scenario: Handling a successful setPassword call
     Given a call to "setPassword" will return a 200 response
