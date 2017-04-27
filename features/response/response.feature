@@ -20,13 +20,13 @@ Feature: Handling responses from the ID Broker API
       And an exception should NOT have been thrown
 
   Scenario: Handling an unsuccessful authentication
-    Given a call to "authenticate" will return a 422 with the following data:
+    Given a call to "authenticate" will return a 400 with the following data:
       """
       {
         "name": "Bad Request",
         "message": "Some error message about an invalid login.",
         "code": 0,
-        "status": 422
+        "status": 400
       }
       """
     When I call authenticate with the necessary data
