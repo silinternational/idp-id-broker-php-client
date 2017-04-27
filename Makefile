@@ -10,7 +10,7 @@ behatappend:
 	docker-compose run --rm php bash -c "vendor/bin/behat --append-snippets"
 
 behatv:
-	docker-compose run --rm php bash -c "vendor/bin/behat -v"
+	docker-compose run --rm php bash -c "vendor/bin/behat -v --stop-on-failure"
 
 clean:
 	docker-compose kill
