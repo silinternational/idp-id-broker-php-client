@@ -54,7 +54,7 @@ class IdBrokerClient extends BaseClient
         
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
-        } elseif ($statusCode === 422) {
+        } elseif ($statusCode === 400) {
             return null;
         }
         
