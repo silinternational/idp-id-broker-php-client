@@ -196,6 +196,7 @@ class IdBrokerClient extends BaseClient
      *
      * @param array $config An array key/value pairs of attributes for the user.
      *     Must include at least an 'employee_id' entry.
+     * @return array An array of information about the updated user.
      * @throws Exception
      */
     public function updateUser(array $config = [])
