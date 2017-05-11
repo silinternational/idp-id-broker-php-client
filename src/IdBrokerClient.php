@@ -22,6 +22,20 @@ class IdBrokerClient extends BaseClient
         string $accessToken,
         array $config = []
     ) {
+        if (empty($baseUri)) {
+            throw new \InvalidArgumentException(
+                'Please provide a base URI for the ID Broker.',
+                1494531101
+            );
+        }
+        
+        if (empty($accessToken)) {
+            throw new \InvalidArgumentException(
+                'Please provide an access token for the ID Broker.',
+                1494531108
+            );
+        }
+        
         // Create the client (applying some defaults).
         parent::__construct(array_replace_recursive([
             'description_path' => \realpath(
@@ -196,6 +210,7 @@ class IdBrokerClient extends BaseClient
      *
      * @param array $config An array key/value pairs of attributes for the user.
      *     Must include at least an 'employee_id' entry.
+     * @return array An array of information about the updated user.
      * @throws Exception
      */
     public function updateUser(array $config = [])
