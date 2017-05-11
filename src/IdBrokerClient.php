@@ -22,6 +22,20 @@ class IdBrokerClient extends BaseClient
         string $accessToken,
         array $config = []
     ) {
+        if (empty($baseUri)) {
+            throw new \InvalidArgumentException(
+                'Please provide a base URI for the ID Broker.',
+                1494531101
+            );
+        }
+        
+        if (empty($accessToken)) {
+            throw new \InvalidArgumentException(
+                'Please provide an access token for the ID Broker.',
+                1494531108
+            );
+        }
+        
         // Create the client (applying some defaults).
         parent::__construct(array_replace_recursive([
             'description_path' => \realpath(
