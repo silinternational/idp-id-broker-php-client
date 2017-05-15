@@ -26,7 +26,12 @@ use Sil\Idp\IdBroker\Client\IdBrokerClient;
 $idBrokerClient = new IdBrokerClient(
     'https://api.example.com/', // The base URI for the API.
     'DummyAccessToken', // Your HTTP header authorization bearer token.
-]);
+    [
+        'http_client_options' => [
+            'timeout' => 10, // An (optional) custom HTTP timeout, in seconds.
+        ],
+    ]
+);
 
 $users = $idBrokerClient->listUsers();
 ```
