@@ -45,6 +45,9 @@ class IdBrokerClient extends BaseClient
                 'baseUri' => $baseUri,
             ],
             'access_token' => $accessToken,
+            'http_client_options' => [
+                'timeout' => 30,
+            ],
         ], $config));
     }
     
