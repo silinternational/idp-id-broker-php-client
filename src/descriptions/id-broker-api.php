@@ -106,7 +106,17 @@
                     'required' => false,
                     'type' => 'string',
                     'location' => 'query',
-                ]
+                ],
+                'username' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
+                'email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
             ]
         ],
         'setPasswordInternal' => [
