@@ -21,6 +21,7 @@ class RequestContext implements Context
     private $baseUri;
     private $requestData = [];
     private $requestHistory = [];
+    private $config = [];
     
     /**
      * Initializes context.
@@ -56,17 +57,25 @@ class RequestContext implements Context
         
         return $handlerStack;
     }
-    
+
     /**
      * @return IdBrokerClient
      */
     protected function getIdBrokerClient()
     {
-        return new IdBrokerClient($this->baseUri, 'DummyAccessToken', [
+        $startConfig = [
             'http_client_options' => [
                 'handler' => $this->getHttpClientHandlerForTests(),
             ],
-        ]);
+        ];
+
+        $finalConfig = array_merge($startConfig, $this->config);
+
+        return new IdBrokerClient(
+            $this->baseUri,
+            'DummyAccessToken',
+            $finalConfig
+        );
     }
     
     /**
@@ -144,6 +153,17 @@ class RequestContext implements Context
     }
 
     /**
+     * @Given I add :fieldArrayValue to configuration of :fieldName
+     */
+    public function iAddToConfiguration($fieldName, $fieldValue)
+    {
+        if ( empty($this->config[$fieldName])) {
+            $this->config[$fieldName] = [];
+        }
+        $this->config[$fieldName][] = $fieldValue;
+    }
+
+    /**
      * @Then an authorization header should be present
      */
     public function anAuthorizationHeaderShouldBePresent()
@@ -163,6 +183,33 @@ class RequestContext implements Context
             (string)$expectedBodyText,
             (string)$request->getBody()
         );
+    }
+
+    /**
+     * @When I call getSiteStatus
+     */
+    public function iCallGetsitestatus()
+    {
+        $this->getIdBrokerClient()->getSiteStatus();
+    }
+
+    /**
+     * @Then I get an exception with code :arg1
+     */
+    public function iGetAnExceptionWithCode($eCode)
+    {
+        try {
+            $idBClient = $this->getIdBrokerClient();
+            $gotException = false;
+        } catch (\Exception $e) {
+            $this->assertSame((int) $eCode, $e->getCode());
+            $gotException = true;
+        }
+        if ( ! $gotException) {
+            $msg = "Expected an exception with code " . $eCode .
+                " but didn't get one at all.";
+            Assert::assertTrue(false, $msg);
+        }
     }
 
     /**

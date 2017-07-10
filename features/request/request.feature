@@ -1,5 +1,26 @@
 Feature: Formatting requests for sending to the ID Broker API
 
+  Scenario: Checking site status
+    Given I am using a baseUri of "https://api.example.com/"
+    When I call getSiteStatus
+    Then the method should be "GET"
+      And the url should be "https://api.example.com/site/status"
+
+  Scenario: Checking site status with trusted id-broker
+    Given I am using a baseUri of "https://trusted_host.org/"
+      And I add "10.0.1.1/32" to configuration of "trusted_ip_ranges"
+      And I add "10.1.1.1/32" to configuration of "trusted_ip_ranges"
+    When I call getSiteStatus
+    Then the method should be "GET"
+    And the url should be "https://trusted_host.org/site/status"
+
+  Scenario: Checking client with untrusted id-broker
+    Given I am using a baseUri of "https://untrusted_host.org/"
+      And I add "10.0.1.1/32" to configuration of "trusted_ip_ranges"
+      And I add "10.0.1.1/32" to configuration of "trusted_ip_ranges"
+    Then I get an exception with code "1494531300"
+
+
   Scenario: Authentication
     Given I am using a baseUri of "https://api.example.com/"
       And I provide a "username" of "john_smith"
