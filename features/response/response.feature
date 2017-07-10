@@ -1,5 +1,24 @@
 Feature: Handling responses from the ID Broker API
 
+  Scenario: Handling a successful siteStatus call
+    Given a call to "getSiteStatus" will return a 204 response
+    When I call getSiteStatus
+    Then an exception should NOT have been thrown
+
+  Scenario: Handling a getSiteStatus call that triggers an exception
+    Given a call to "getSiteStatus" will return a 500 with the following data:
+      """
+      {
+        "name": "Internal Server Error",
+        "message": "Some error message.",
+        "code": 0,
+        "status": 500
+      }
+      """
+    When I call getSiteStatus
+    Then the result should be null
+    And an exception should have been thrown
+
   Scenario: Handling a successful authentication
     Given a call to "authenticate" will return a 200 with the following data:
       """
