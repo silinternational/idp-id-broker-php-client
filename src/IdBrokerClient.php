@@ -14,7 +14,7 @@ class IdBrokerClient extends BaseClient
      * The key for the constructor's config parameter that refers
      * to the trusted IP ranges.
      */
-    const TRUSTED_IPS_CONFIG = "trusted_ip_ranges";
+    const TRUSTED_IPS_CONFIG = 'trusted_ip_ranges';
 
     /**
      * The list of trusted IP address ranges (aka. blocks).
@@ -178,7 +178,7 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result['statusCode'];
 
         if (($statusCode >= 200) && ($statusCode < 300)) {
-            return "OK";
+            return 'OK';
         }
 
         $this->reportUnexpectedResponse($result, 1490806100);

@@ -199,15 +199,15 @@ class RequestContext implements Context
     public function iGetAnExceptionWithCode($eCode)
     {
         try {
-            $idBClient = $this->getIdBrokerClient();
+            $this->getIdBrokerClient();
             $gotException = false;
         } catch (\Exception $e) {
             $this->assertSame((int) $eCode, $e->getCode());
             $gotException = true;
         }
         if ( ! $gotException) {
-            $msg = "Expected an exception with code " . $eCode .
-                " but didn't get one at all.";
+            $msg = 'Expected an exception with code ' . $eCode .
+                ' but did not get one at all.';
             Assert::assertTrue(false, $msg);
         }
     }
