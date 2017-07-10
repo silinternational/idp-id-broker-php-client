@@ -3,12 +3,28 @@ namespace Sil\Idp\IdBroker\Client;
 
 use Exception;
 use GuzzleHttp\Command\Result;
+use IPBlock;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
  */
 class IdBrokerClient extends BaseClient
 {
+    /**
+     * The key for the constructor's config parameter that refers
+     * to the trusted IP ranges.
+     */
+    const TRUSTED_IPS_CONFIG = "trusted_ip_ranges";
+
+    /**
+     * The list of trusted IP address ranges (aka. blocks).
+     *
+     * @var IPBlock[]
+     */
+    private $trustedIpRanges = [];
+
+    private $idBrokerUri;
+
     /**
      * Constructor.
      *
@@ -28,12 +44,33 @@ class IdBrokerClient extends BaseClient
                 1494531101
             );
         }
+
+        $this->idBrokerUri = $baseUri;
         
         if (empty($accessToken)) {
             throw new \InvalidArgumentException(
                 'Please provide an access token for the ID Broker.',
                 1494531108
             );
+        }
+
+        // Check and add the trusted IP ranges
+        if ( ! empty($config[self::TRUSTED_IPS_CONFIG])) {
+            $newTrustedIpRanges = $config[self::TRUSTED_IPS_CONFIG];
+            if ( ! is_array($newTrustedIpRanges)) {
+                throw new \InvalidArgumentException(
+                    'The config entry for ' . self::TRUSTED_IPS_CONFIG .
+                    ' must be an array.',
+                    1494531200
+                );
+            }
+
+            foreach ($newTrustedIpRanges as $nextIpRange) {
+                $ipBlock = IPBlock::create($nextIpRange);
+                $this->trustedIpRanges[] = $ipBlock;
+            }
+
+            $this->checkIdBrokerIp();
         }
         
         // Create the client (applying some defaults).
@@ -127,6 +164,24 @@ class IdBrokerClient extends BaseClient
     {
         unset($result['statusCode']);
         return $result->toArray();
+    }
+
+    /**
+     * Ping the /site/status url
+     *
+     * @return string "OK".
+     * @throws Exception
+     */
+    public function getSiteStatus()
+    {
+        $result = $this->getSiteStatusInternal();
+        $statusCode = (int)$result['statusCode'];
+
+        if (($statusCode >= 200) && ($statusCode < 300)) {
+            return "OK";
+        }
+
+        $this->reportUnexpectedResponse($result, 1490806100);
     }
     
     /**
@@ -229,5 +284,42 @@ class IdBrokerClient extends BaseClient
         }
         
         $this->reportUnexpectedResponse($result, 1490808841);
+    }
+
+    /**
+     * Determine whether any of the Id-broker's IPs are not in the
+     * trusted ranges
+     *
+     * @throws Exception
+     */
+    private function checkIdBrokerIP() {
+        $baseHost = parse_url($this->idBrokerUri, PHP_URL_HOST);
+        $idBrokerIp = gethostbyname(
+            $baseHost
+        );
+
+        if ( ! $this->isTrustedIpAddress($idBrokerIp)) {
+            throw new Exception(
+                'The Id Broker has an IP that is not trusted ... ' . $idBrokerIp,
+                1494531300
+            );
+        }
+    }
+
+    /**
+     * Determine whether the id-broker's IP address is in a trusted range.
+     *
+     * @param string $ipAddress The IP address in question.
+     * @return bool
+     */
+    private function isTrustedIpAddress($ipAddress)
+    {
+        foreach ($this->trustedIpRanges as $trustedIpBlock) {
+            if ($trustedIpBlock->containsIP($ipAddress)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
