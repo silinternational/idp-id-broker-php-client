@@ -16,8 +16,7 @@ Feature: Handling responses from the ID Broker API
       }
       """
     When I call getSiteStatus
-    Then the result should be null
-    And an exception should have been thrown
+    Then an exception should have been thrown
 
   Scenario: Handling a successful authentication
     Given a call to "authenticate" will return a 200 with the following data:
