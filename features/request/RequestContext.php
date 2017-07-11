@@ -179,7 +179,7 @@ class RequestContext implements Context
     /**
      * @Given I am using a single value for a trusted ip block
      */
-    public function IAmUsingaSingleValueForATrustedIpBlock()
+    public function iAmUsingASingleValueForATrustedIpBlock()
     {
         $this->baseUri = $this->trustedHost;
         $this->config['trusted_ip_ranges'] = $this->trustedIpRanges[0];
