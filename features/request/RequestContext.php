@@ -22,6 +22,9 @@ class RequestContext implements Context
     private $requestData = [];
     private $requestHistory = [];
     private $config = [];
+    private $exceptionThrown = null;
+
+    public $trustedIpRanges = ["10.0.1.1/32", "10.1.1.1/32"];
     
     /**
      * Initializes context.
@@ -152,15 +155,32 @@ class RequestContext implements Context
         $this->requestData[$fieldName] = $fieldValue;
     }
 
+
     /**
-     * @Given I add :fieldArrayValue to configuration of :fieldName
+     * @Given I am using a trusted baseUri
      */
-    public function iAddToConfiguration($fieldName, $fieldValue)
+    public function iAmUsingATrustedBaseuri()
     {
-        if ( empty($this->config[$fieldName])) {
-            $this->config[$fieldName] = [];
-        }
-        $this->config[$fieldName][] = $fieldValue;
+        $this->baseUri = "https://trusted_host.org/";
+        $this->config['trusted_ip_ranges'] = $this->trustedIpRanges;
+    }
+
+    /**
+     * @Given I am using an untrusted baseUri
+     */
+    public function iAmUsingAnUnTrustedBaseuri()
+    {
+        $this->baseUri = "https://untrusted_host.org/";
+        $this->config['trusted_ip_ranges'] = $this->trustedIpRanges;
+    }
+
+    /**
+     * @Given I am using a single value for a trusted ip block
+     */
+    public function IAmUsingASingleValueForATrustedIpBlock()
+    {
+        $this->baseUri = "https://trusted_host.org/";
+        $this->config['trusted_ip_ranges'] = $this->trustedIpRanges[0];
     }
 
     /**
@@ -194,22 +214,51 @@ class RequestContext implements Context
     }
 
     /**
-     * @Then I get an exception with code :arg1
+     * @When I create the idBrokerClient
      */
-    public function iGetAnExceptionWithCode($eCode)
+    public function iCreateTheIdbrokerclient()
     {
+        $this->exceptionThrown = null;
         try {
             $this->getIdBrokerClient();
-            $gotException = false;
         } catch (\Exception $e) {
-            $this->assertSame((int) $eCode, $e->getCode());
-            $gotException = true;
+            $this->exceptionThrown = $e;
         }
-        if ( ! $gotException) {
-            $msg = 'Expected an exception with code ' . $eCode .
+
+    }
+
+    /**
+     * @Then an UntrustedIp exception will be thrown
+     */
+    public function anUntrustedipExceptionWillBeThrown()
+    {
+        $e = $this->exceptionThrown;
+        $expectedCode = 1494531300;
+
+        if ($e === null) {
+            $msg = 'Expected an exception with code ' . $expectedCode .
                 ' but did not get one at all.';
             Assert::assertTrue(false, $msg);
         }
+
+        $this->assertSame((int) $expectedCode, $e->getCode());
+    }
+
+    /**
+     * @Then an InvalidArgument exception will be thrown
+     */
+    public function anInvalidargumentExceptionWillBeThrown()
+    {
+        $e = $this->exceptionThrown;
+        $expectedCode = 1494531200;
+
+        if ($e === null) {
+            $msg = 'Expected an exception with code ' . $expectedCode .
+                ' but did not get one at all.';
+            Assert::assertTrue(false, $msg);
+        }
+
+        $this->assertSame((int) $expectedCode, $e->getCode());
     }
 
     /**

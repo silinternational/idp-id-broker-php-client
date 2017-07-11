@@ -7,18 +7,20 @@ Feature: Formatting requests for sending to the ID Broker API
       And the url should be "https://api.example.com/site/status"
 
   Scenario: Checking site status with trusted id-broker
-    Given I am using a baseUri of "https://trusted_host.org/"
-      And I add "10.0.1.1/32" to configuration of "trusted_ip_ranges"
-      And I add "10.1.1.1/32" to configuration of "trusted_ip_ranges"
+    Given I am using a trusted baseUri
     When I call getSiteStatus
     Then the method should be "GET"
     And the url should be "https://trusted_host.org/site/status"
 
   Scenario: Checking client with untrusted id-broker
-    Given I am using a baseUri of "https://untrusted_host.org/"
-      And I add "10.0.1.1/32" to configuration of "trusted_ip_ranges"
-      And I add "10.0.1.1/32" to configuration of "trusted_ip_ranges"
-    Then I get an exception with code "1494531300"
+    Given I am using an untrusted baseUri
+    When I create the idBrokerClient
+    Then an UntrustedIp exception will be thrown
+
+  Scenario: Checking client with a single trusted ip block value
+    Given I am using a single value for a trusted ip block
+    When I create the idBrokerClient
+    Then an InvalidArgument exception will be thrown
 
 
   Scenario: Authentication
