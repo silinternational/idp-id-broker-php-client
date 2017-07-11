@@ -23,9 +23,11 @@ class RequestContext implements Context
     private $requestHistory = [];
     private $config = [];
     private $exceptionThrown = null;
+    public $trustedHost = 'https://trusted_host.org/';
+    public $untrustedHost = 'https://untrusted_host.org/';
 
-    public $trustedIpRanges = ["10.0.1.1/32", "10.1.1.1/32"];
-    
+    public $trustedIpRanges = ['10.0.1.1/32', '10.1.1.1/32'];
+
     /**
      * Initializes context.
      *
@@ -161,7 +163,7 @@ class RequestContext implements Context
      */
     public function iAmUsingATrustedBaseuri()
     {
-        $this->baseUri = "https://trusted_host.org/";
+        $this->baseUri = $this->trustedHost;
         $this->config['trusted_ip_ranges'] = $this->trustedIpRanges;
     }
 
@@ -170,7 +172,7 @@ class RequestContext implements Context
      */
     public function iAmUsingAnUnTrustedBaseuri()
     {
-        $this->baseUri = "https://untrusted_host.org/";
+        $this->baseUri = $this->untrustedHost;
         $this->config['trusted_ip_ranges'] = $this->trustedIpRanges;
     }
 
@@ -179,7 +181,7 @@ class RequestContext implements Context
      */
     public function IAmUsingASingleValueForATrustedIpBlock()
     {
-        $this->baseUri = "https://trusted_host.org/";
+        $this->baseUri = $this->trustedHost;
         $this->config['trusted_ip_ranges'] = $this->trustedIpRanges[0];
     }
 
