@@ -57,6 +57,35 @@ class IdBrokerClient extends BaseClient
             );
         }
 
+        $this->initializeConfig($config);
+
+        // Create the client (applying some defaults).
+        parent::__construct(array_replace_recursive([
+            'description_path' => \realpath(
+                __DIR__ . '/descriptions/id-broker-api.php'
+            ),
+            'description_override' => [
+                'baseUri' => $baseUri,
+            ],
+            'access_token' => $accessToken,
+            'http_client_options' => [
+                'timeout' => 30,
+            ],
+        ], $config));
+    }
+
+    /*
+     * Validates the config values for ASSERT_VALID_BROKER_IP_CONFIG and
+     *   ASSERT_VALID_BROKER_IP_CONFIG
+     * Uses them to set $this->assertValidBrokerIp and $this->trustedIpRanges
+     *
+     * @param array the config values for the client
+     *
+     * @return null
+     * @throws \InvalidArgumentException
+     */
+    private function initializeConfig($config) {
+
         if ( isset($config[self::ASSERT_VALID_BROKER_IP_CONFIG])) {
             $this->assertValidBrokerIp = $config[self::ASSERT_VALID_BROKER_IP_CONFIG];
         }
@@ -92,22 +121,9 @@ class IdBrokerClient extends BaseClient
 
             $this->assertTrustedBrokerIp();
         }
-        
-        // Create the client (applying some defaults).
-        parent::__construct(array_replace_recursive([
-            'description_path' => \realpath(
-                __DIR__ . '/descriptions/id-broker-api.php'
-            ),
-            'description_override' => [
-                'baseUri' => $baseUri,
-            ],
-            'access_token' => $accessToken,
-            'http_client_options' => [
-                'timeout' => 30,
-            ],
-        ], $config));
+
     }
-    
+
     /**
      * Attempt to authenticate using the given credentials, getting back
      * information about the authenticated user (if the credentials were
