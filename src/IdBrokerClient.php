@@ -15,6 +15,7 @@ class IdBrokerClient extends BaseClient
      * to the trusted IP ranges.
      */
     const TRUSTED_IPS_CONFIG = 'trusted_ip_ranges';
+    const ASSERT_VALID_BROKER_IP_CONFIG = 'assert_valid_broker_ip';
 
     /**
      * The list of trusted IP address ranges (aka. blocks).
@@ -22,6 +23,8 @@ class IdBrokerClient extends BaseClient
      * @var IPBlock[]
      */
     private $trustedIpRanges = [];
+
+    private $assertValidBrokerIp = true;
 
     private $idBrokerUri;
 
@@ -54,8 +57,25 @@ class IdBrokerClient extends BaseClient
             );
         }
 
+        if ( isset($config[self::ASSERT_VALID_BROKER_IP_CONFIG])) {
+            $this->assertValidBrokerIp = $config[self::ASSERT_VALID_BROKER_IP_CONFIG];
+        }
+
+        if ($this->assertValidBrokerIp) {
+            if (empty($config[self::TRUSTED_IPS_CONFIG])) {
+                throw new \InvalidArgumentException(
+                    'The config entry for ' . self::TRUSTED_IPS_CONFIG .
+                    ' must be set (as an array) when ' .
+                    self::ASSERT_VALID_BROKER_IP_CONFIG .
+                    ' is not set or is set to True.',
+                    1494531150
+                );
+            }
+        }
+
         // Check and add the trusted IP ranges
-        if ( ! empty($config[self::TRUSTED_IPS_CONFIG])) {
+        if ($this->assertValidBrokerIp &&
+            ! empty($config[self::TRUSTED_IPS_CONFIG])) {
             $newTrustedIpRanges = $config[self::TRUSTED_IPS_CONFIG];
             if ( ! is_array($newTrustedIpRanges)) {
                 throw new \InvalidArgumentException(
@@ -70,7 +90,7 @@ class IdBrokerClient extends BaseClient
                 $this->trustedIpRanges[] = $ipBlock;
             }
 
-            $this->checkIdBrokerIp();
+            $this->assertTrustedBrokerIp();
         }
         
         // Create the client (applying some defaults).
@@ -292,7 +312,7 @@ class IdBrokerClient extends BaseClient
      *
      * @throws Exception
      */
-    private function checkIdBrokerIP() {
+    private function assertTrustedBrokerIp() {
         $baseHost = parse_url($this->idBrokerUri, PHP_URL_HOST);
         $idBrokerIp = gethostbyname(
             $baseHost
