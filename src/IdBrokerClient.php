@@ -90,38 +90,44 @@ class IdBrokerClient extends BaseClient
             $this->assertValidBrokerIp = $config[self::ASSERT_VALID_BROKER_IP_CONFIG];
         }
 
-        if ($this->assertValidBrokerIp) {
-            if (empty($config[self::TRUSTED_IPS_CONFIG])) {
-                throw new \InvalidArgumentException(
-                    'The config entry for ' . self::TRUSTED_IPS_CONFIG .
-                    ' must be set (as an array) when ' .
-                    self::ASSERT_VALID_BROKER_IP_CONFIG .
-                    ' is not set or is set to True.',
-                    1494531150
-                );
-            }
+        /*
+         *  If we should validate the Broker IP but there aren't
+         *  any trusted IPs, throw an exception
+         */
+        if (($this->assertValidBrokerIp) &&
+            empty($config[self::TRUSTED_IPS_CONFIG])) {
+            throw new \InvalidArgumentException(
+                'The config entry for ' . self::TRUSTED_IPS_CONFIG .
+                ' must be set (as an array) when ' .
+                self::ASSERT_VALID_BROKER_IP_CONFIG .
+                ' is not set or is set to True.',
+                1494531150
+            );
         }
 
-        // Check and add the trusted IP ranges
-        if ($this->assertValidBrokerIp &&
-            ! empty($config[self::TRUSTED_IPS_CONFIG])) {
-            $newTrustedIpRanges = $config[self::TRUSTED_IPS_CONFIG];
-            if ( ! is_array($newTrustedIpRanges)) {
-                throw new \InvalidArgumentException(
-                    'The config entry for ' . self::TRUSTED_IPS_CONFIG .
-                    ' must be an array.',
-                    1494531200
-                );
-            }
-
-            foreach ($newTrustedIpRanges as $nextIpRange) {
-                $ipBlock = IPBlock::create($nextIpRange);
-                $this->trustedIpRanges[] = $ipBlock;
-            }
-
-            $this->assertTrustedBrokerIp();
+        if ( ! $this->assertValidBrokerIp) {
+            return;
         }
 
+        /*
+         * At this point, we need to validate the Broker Ip and we know
+         * that the TRUSTED_IPS_CONFIG is not empty
+         */
+        $newTrustedIpRanges = $config[self::TRUSTED_IPS_CONFIG];
+        if ( ! is_array($newTrustedIpRanges)) {
+            throw new \InvalidArgumentException(
+                'The config entry for ' . self::TRUSTED_IPS_CONFIG .
+                ' must be an array.',
+                1494531200
+            );
+        }
+
+        foreach ($newTrustedIpRanges as $nextIpRange) {
+            $ipBlock = IPBlock::create($nextIpRange);
+            $this->trustedIpRanges[] = $ipBlock;
+        }
+
+        $this->assertTrustedBrokerIp();
     }
 
     /**
