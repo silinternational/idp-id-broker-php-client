@@ -90,12 +90,16 @@ class IdBrokerClient extends BaseClient
             $this->assertValidBrokerIp = $config[self::ASSERT_VALID_BROKER_IP_CONFIG];
         }
 
+        // If we don't need to validate the Broker Ip, we're done here
+        if ( ! $this->assertValidBrokerIp) {
+            return;
+        }
+
         /*
          *  If we should validate the Broker IP but there aren't
          *  any trusted IPs, throw an exception
          */
-        if (($this->assertValidBrokerIp) &&
-            empty($config[self::TRUSTED_IPS_CONFIG])) {
+        if (empty($config[self::TRUSTED_IPS_CONFIG])) {
             throw new \InvalidArgumentException(
                 'The config entry for ' . self::TRUSTED_IPS_CONFIG .
                 ' must be set (as an array) when ' .
@@ -103,10 +107,6 @@ class IdBrokerClient extends BaseClient
                 ' is not set or is set to True.',
                 1494531150
             );
-        }
-
-        if ( ! $this->assertValidBrokerIp) {
-            return;
         }
 
         /*
