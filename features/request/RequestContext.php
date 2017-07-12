@@ -186,6 +186,30 @@ class RequestContext implements Context
     }
 
     /**
+     * @Given I have indicated not to validate the id broker ip
+     */
+    public function iHaveIndicatedNotToValidateTheIdBrokerIp()
+    {
+        $this->config[IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG] = false;
+    }
+
+    /**
+     * @Given I have indicated that I want the id broker ip to be validated
+     */
+    public function iHaveIndicatedThatIWantTheIdBrokerIpToBeValidated()
+    {
+        $this->config[IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG] = true;
+    }
+
+    /**
+     * @Given I have not indicated whether the id broker ip should be validated
+     */
+    public function iHaveNotIndicatedWhetherTheIdBrokerIpShouldBeValidated()
+    {
+        unset($this->config[IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG]);
+    }
+
+    /**
      * @Then an authorization header should be present
      */
     public function anAuthorizationHeaderShouldBePresent()
@@ -252,15 +276,15 @@ class RequestContext implements Context
     public function anInvalidargumentExceptionWillBeThrown()
     {
         $e = $this->exceptionThrown;
-        $expectedCode = 1494531200;
+        $expectedException = 'InvalidArgumentException';
 
         if ($e === null) {
-            $msg = 'Expected an exception with code ' . $expectedCode .
+            $msg = 'Expected an exception with code ' . $expectedException .
                 ' but did not get one at all.';
             Assert::assertTrue(false, $msg);
         }
 
-        $this->assertSame((int) $expectedCode, $e->getCode());
+        $this->assertSame($expectedException, get_class($e));
     }
 
     /**

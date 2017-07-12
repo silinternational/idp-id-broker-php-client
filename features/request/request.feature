@@ -1,13 +1,15 @@
 Feature: Formatting requests for sending to the ID Broker API
 
-  Scenario: Checking site status
+  Scenario: Checking site status without validating the id broker ip address
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
     When I call getSiteStatus
     Then the method should be "GET"
       And the url should be "https://api.example.com/site/status"
 
   Scenario: Checking site status with trusted id-broker
-    Given I am using a trusted baseUri
+   Given I am using a trusted baseUri
+     And I have indicated that I want the id broker ip to be validated
     When I call getSiteStatus
     Then the method should be "GET"
     And the url should be "https://trusted_host.org/site/status"
@@ -18,13 +20,20 @@ Feature: Formatting requests for sending to the ID Broker API
     Then an UntrustedIp exception will be thrown
 
   Scenario: Checking client with a single trusted ip block value
-    Given I am using a single value for a trusted ip block
+    Given I have not indicated whether the id broker ip should be validated
+      And I am using a single value for a trusted ip block
     When I create the idBrokerClient
     Then an InvalidArgument exception will be thrown
 
+  Scenario: Checking client with the assert_valid_broker_ip not given and the trusted_ip_ranges value missing
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have not indicated whether the id broker ip should be validated
+    When I create the idBrokerClient
+    Then an InvalidArgument exception will be thrown
 
   Scenario: Authentication
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
       And I provide a "username" of "john_smith"
       And I provide a "password" of "correcthorsebatterystaple"
     When I call authenticate
@@ -41,6 +50,7 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Creating a user
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
       And I provide an "employee_id" of "12345"
       And I provide a "first_name" of "John"
       And I provide a "last_name" of "Smith"
@@ -67,6 +77,7 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Updating a user
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
       And I provide an "employee_id" of "12345"
       And I provide a "display_name" of "Johnny"
       And I provide a "locked" of "yes"
@@ -86,6 +97,7 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Deactivating a user
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
       And I provide an "employee_id" of "123"
     When I call deactivateUser
     Then the method should be "PUT"
@@ -95,6 +107,7 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Getting a user
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
       And I provide an "employee_id" of "123"
     When I call getUser
     Then the method should be "GET"
@@ -103,12 +116,14 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Listing users
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
     When I call listUsers
     Then the method should be "GET"
       And the url should be 'https://api.example.com/user'
 
   Scenario: Listing users, but limiting returned fields
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
     When I call listUsers and ask for these fields:
         | fieldName   |
         | employee_id |
@@ -118,6 +133,7 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Setting a password
     Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
       And I provide an "employee_id" of "123"
       And I provide a "password" of "correcthorsebatterystaple"
     When I call setPassword

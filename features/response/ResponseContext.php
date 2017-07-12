@@ -50,6 +50,7 @@ class ResponseContext implements Context
             'http_client_options' => [
                 'handler' => $this->getHttpClientHandlerForTests(),
             ],
+            IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG => false,
         ]);
     }
     
