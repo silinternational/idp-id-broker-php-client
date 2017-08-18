@@ -1,5 +1,10 @@
 <?php return [
     'operations' => [
+        'getSiteStatusInternal' => [
+            'httpMethod' => 'GET',
+            'uri' => '/site/status',
+            'responseModel' => 'Result',
+        ],
         'authenticateInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/authentication',

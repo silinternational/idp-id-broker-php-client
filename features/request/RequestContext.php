@@ -21,7 +21,13 @@ class RequestContext implements Context
     private $baseUri;
     private $requestData = [];
     private $requestHistory = [];
-    
+    private $config = [];
+    private $exceptionThrown = null;
+    public $trustedHost = 'https://trusted_host.org/';
+    public $untrustedHost = 'https://untrusted_host.org/';
+
+    public $trustedIpRanges = ['10.0.1.1/32', '10.1.1.1/32'];
+
     /**
      * Initializes context.
      *
@@ -56,17 +62,25 @@ class RequestContext implements Context
         
         return $handlerStack;
     }
-    
+
     /**
      * @return IdBrokerClient
      */
     protected function getIdBrokerClient()
     {
-        return new IdBrokerClient($this->baseUri, 'DummyAccessToken', [
+        $startConfig = [
             'http_client_options' => [
                 'handler' => $this->getHttpClientHandlerForTests(),
             ],
-        ]);
+        ];
+
+        $finalConfig = array_merge($startConfig, $this->config);
+
+        return new IdBrokerClient(
+            $this->baseUri,
+            'DummyAccessToken',
+            $finalConfig
+        );
     }
     
     /**
@@ -143,6 +157,58 @@ class RequestContext implements Context
         $this->requestData[$fieldName] = $fieldValue;
     }
 
+
+    /**
+     * @Given I am using a trusted baseUri
+     */
+    public function iAmUsingATrustedBaseuri()
+    {
+        $this->baseUri = $this->trustedHost;
+        $this->config['trusted_ip_ranges'] = $this->trustedIpRanges;
+    }
+
+    /**
+     * @Given I am using an untrusted baseUri
+     */
+    public function iAmUsingAnUnTrustedBaseuri()
+    {
+        $this->baseUri = $this->untrustedHost;
+        $this->config['trusted_ip_ranges'] = $this->trustedIpRanges;
+    }
+
+    /**
+     * @Given I am using a single value for a trusted ip block
+     */
+    public function iAmUsingASingleValueForATrustedIpBlock()
+    {
+        $this->baseUri = $this->trustedHost;
+        $this->config['trusted_ip_ranges'] = $this->trustedIpRanges[0];
+    }
+
+    /**
+     * @Given I have indicated not to validate the id broker ip
+     */
+    public function iHaveIndicatedNotToValidateTheIdBrokerIp()
+    {
+        $this->config[IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG] = false;
+    }
+
+    /**
+     * @Given I have indicated that I want the id broker ip to be validated
+     */
+    public function iHaveIndicatedThatIWantTheIdBrokerIpToBeValidated()
+    {
+        $this->config[IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG] = true;
+    }
+
+    /**
+     * @Given I have not indicated whether the id broker ip should be validated
+     */
+    public function iHaveNotIndicatedWhetherTheIdBrokerIpShouldBeValidated()
+    {
+        unset($this->config[IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG]);
+    }
+
     /**
      * @Then an authorization header should be present
      */
@@ -163,6 +229,62 @@ class RequestContext implements Context
             (string)$expectedBodyText,
             (string)$request->getBody()
         );
+    }
+
+    /**
+     * @When I call getSiteStatus
+     */
+    public function iCallGetsitestatus()
+    {
+        $this->getIdBrokerClient()->getSiteStatus();
+    }
+
+    /**
+     * @When I create the idBrokerClient
+     */
+    public function iCreateTheIdbrokerclient()
+    {
+        $this->exceptionThrown = null;
+        try {
+            $this->getIdBrokerClient();
+        } catch (\Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+
+    }
+
+    /**
+     * @Then an UntrustedIp exception will be thrown
+     */
+    public function anUntrustedipExceptionWillBeThrown()
+    {
+        $e = $this->exceptionThrown;
+        $expectedCode = 1494531300;
+
+        if ($e === null) {
+            $msg = 'Expected an exception with code ' . $expectedCode .
+                ' but did not get one at all.';
+            Assert::assertTrue(false, $msg);
+        }
+
+        $this->assertSame((int) $expectedCode, $e->getCode());
+    }
+
+    /**
+     * @Then an InvalidArgument exception will be thrown
+     */
+    public function anInvalidargumentExceptionWillBeThrown()
+    {
+        $e = $this->exceptionThrown;
+        $expectedException = 'InvalidArgumentException';
+
+        if ($e === null) {
+            $msg = 'Expected an exception with code ' . $expectedException .
+                ' but did not get one at all.';
+            Assert::assertTrue(false, $msg);
+        }
+
+        $this->assertSame($expectedException, get_class($e));
     }
 
     /**

@@ -50,6 +50,7 @@ class ResponseContext implements Context
             'http_client_options' => [
                 'handler' => $this->getHttpClientHandlerForTests(),
             ],
+            IdBrokerClient::ASSERT_VALID_BROKER_IP_CONFIG => false,
         ]);
     }
     
@@ -73,7 +74,19 @@ class ResponseContext implements Context
         $this->methodName = $methodName;
         $this->response = new Response($statusCode);
     }
-    
+
+    /**
+     * @When I call getSiteStatus
+     */
+    public function iCallGetsitestatus()
+    {
+        try {
+            $this->getIdBrokerClient()->getSiteStatus();
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
     /**
      * @When I call authenticate with the necessary data
      */
