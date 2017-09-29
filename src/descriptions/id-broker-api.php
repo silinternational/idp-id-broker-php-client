@@ -124,6 +124,65 @@
                 ],
             ]
         ],
+        'mfaCreateInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/mfa',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'type' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                    'enum' => ['backupcode', 'totp', 'u2f'],
+                ],
+            ],
+        ],
+        'mfaDeleteInternal' => [
+            'httpMethod' => 'DELETE',
+            'uri' => '/mfa/{id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+            ],
+        ],
+        'mfaListInternal' => [
+            'httpMethod' => 'GET',
+            'uri' => '/user/{employee_id}/mfa',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+            ],
+        ],
+        'mfaVerifyInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/mfa/{id}/verify',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'value' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
         'setPasswordInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}/password',
