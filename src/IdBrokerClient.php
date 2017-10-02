@@ -304,10 +304,11 @@ class IdBrokerClient extends BaseClient
      * @return null
      * @throws Exception
      */
-    public function mfaDelete($id)
+    public function mfaDelete($id, $employeeId)
     {
         $result = $this->mfaDeleteInternal([
-            'id' => $id
+            'id' => $id,
+            'employee_id' => $employeeId,
         ]);
         $statusCode = (int)$result['statusCode'];
 
@@ -343,10 +344,11 @@ class IdBrokerClient extends BaseClient
      * @param string $value
      * @return array|null
      */
-    public function mfaVerify($id, $value)
+    public function mfaVerify($id, $employeeId, $value)
     {
         $result = $this->mfaVerifyInternal([
             'id' => $id,
+            'employee_id' => $employeeId,
             'value' => $value,
         ]);
         $statusCode = (int)$result['statusCode'];

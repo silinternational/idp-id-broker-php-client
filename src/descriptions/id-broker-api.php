@@ -152,6 +152,11 @@
                     'type' => 'string',
                     'location' => 'uri'
                 ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
             ],
         ],
         'mfaListInternal' => [
@@ -175,6 +180,11 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
                 ],
                 'value' => [
                     'required' => true,
