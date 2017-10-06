@@ -275,6 +275,92 @@ class IdBrokerClient extends BaseClient
         
         $this->reportUnexpectedResponse($result, 1490808715);
     }
+
+    /**
+     * Create a new MFA configuration
+     * @param string $employee_id
+     * @param string $type
+     * @return array|null
+     * @throws Exception
+     */
+    public function mfaCreate($employee_id, $type)
+    {
+        $result = $this->mfaCreateInternal([
+            'employee_id' => $employee_id,
+            'type' => $type,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1506710701);
+    }
+
+    /**
+     * Delete an MFA configuration
+     * @param int $id
+     * @return null
+     * @throws Exception
+     */
+    public function mfaDelete($id, $employeeId)
+    {
+        $result = $this->mfaDeleteInternal([
+            'id' => $id,
+            'employee_id' => $employeeId,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 204) {
+            return null;
+        }
+
+        $this->reportUnexpectedResponse($result, 1506710702);
+    }
+
+    /**
+     * Get a list of MFA configurations for given user
+     * @param string $employee_id
+     * @return array
+     */
+    public function mfaList($employee_id)
+    {
+        $result = $this->mfaListInternal([
+            'employee_id' => $employee_id,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1506710703);
+    }
+
+    /**
+     * Verify an MFA value
+     * @param int $id
+     * @param string $value
+     * @return array|null
+     */
+    public function mfaVerify($id, $employeeId, $value)
+    {
+        $result = $this->mfaVerifyInternal([
+            'id' => $id,
+            'employee_id' => $employeeId,
+            'value' => $value,
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        } elseif ($statusCode === 400) {
+            return null;
+        }
+
+        $this->reportUnexpectedResponse($result, 1506710704);
+    }
     
     /**
      * Set the password for the specified user.
