@@ -341,7 +341,7 @@ class IdBrokerClient extends BaseClient
     /**
      * Verify an MFA value
      * @param int $id
-     * @param string $value
+     * @param string|array $value
      * @return array|null
      */
     public function mfaVerify($id, $employeeId, $value)
