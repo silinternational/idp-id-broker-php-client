@@ -188,7 +188,7 @@
                 ],
                 'value' => [
                     'required' => true,
-                    'type' => 'string',
+                    'type' => ['string', 'object'],
                     'location' => 'json',
                 ],
             ],

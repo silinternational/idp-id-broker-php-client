@@ -342,7 +342,7 @@ class IdBrokerClient extends BaseClient
      * Verify an MFA value
      * @param int $id
      * @param string $value
-     * @return array|null
+     * @return bool
      */
     public function mfaVerify($id, $employeeId, $value)
     {
@@ -353,10 +353,10 @@ class IdBrokerClient extends BaseClient
         ]);
         $statusCode = (int)$result['statusCode'];
 
-        if ($statusCode === 200) {
-            return $this->getResultAsArrayWithoutStatusCode($result);
+        if ($statusCode === 204) {
+            return true;
         } elseif ($statusCode === 400) {
-            return null;
+            return false;
         }
 
         $this->reportUnexpectedResponse($result, 1506710704);
