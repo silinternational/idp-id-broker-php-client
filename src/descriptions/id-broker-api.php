@@ -140,6 +140,11 @@
                     'location' => 'json',
                     'enum' => ['backupcode', 'totp', 'u2f'],
                 ],
+                'label' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
             ],
         ],
         'mfaDeleteInternal' => [
