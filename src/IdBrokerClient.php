@@ -280,14 +280,16 @@ class IdBrokerClient extends BaseClient
      * Create a new MFA configuration
      * @param string $employee_id
      * @param string $type
+     * @param string $label
      * @return array|null
      * @throws Exception
      */
-    public function mfaCreate($employee_id, $type)
+    public function mfaCreate($employee_id, $type, $label = null)
     {
         $result = $this->mfaCreateInternal([
             'employee_id' => $employee_id,
             'type' => $type,
+            'label' => $label,
         ]);
         $statusCode = (int)$result['statusCode'];
 
