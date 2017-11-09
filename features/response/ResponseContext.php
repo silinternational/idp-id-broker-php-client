@@ -9,6 +9,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
+use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
 
 /**
@@ -278,5 +279,32 @@ class ResponseContext implements Context
     public function theResultShouldBeAnArray()
     {
         Assert::assertInternalType('array', $this->result);
+    }
+
+    /**
+     * @When I call mfaVerify with the necessary data
+     */
+    public function iCallMfaverifyWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->mfaVerify(
+                '123',
+                '111111',
+                'dummy-mfa-submission'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When an MFA rate-limit exception SHOULD have been thrown
+     */
+    public function anMfaRateLimitExceptionShouldHaveBeenThrown()
+    {
+        Assert::assertInstanceOf(
+            MfaRateLimitException::class,
+            $this->exceptionThrown
+        );
     }
 }

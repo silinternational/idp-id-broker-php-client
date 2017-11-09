@@ -133,3 +133,8 @@ Feature: Handling responses from the ID Broker API
     Given a call to "setPassword" will return a 200 response
     When I call setPassword with the necessary data
     Then an exception should NOT have been thrown
+
+  Scenario: Handling a rate-limited call to mfaVerify
+    Given a call to "mfaVerify" will return a 429 response
+    When I call mfaVerify with the necessary data
+      And an MFA rate-limit exception SHOULD have been thrown
