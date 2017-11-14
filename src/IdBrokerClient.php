@@ -118,7 +118,7 @@ class IdBrokerClient extends BaseClient
         if ( ! is_array($newTrustedIpRanges)) {
             throw new \InvalidArgumentException(
                 'The config entry for ' . self::TRUSTED_IPS_CONFIG .
-                ' must be an array.',
+                ' must be an array, not ' . var_export($newTrustedIpRanges, true),
                 1494531200
             );
         }
