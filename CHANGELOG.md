@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Can now specify `require_mfa` (`'yes'` or `'no'`) when creating or updating
+  a user.
 
 ## [2.2.0] - 2017-11-09
 ### Added
