@@ -69,6 +69,12 @@
                     'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
+                'require_mfa' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
             ],
         ],
         'deactivateUserInternal' => [
@@ -257,6 +263,12 @@
                     'location' => 'json',
                 ],
                 'locked' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
+                'require_mfa' => [
                     'required' => false,
                     'type' => 'string',
                     'enum' => ['yes', 'no'],
