@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.3.0] - 2017-11-20
+### Added
+- Can now specify `require_mfa` (`'yes'` or `'no'`) when creating or updating
+  a user.
+
+## [2.2.1] - 2017-11-14
+### Fixed
+- Updated error message when the list of trusted IP ranges is not an array to
+  include what the given trusted IP ranges was (including data type).
+
 ## [2.2.0] - 2017-11-09
 ### Added
 - Throw custom exception type when `mfaVerify` gets a `429 Too Many Requests`
@@ -28,7 +38,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial version of ID Broker API client.
 
-[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.2.0...HEAD
+[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.3.0...HEAD
+[2.3.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.2.1...2.3.0
+[2.2.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.1.2...2.2.0
 [0.2.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/0.2.0...0.2.1
 [0.2.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/0.1.0...0.2.0

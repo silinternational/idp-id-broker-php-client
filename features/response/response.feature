@@ -29,7 +29,12 @@ Feature: Handling responses from the ID Broker API
         "username": "john_smith",
         "email": "john_smith@example.com",
         "active": "yes",
-        "locked": "no"
+        "locked": "no",
+        "mfa": {
+          "prompt": "no",
+          "nag": "yes",
+          "options": []
+        }
       }
       """
     When I call authenticate with the necessary data
@@ -76,7 +81,12 @@ Feature: Handling responses from the ID Broker API
         "username": "john_smith",
         "email": "john_smith@example.com",
         "active": "yes",
-        "locked": "no"
+        "locked": "no",
+        "mfa": {
+          "prompt": "no",
+          "nag": "yes",
+          "options": []
+        }
       }
       """
     When I call getUser with the necessary data
