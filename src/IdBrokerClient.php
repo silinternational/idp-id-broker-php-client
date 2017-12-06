@@ -390,7 +390,7 @@ class IdBrokerClient extends BaseClient
         }
     }
     
-    protected function reportUnexpectedResponse($response, $uniqueErrorCode, $httpStatusCode = 0)
+    protected function reportUnexpectedResponse($response, $uniqueErrorCode, $httpStatusCode = null)
     {
         throw new ServiceException(
             sprintf(
