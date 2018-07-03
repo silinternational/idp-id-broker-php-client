@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Can now provide `manager_email` when creating or updating a user.
+- Can now provide `spouse_email` when creating or updating a user.
 
 ## [2.3.0] - 2017-11-20
 ### Added

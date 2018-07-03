@@ -58,6 +58,8 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide an "email" of "john_smith@example.com"
       And I provide a "locked" of "no"
       And I provide an "active" of "yes"
+      And I provide a "manager_email" of "manager@example.com"
+      And I provide a "spouse_email" of "spouse@example.com"
       And I provide a "require_mfa" of "no"
     When I call createUser
     Then the method should be "POST"
@@ -73,6 +75,8 @@ Feature: Formatting requests for sending to the ID Broker API
           "email": "john_smith@example.com",
           "locked": "no",
           "active": "yes",
+          "manager_email": "manager@example.com",
+          "spouse_email": "spouse@example.com",
           "require_mfa": "no"
         }
         """
@@ -84,6 +88,8 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide a "display_name" of "Johnny"
       And I provide a "locked" of "yes"
       And I provide an "active" of "yes"
+      And I provide a "manager_email" of "manager@example.com"
+      And I provide a "spouse_email" of "spouse@example.com"
       And I provide a "require_mfa" of "yes"
     When I call updateUser
     Then the method should be "PUT"
@@ -95,6 +101,8 @@ Feature: Formatting requests for sending to the ID Broker API
           "display_name": "Johnny",
           "locked": "yes",
           "active": "yes",
+          "manager_email": "manager@example.com",
+          "spouse_email": "spouse@example.com",
           "require_mfa": "yes"
         }
         """

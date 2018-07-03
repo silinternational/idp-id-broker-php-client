@@ -69,10 +69,20 @@
                     'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
+                'manager_email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
                 'require_mfa' => [
                     'required' => false,
                     'type' => 'string',
                     'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
+                'spouse_email' => [
+                    'required' => false,
+                    'type' => 'string',
                     'location' => 'json',
                 ],
             ],
@@ -268,10 +278,20 @@
                     'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
+                'manager_email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
                 'require_mfa' => [
                     'required' => false,
                     'type' => 'string',
                     'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
+                'spouse_email' => [
+                    'required' => false,
+                    'type' => 'string',
                     'location' => 'json',
                 ],
             ],
