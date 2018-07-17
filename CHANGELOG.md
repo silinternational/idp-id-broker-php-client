@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.5.0] - 2018-07-03
+### Added
+- Can now provide `manager_email` when creating or updating a user.
+- Can now provide `spouse_email` when creating or updating a user.
+
+## [2.4.0] - 2017-12-16
+### Added
+- Use custom exception class to report status code as well.
+
 ## [2.3.0] - 2017-11-20
 ### Added
 - Can now specify `require_mfa` (`'yes'` or `'no'`) when creating or updating
@@ -38,7 +47,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial version of ID Broker API client.
 
-[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.3.0...HEAD
+[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.0...HEAD
+[2.5.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.4.0...2.5.0
+[2.4.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.3.0...2.4.0
 [2.3.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.2.1...2.3.0
 [2.2.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.1.2...2.2.0
