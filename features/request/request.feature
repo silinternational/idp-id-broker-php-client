@@ -107,6 +107,32 @@ Feature: Formatting requests for sending to the ID Broker API
         }
         """
 
+  Scenario: Updating a user and sending null values
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide an "employee_id" of "12345"
+      And I provide a "display_name" of "Johnny"
+      And I provide a "locked" of "yes"
+      And I provide an "active" of "yes"
+      And I provide a "manager_email" of null
+      And I provide a "spouse_email" of null
+      And I provide a "require_mfa" of "yes"
+    When I call updateUser
+    Then the method should be "PUT"
+      And the url should be "https://api.example.com/user/12345"
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "display_name": "Johnny",
+          "locked": "yes",
+          "active": "yes",
+          "manager_email": null,
+          "spouse_email": null,
+          "require_mfa": "yes"
+        }
+        """
+
   Scenario: Deactivating a user
     Given I am using a baseUri of "https://api.example.com/"
       And I have indicated not to validate the id broker ip
