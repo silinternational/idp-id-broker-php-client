@@ -313,7 +313,7 @@ class ResponseContext implements Context
      */
     public function theResultShouldBeTrue()
     {
-        Assert::assertTrue($this->result);
+        Assert::assertSame($this->result, true);
     }
 
     /**
@@ -321,6 +321,6 @@ class ResponseContext implements Context
      */
     public function theResultShouldBeFalse()
     {
-        Assert::assertFalse($this->result);
+        Assert::assertSame($this->result, false);
     }
 }
