@@ -368,13 +368,15 @@ class IdBrokerClient extends BaseClient
 
         $this->reportUnexpectedResponse($result, 1506710704, $statusCode);
     }
-    
+
     /**
      * Set the password for the specified user.
      *
      * @param string $employeeId The Employee ID of the user whose password we
      *     are trying to set.
      * @param string $password The desired (new) password, in plaintext.
+     *
+     * @return GuzzleHttp\Command\Result
      * @throws Exception
      */
     public function setPassword(string $employeeId, string $password)
@@ -388,6 +390,8 @@ class IdBrokerClient extends BaseClient
         if ($statusCode !== 200) {
             $this->reportUnexpectedResponse($result, 1490808839, $statusCode);
         }
+
+        return $result;
     }
     
     protected function reportUnexpectedResponse($response, $uniqueErrorCode, $httpStatusCode = null)
