@@ -5,6 +5,7 @@ use Exception;
 use GuzzleHttp\Command\Result;
 use IPBlock;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
+use Sil\Idp\IdBroker\Client\exceptions\MethodRateLimitException;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
@@ -367,6 +368,122 @@ class IdBrokerClient extends BaseClient
         }
 
         $this->reportUnexpectedResponse($result, 1506710704, $statusCode);
+    }
+
+    /**
+     * Create a new recovery method
+     * @param string $employee_id
+     * @param string $value
+     * @return array
+     * @throws Exception
+     */
+    public function createMethod($employee_id, $value)
+    {
+        $result = $this->createMethodInternal(compact($employee_id, $value));
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1541006274, $statusCode);
+    }
+
+    /**
+     * Delete a recovery method
+     * @param int $uid
+     * @param int $employee_id
+     * @return null
+     */
+    public function deleteMethod($uid, $employee_id)
+    {
+        $result = $this->deleteMethodInternal(compact($uid, $employee_id));
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 204) {
+            return null;
+        }
+
+        $this->reportUnexpectedResponse($result, 1541006315, $statusCode);
+    }
+
+    /**
+     * View a single recovery method
+     * @param int $uid
+     * @param int $employee_id
+     * @return null
+     */
+    public function getMethod($uid, $employee_id)
+    {
+        $result = $this->getMethodInternal(compact($uid, $employee_id));
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 204) {
+            return null;
+        }
+
+        $this->reportUnexpectedResponse($result, 1541006615, $statusCode);
+    }
+
+    /**
+     * Get a list of recovery methods for given user
+     * @param string $employee_id
+     * @return array
+     */
+    public function listMethod($employee_id)
+    {
+        $result = $this->listMethodInternal(compact($employee_id));
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1541006346, $statusCode);
+    }
+
+    /**
+     * Verify a recovery method
+     * @param string $uid The Method UID.
+     * @param string $employee_id The Employee ID of the user with that Method.
+     * @param string code The recovery method verification code
+     * @return bool
+     * @throws MethodRateLimitException
+     */
+    public function verifyMethod($uid, $employee_id, $code)
+    {
+        $result = $this->verifyMethodInternal(compact($uid, $employee_id, $code));
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 204) {
+            return true;
+        } elseif ($statusCode === 400) {
+            return false;
+        } elseif ($statusCode === 429) {
+            throw new MethodRateLimitException('Too many failures for this Method');
+        }
+
+        $this->reportUnexpectedResponse($result, 1541006448, $statusCode);
+    }
+
+    /**
+     * Resend a recovery method verification message
+     * @param string $uid The Method UID.
+     * @param string $employee_id The Employee ID of the user with that Method.
+     * @return bool
+     */
+    public function resendMethod($uid, $employee_id)
+    {
+        $result = $this->resendMethodInternal(compact($uid, $employee_id));
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 204) {
+            return true;
+        } elseif ($statusCode === 400) {
+            return false;
+        }
+
+        $this->reportUnexpectedResponse($result, 1541006732, $statusCode);
     }
 
     /**
