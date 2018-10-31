@@ -376,7 +376,7 @@ class IdBrokerClient extends BaseClient
      *     are trying to set.
      * @param string $password The desired (new) password, in plaintext.
      *
-     * @return GuzzleHttp\Command\Result
+     * @return array An array of password metadata
      * @throws Exception
      */
     public function setPassword(string $employeeId, string $password)
@@ -386,12 +386,12 @@ class IdBrokerClient extends BaseClient
             'password' => $password,
         ]);
         $statusCode = (int)$result['statusCode'];
-        
-        if ($statusCode !== 200) {
-            $this->reportUnexpectedResponse($result, 1490808839, $statusCode);
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
-        return $result;
+        $this->reportUnexpectedResponse($result, 1490808839, $statusCode);
     }
     
     protected function reportUnexpectedResponse($response, $uniqueErrorCode, $httpStatusCode = null)
