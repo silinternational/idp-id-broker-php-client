@@ -379,7 +379,7 @@ class IdBrokerClient extends BaseClient
      */
     public function createMethod($employee_id, $value)
     {
-        $result = $this->createMethodInternal(compact($employee_id, $value));
+        $result = $this->createMethodInternal(compact('employee_id', 'value'));
         $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
@@ -397,7 +397,7 @@ class IdBrokerClient extends BaseClient
      */
     public function deleteMethod($uid, $employee_id)
     {
-        $result = $this->deleteMethodInternal(compact($uid, $employee_id));
+        $result = $this->deleteMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 204) {
@@ -415,7 +415,7 @@ class IdBrokerClient extends BaseClient
      */
     public function getMethod($uid, $employee_id)
     {
-        $result = $this->getMethodInternal(compact($uid, $employee_id));
+        $result = $this->getMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 204) {
@@ -432,7 +432,7 @@ class IdBrokerClient extends BaseClient
      */
     public function listMethod($employee_id)
     {
-        $result = $this->listMethodInternal(compact($employee_id));
+        $result = $this->listMethodInternal(compact('employee_id'));
         $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 200) {
@@ -452,7 +452,7 @@ class IdBrokerClient extends BaseClient
      */
     public function verifyMethod($uid, $employee_id, $code)
     {
-        $result = $this->verifyMethodInternal(compact($uid, $employee_id, $code));
+        $result = $this->verifyMethodInternal(compact('uid', 'employee_id', 'code'));
         $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 204) {
@@ -474,7 +474,7 @@ class IdBrokerClient extends BaseClient
      */
     public function resendMethod($uid, $employee_id)
     {
-        $result = $this->resendMethodInternal(compact($uid, $employee_id));
+        $result = $this->resendMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result['statusCode'];
 
         if ($statusCode === 204) {
