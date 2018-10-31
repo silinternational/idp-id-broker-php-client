@@ -411,15 +411,15 @@ class IdBrokerClient extends BaseClient
      * View a single recovery method
      * @param int $uid
      * @param int $employee_id
-     * @return null
+     * @return array
      */
     public function getMethod($uid, $employee_id)
     {
         $result = $this->getMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result['statusCode'];
 
-        if ($statusCode === 204) {
-            return null;
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
         $this->reportUnexpectedResponse($result, 1541006615, $statusCode);
@@ -447,7 +447,7 @@ class IdBrokerClient extends BaseClient
      * @param string $uid The Method UID.
      * @param string $employee_id The Employee ID of the user with that Method.
      * @param string code The recovery method verification code
-     * @return bool
+     * @return array
      * @throws MethodRateLimitException
      */
     public function verifyMethod($uid, $employee_id, $code)
@@ -455,10 +455,8 @@ class IdBrokerClient extends BaseClient
         $result = $this->verifyMethodInternal(compact('uid', 'employee_id', 'code'));
         $statusCode = (int)$result['statusCode'];
 
-        if ($statusCode === 204) {
-            return true;
-        } elseif ($statusCode === 400) {
-            return false;
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
         } elseif ($statusCode === 429) {
             throw new MethodRateLimitException('Too many failures for this Method');
         }
