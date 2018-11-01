@@ -147,4 +147,14 @@ Feature: Handling responses from the ID Broker API
   Scenario: Handling a rate-limited call to mfaVerify
     Given a call to "mfaVerify" will return a 429 response
     When I call mfaVerify with the necessary data
-      And an MFA rate-limit exception SHOULD have been thrown
+    Then an MFA rate-limit exception SHOULD have been thrown
+
+  Scenario: Handling a "correct" response from mfaVerify
+    Given a call to "mfaVerify" will return a 204 response
+    When I call mfaVerify with the necessary data
+    Then the result should be true
+
+  Scenario: Handling a "wrong" response from mfaVerify
+    Given a call to "mfaVerify" will return a 400 response
+    When I call mfaVerify with the necessary data
+    Then the result should be false

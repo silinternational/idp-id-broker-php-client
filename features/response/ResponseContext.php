@@ -307,4 +307,20 @@ class ResponseContext implements Context
             $this->exceptionThrown
         );
     }
+
+    /**
+     * @Then the result should be true
+     */
+    public function theResultShouldBeTrue()
+    {
+        Assert::assertSame($this->result, true);
+    }
+
+    /**
+     * @Then the result should be false
+     */
+    public function theResultShouldBeFalse()
+    {
+        Assert::assertSame($this->result, false);
+    }
 }

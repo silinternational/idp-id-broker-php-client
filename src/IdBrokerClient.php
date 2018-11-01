@@ -368,13 +368,15 @@ class IdBrokerClient extends BaseClient
 
         $this->reportUnexpectedResponse($result, 1506710704, $statusCode);
     }
-    
+
     /**
      * Set the password for the specified user.
      *
      * @param string $employeeId The Employee ID of the user whose password we
      *     are trying to set.
      * @param string $password The desired (new) password, in plaintext.
+     *
+     * @return array An array of password metadata
      * @throws Exception
      */
     public function setPassword(string $employeeId, string $password)
@@ -384,10 +386,12 @@ class IdBrokerClient extends BaseClient
             'password' => $password,
         ]);
         $statusCode = (int)$result['statusCode'];
-        
-        if ($statusCode !== 200) {
-            $this->reportUnexpectedResponse($result, 1490808839, $statusCode);
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
         }
+
+        $this->reportUnexpectedResponse($result, 1490808839, $statusCode);
     }
     
     protected function reportUnexpectedResponse($response, $uniqueErrorCode, $httpStatusCode = null)

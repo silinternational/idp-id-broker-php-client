@@ -154,9 +154,8 @@ class RequestContext implements Context
      */
     public function iProvideAOf($fieldName, $fieldValue)
     {
-        $this->requestData[$fieldName] = $fieldValue;
+        $this->requestData[$fieldName] = ($fieldValue === 'null') ? null : $fieldValue;
     }
-
 
     /**
      * @Given I am using a trusted baseUri
