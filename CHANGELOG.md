@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.5.1] - 2018-11-01
 ### Fixed
 - Response from `PUT /user/{employee_id}/password` is now returned from `setPassword` method.
 
