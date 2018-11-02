@@ -157,7 +157,7 @@ class IdBrokerClient extends BaseClient
             return null;
         }
         
-        $this->reportUnexpectedResponse($result, 1490802360, $statusCode);
+        $this->reportUnexpectedResponse($result, 1490802360);
     }
     
     /**
@@ -177,7 +177,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
-        $this->reportUnexpectedResponse($result, 1490802526, $statusCode);
+        $this->reportUnexpectedResponse($result, 1490802526);
     }
     
     /**
@@ -195,7 +195,7 @@ class IdBrokerClient extends BaseClient
         $statusCode = (int)$result[ 'statusCode' ];
         
         if ($statusCode !== 200) {
-            $this->reportUnexpectedResponse($result, 1490808523, $statusCode);
+            $this->reportUnexpectedResponse($result, 1490808523);
         }
     }
     
@@ -226,7 +226,7 @@ class IdBrokerClient extends BaseClient
             return 'OK';
         }
 
-        $this->reportUnexpectedResponse($result, 1490806100, $statusCode);
+        $this->reportUnexpectedResponse($result, 1490806100);
     }
     
     /**
@@ -250,7 +250,7 @@ class IdBrokerClient extends BaseClient
             return null;
         }
         
-        $this->reportUnexpectedResponse($result, 1490808555, $statusCode);
+        $this->reportUnexpectedResponse($result, 1490808555);
     }
     
     /**
@@ -276,7 +276,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
-        $this->reportUnexpectedResponse($result, 1490808715, $statusCode);
+        $this->reportUnexpectedResponse($result, 1490808715);
     }
 
     /**
@@ -300,7 +300,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
-        $this->reportUnexpectedResponse($result, 1506710701, $statusCode);
+        $this->reportUnexpectedResponse($result, 1506710701);
     }
 
     /**
@@ -321,7 +321,7 @@ class IdBrokerClient extends BaseClient
             return null;
         }
 
-        $this->reportUnexpectedResponse($result, 1506710702, $statusCode);
+        $this->reportUnexpectedResponse($result, 1506710702);
     }
 
     /**
@@ -340,7 +340,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
-        $this->reportUnexpectedResponse($result, 1506710703, $statusCode);
+        $this->reportUnexpectedResponse($result, 1506710703);
     }
 
     /**
@@ -368,7 +368,7 @@ class IdBrokerClient extends BaseClient
             throw new MfaRateLimitException('Too many recent failures for this MFA');
         }
 
-        $this->reportUnexpectedResponse($result, 1506710704, $statusCode);
+        $this->reportUnexpectedResponse($result, 1506710704);
     }
 
     /**
@@ -387,7 +387,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
-        $this->reportUnexpectedResponse($result, 1541006274, $statusCode);
+        $this->reportUnexpectedResponse($result, 1541006274);
     }
 
     /**
@@ -405,7 +405,7 @@ class IdBrokerClient extends BaseClient
             return null;
         }
 
-        $this->reportUnexpectedResponse($result, 1541006315, $statusCode);
+        $this->reportUnexpectedResponse($result, 1541006315);
     }
 
     /**
@@ -423,7 +423,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
-        $this->reportUnexpectedResponse($result, 1541006615, $statusCode);
+        $this->reportUnexpectedResponse($result, 1541006615);
     }
 
     /**
@@ -440,7 +440,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
-        $this->reportUnexpectedResponse($result, 1541006346, $statusCode);
+        $this->reportUnexpectedResponse($result, 1541006346);
     }
 
     /**
@@ -464,7 +464,7 @@ class IdBrokerClient extends BaseClient
             throw new MethodRateLimitException('Too many failures for this recovery method');
         }
 
-        $this->reportUnexpectedResponse($result, 1541006448, $statusCode);
+        $this->reportUnexpectedResponse($result, 1541006448);
     }
 
     /**
@@ -484,7 +484,7 @@ class IdBrokerClient extends BaseClient
             return false;
         }
 
-        $this->reportUnexpectedResponse($result, 1541006732, $statusCode);
+        $this->reportUnexpectedResponse($result, 1541006732);
     }
 
     /**
@@ -509,10 +509,10 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
-        $this->reportUnexpectedResponse($result, 1490808839, $statusCode);
+        $this->reportUnexpectedResponse($result, 1490808839);
     }
     
-    protected function reportUnexpectedResponse($response, $uniqueErrorCode, $httpStatusCode = null)
+    protected function reportUnexpectedResponse($response, $uniqueErrorCode)
     {
         throw new ServiceException(
             sprintf(
@@ -520,7 +520,7 @@ class IdBrokerClient extends BaseClient
                 var_export($response, true)
             ),
             $uniqueErrorCode,
-            $httpStatusCode
+            (int)$response[ 'statusCode' ]
         );
     }
     
@@ -541,7 +541,7 @@ class IdBrokerClient extends BaseClient
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
         
-        $this->reportUnexpectedResponse($result, 1490808841, $statusCode);
+        $this->reportUnexpectedResponse($result, 1490808841);
     }
 
     /**
