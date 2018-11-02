@@ -5,6 +5,7 @@ use Exception;
 use GuzzleHttp\Command\Result;
 use IPBlock;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
+use Sil\Idp\IdBroker\Client\exceptions\MethodVerifyException;
 use Sil\Idp\IdBroker\Client\exceptions\MethodRateLimitException;
 
 /**
@@ -457,6 +458,8 @@ class IdBrokerClient extends BaseClient
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
+        } elseif ($statusCode === 400) {
+            throw new MethodVerifyException($result['message']);
         } elseif ($statusCode === 429) {
             throw new MethodRateLimitException('Too many failures for this Method');
         }
