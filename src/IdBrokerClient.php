@@ -461,7 +461,7 @@ class IdBrokerClient extends BaseClient
         } elseif ($statusCode === 400) {
             throw new MethodVerifyException($result[ 'message' ]);
         } elseif ($statusCode === 429) {
-            throw new MethodRateLimitException('Too many failures for this Method');
+            throw new MethodRateLimitException('Too many failures for this recovery method');
         }
 
         $this->reportUnexpectedResponse($result, 1541006448, $statusCode);
