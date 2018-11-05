@@ -401,7 +401,7 @@ class IdBrokerClient extends BaseClient
         $result = $this->deleteMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result[ 'statusCode' ];
 
-        if ($statusCode === 204) {
+        if ($statusCode === 204 || $statusCode === 200) {
             return null;
         }
 
@@ -478,7 +478,7 @@ class IdBrokerClient extends BaseClient
         $result = $this->resendMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result[ 'statusCode' ];
 
-        if ($statusCode === 204) {
+        if ($statusCode === 204 || $statusCode === 200) {
             return true;
         } elseif ($statusCode === 400) {
             return false;
