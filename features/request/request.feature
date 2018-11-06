@@ -211,6 +211,12 @@ Feature: Formatting requests for sending to the ID Broker API
     Then the method should be "DELETE"
     And the url should be 'https://api.example.com/method/13579'
     And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
+        }
+        """
 
   Scenario: Getting a recovery method
     Given I am using a baseUri of "https://api.example.com/"
@@ -221,6 +227,12 @@ Feature: Formatting requests for sending to the ID Broker API
     Then the method should be "GET"
     And the url should be 'https://api.example.com/method/13579'
     And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
+        }
+        """
 
   Scenario: Listing recovery methods
     Given I am using a baseUri of "https://api.example.com/"
@@ -241,6 +253,13 @@ Feature: Formatting requests for sending to the ID Broker API
     Then the method should be "PUT"
     And the url should be 'https://api.example.com/method/13579/verify'
     And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123",
+          "code": "24680"
+        }
+        """
 
   Scenario: Resending a recovery method
     Given I am using a baseUri of "https://api.example.com/"
@@ -251,3 +270,9 @@ Feature: Formatting requests for sending to the ID Broker API
     Then the method should be "PUT"
     And the url should be 'https://api.example.com/method/13579/resend'
     And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
+        }
+        """
