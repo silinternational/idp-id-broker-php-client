@@ -354,9 +354,9 @@ class ResponseContext implements Context
     }
 
     /**
-     * @When a Method rate-limit exception SHOULD have been thrown
+     * @Then a Method rate-limit exception SHOULD have been thrown
      */
-    public function anMethodRateLimitExceptionShouldHaveBeenThrown()
+    public function aMethodRateLimitExceptionShouldHaveBeenThrown()
     {
         Assert::assertInstanceOf(
             MethodRateLimitException::class,
