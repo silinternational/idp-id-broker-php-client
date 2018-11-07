@@ -10,6 +10,29 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
+ * @method Result authenticateInternal(string[] $parameters) Authenticate user. Parameters: username, password
+ * @method Result createUserInternal(string[] $parameters) Create user. Parameters: employee_id, first_name,
+ *                                                         last_name, display_name, username, email, active, locked,
+ *                                                         manager_email, require_mfa, spouse_email
+ * @method Result deactivateUserInternal(string[] $parameters) Deactivate user. Parameters: employee_id, active
+ * @method Result getSiteStatusInternal() Get site status.
+ * @method Result getUserInternal(string[] $parameters) Get user. Parameters: employee_id
+ * @method Result listUsersInternal(string[] $parameters) List users. Parameters: fields, username, email
+ * @method Result mfaCreateInternal(string[] $parameters) Create MFA. Parameters: employee_id, type, label
+ * @method Result mfaDeleteInternal(string[] $parameters) Delete MFA. Parameters: id, employee_id
+ * @method Result mfaListInternal(string[] $parameters) List MFAs. Parameters: employee_id
+ * @method Result mfaVerifyInternal(string[] $parameters) Verify MFA. Parameters: id, employee_id, value
+ * @method Result createMethodInternal(string[] $parameters) Create recovery method. Parameters: employee_id, value
+ * @method Result deleteMethodInternal(string[] $parameters) Delete recovery method. Parameters: uid, employee_id
+ * @method Result getMethodInternal(string[] $parameters) Get recovery method. Parameters: uid, employee_id
+ * @method Result listMethodInternal(string[] $parameters) List recovery methods. Parameters: employee_id
+ * @method Result verifyMethodInternal(string[] $parameters) Verify recovery method. Parameters: uid, employee_id, code
+ * @method Result resendMethodInternal(string[] $parameters) Resend recovery method verification. Parameters: uid,
+ *                                                           employee_id
+ * @method Result setPasswordInternal(string[] $parameters) Set password. Parameters: employee_id, password
+ * @method Result updateUserInternal(string[] $parameters) Update user. Parameters: employee_id, first_name, last_name,
+ *                                                         display_name, username, email, active, locked, manager_email,
+ *                                                         require_mfa, spouse_email
  */
 class IdBrokerClient extends BaseClient
 {
@@ -375,7 +398,7 @@ class IdBrokerClient extends BaseClient
      * Create a new recovery method
      * @param string $employee_id
      * @param string $value
-     * @return array
+     * @return String[]
      * @throws Exception
      */
     public function createMethod($employee_id, $value)
@@ -412,7 +435,7 @@ class IdBrokerClient extends BaseClient
      * View a single recovery method
      * @param int $uid
      * @param int $employee_id
-     * @return array
+     * @return String[]
      */
     public function getMethod($uid, $employee_id)
     {
@@ -428,8 +451,8 @@ class IdBrokerClient extends BaseClient
 
     /**
      * Get a list of recovery methods for given user
-     * @param string $employee_id
-     * @return array
+     * @param String $employee_id
+     * @return String[]
      */
     public function listMethod($employee_id)
     {
@@ -448,7 +471,7 @@ class IdBrokerClient extends BaseClient
      * @param string $uid The Method UID.
      * @param string $employee_id The Employee ID of the user with that Method.
      * @param string code The recovery method verification code
-     * @return array
+     * @return String[]
      * @throws MethodRateLimitException
      */
     public function verifyMethod($uid, $employee_id, $code)
@@ -511,7 +534,12 @@ class IdBrokerClient extends BaseClient
 
         $this->reportUnexpectedResponse($result, 1490808839);
     }
-    
+
+    /**
+     * @param \GuzzleHttp\Command\Result $response
+     * @param int $uniqueErrorCode
+     * @throws \Sil\Idp\IdBroker\Client\ServiceException
+     */
     protected function reportUnexpectedResponse($response, $uniqueErrorCode)
     {
         throw new ServiceException(
