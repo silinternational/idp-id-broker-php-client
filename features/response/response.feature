@@ -183,4 +183,4 @@ Feature: Handling responses from the ID Broker API
   Scenario: Handling a "wrong" response from resendMethod
     Given a call to "resendMethod" will return a 400 response
     When I call resendMethod with the necessary data
-    Then the result should be false
+    Then the Method resend exception SHOULD have been thrown

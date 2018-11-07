@@ -10,6 +10,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
 use Sil\Idp\IdBroker\Client\exceptions\MethodRateLimitException;
+use Sil\Idp\IdBroker\Client\exceptions\MethodResendException;
 use Sil\Idp\IdBroker\Client\exceptions\MethodVerifyException;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
@@ -380,9 +381,24 @@ class ResponseContext implements Context
      */
     public function iCallResendMethodWithTheNecessaryData()
     {
-        $this->result = $this->getIdBrokerClient()->resendMethod(
-            '123',
-            '111111'
+        try {
+            $this->result = $this->getIdBrokerClient()->resendMethod(
+                '123',
+                '111111'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @Then the Method resend exception SHOULD have been thrown
+     */
+    public function theMethodResendExceptionShouldHaveBeenThrown()
+    {
+        Assert::assertInstanceOf(
+            MethodResendException::class,
+            $this->exceptionThrown
         );
     }
 }
