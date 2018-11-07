@@ -54,6 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Initial version of ID Broker API client.
 
 [Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.0...HEAD
+[2.5.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.4.0...2.5.0
 [2.4.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.3.0...2.4.0
 [2.3.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.2.1...2.3.0
