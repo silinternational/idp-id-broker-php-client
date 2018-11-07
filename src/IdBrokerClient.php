@@ -436,7 +436,7 @@ class IdBrokerClient extends BaseClient
      * View a single recovery method
      * @param int $uid
      * @param int $employee_id
-     * @return String[]
+     * @return null|String[]
      */
     public function getMethod($uid, $employee_id)
     {
@@ -445,6 +445,8 @@ class IdBrokerClient extends BaseClient
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
+        } elseif ($statusCode === 404) {
+            return null;
         }
 
         $this->reportUnexpectedResponse($result, 1541006615);
