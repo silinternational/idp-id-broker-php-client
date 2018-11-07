@@ -5,6 +5,7 @@ use Exception;
 use GuzzleHttp\Command\Result;
 use IPBlock;
 use Sil\Idp\IdBroker\Client\exceptions\MethodRateLimitException;
+use Sil\Idp\IdBroker\Client\exceptions\MethodResendException;
 use Sil\Idp\IdBroker\Client\exceptions\MethodVerifyException;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 
@@ -504,7 +505,7 @@ class IdBrokerClient extends BaseClient
         if ($statusCode === 204 || $statusCode === 200) {
             return true;
         } elseif ($statusCode === 400) {
-            return false;
+            throw new MethodResendException($result[ 'message' ]);
         }
 
         $this->reportUnexpectedResponse($result, 1541006732);
