@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.5.1] - 2018-11-01
+### Fixed
+- Response from `PUT /user/{employee_id}/password` is now returned from `setPassword` method.
+
 ## [2.5.0] - 2018-07-03
 ### Added
 - Can now provide `manager_email` when creating or updating a user.
