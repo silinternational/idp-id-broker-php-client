@@ -165,22 +165,7 @@ Feature: Handling responses from the ID Broker API
     Then an exception should NOT have been thrown
     And the result should be an array
 
-  Scenario: Handling a rate-limited call to verifyMethod
-    Given a call to "verifyMethod" will return a 429 response
-    When I call verifyMethod with the necessary data
-    Then a Method rate-limit exception SHOULD have been thrown
-
   Scenario: Handling a "correct" response from verifyMethod
     Given a call to "verifyMethod" will return a 200 response
     When I call verifyMethod with the necessary data
     Then the result should be an array
-
-  Scenario: Handling a "wrong" response from verifyMethod
-    Given a call to "verifyMethod" will return a 400 response
-    When I call verifyMethod with the necessary data
-    Then the Method verify exception SHOULD have been thrown
-
-  Scenario: Handling a "wrong" response from resendMethod
-    Given a call to "resendMethod" will return a 400 response
-    When I call resendMethod with the necessary data
-    Then the Method resend exception SHOULD have been thrown
