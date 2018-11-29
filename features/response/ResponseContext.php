@@ -9,9 +9,6 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
-use Sil\Idp\IdBroker\Client\exceptions\MethodRateLimitException;
-use Sil\Idp\IdBroker\Client\exceptions\MethodResendException;
-use Sil\Idp\IdBroker\Client\exceptions\MethodVerifyException;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
 
@@ -355,28 +352,6 @@ class ResponseContext implements Context
     }
 
     /**
-     * @Then a Method rate-limit exception SHOULD have been thrown
-     */
-    public function aMethodRateLimitExceptionShouldHaveBeenThrown()
-    {
-        Assert::assertInstanceOf(
-            MethodRateLimitException::class,
-            $this->exceptionThrown
-        );
-    }
-
-    /**
-     * @Then the Method verify exception SHOULD have been thrown
-     */
-    public function theMethodVerifyExceptionShouldHaveBeenThrown()
-    {
-        Assert::assertInstanceOf(
-            MethodVerifyException::class,
-            $this->exceptionThrown
-        );
-    }
-
-    /**
      * @When I call resendMethod with the necessary data
      */
     public function iCallResendMethodWithTheNecessaryData()
@@ -389,16 +364,5 @@ class ResponseContext implements Context
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }
-    }
-
-    /**
-     * @Then the Method resend exception SHOULD have been thrown
-     */
-    public function theMethodResendExceptionShouldHaveBeenThrown()
-    {
-        Assert::assertInstanceOf(
-            MethodResendException::class,
-            $this->exceptionThrown
-        );
     }
 }

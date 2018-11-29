@@ -4,9 +4,6 @@ namespace Sil\Idp\IdBroker\Client;
 use Exception;
 use GuzzleHttp\Command\Result;
 use IPBlock;
-use Sil\Idp\IdBroker\Client\exceptions\MethodRateLimitException;
-use Sil\Idp\IdBroker\Client\exceptions\MethodResendException;
-use Sil\Idp\IdBroker\Client\exceptions\MethodVerifyException;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 
 /**
@@ -62,6 +59,8 @@ class IdBrokerClient extends BaseClient
      *     Example: 'https://api.example.com/'.
      * @param string $accessToken - Your authorization access (bearer) token.
      * @param array $config - Any other configuration settings.
+     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public function __construct(
         string $baseUri,
@@ -101,7 +100,7 @@ class IdBrokerClient extends BaseClient
         ], $config));
     }
 
-    /*
+    /**
      * Validates the config values for ASSERT_VALID_BROKER_IP_CONFIG and
      *   ASSERT_VALID_BROKER_IP_CONFIG
      * Uses them to set $this->assertValidBrokerIp and $this->trustedIpRanges
@@ -110,6 +109,7 @@ class IdBrokerClient extends BaseClient
      *
      * @return null
      * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     private function initializeConfig($config) {
 
@@ -165,7 +165,7 @@ class IdBrokerClient extends BaseClient
      * @param string $username The username.
      * @param string $password The password (in plaintext).
      * @return array|null An array of user information (if valid), or null.
-     * @throws Exception
+     * @throws ServiceException
      */
     public function authenticate(string $username, string $password)
     {
@@ -190,7 +190,7 @@ class IdBrokerClient extends BaseClient
      * @param array $config An array key/value pairs of attributes for the new
      *     user.
      * @return array An array of information about the new user.
-     * @throws Exception
+     * @throws ServiceException
      */
     public function createUser(array $config = [ ])
     {
@@ -208,7 +208,7 @@ class IdBrokerClient extends BaseClient
      * Deactivate a user.
      *
      * @param string $employeeId The Employee ID of the user to deactivate.
-     * @throws Exception
+     * @throws ServiceException
      */
     public function deactivateUser(string $employeeId)
     {
@@ -239,7 +239,7 @@ class IdBrokerClient extends BaseClient
      * Ping the /site/status url
      *
      * @return string "OK".
-     * @throws Exception
+     * @throws ServiceException
      */
     public function getSiteStatus()
     {
@@ -259,7 +259,7 @@ class IdBrokerClient extends BaseClient
      * @param string $employeeId The Employee ID of the desired user.
      * @return array|null An array of information about the specified user, or
      *     null if no such user was found.
-     * @throws Exception
+     * @throws ServiceException
      */
     public function getUser(string $employeeId)
     {
@@ -285,6 +285,7 @@ class IdBrokerClient extends BaseClient
      * @param  array|null $search (Optional:) An array of fields to search on,
      *     example ['username' => 'billy']
      * @return array An array with a sub-array about each user.
+     * @throws ServiceException
      */
     public function listUsers($fields = null, $search = [ ])
     {
@@ -309,7 +310,7 @@ class IdBrokerClient extends BaseClient
      * @param string $type
      * @param string $label
      * @return array|null
-     * @throws Exception
+     * @throws ServiceException
      */
     public function mfaCreate($employee_id, $type, $label = null)
     {
@@ -331,7 +332,7 @@ class IdBrokerClient extends BaseClient
      * Delete an MFA configuration
      * @param int $id
      * @return null
-     * @throws Exception
+     * @throws ServiceException
      */
     public function mfaDelete($id, $employeeId)
     {
@@ -352,6 +353,7 @@ class IdBrokerClient extends BaseClient
      * Get a list of MFA configurations for given user
      * @param string $employee_id
      * @return array
+     * @throws ServiceException
      */
     public function mfaList($employee_id)
     {
@@ -374,6 +376,7 @@ class IdBrokerClient extends BaseClient
      * @param string $value The MFA value being verified.
      * @return bool
      * @throws MfaRateLimitException
+     * @throws ServiceException
      */
     public function mfaVerify($id, $employeeId, $value)
     {
@@ -400,7 +403,7 @@ class IdBrokerClient extends BaseClient
      * @param string $employee_id
      * @param string $value
      * @return String[]
-     * @throws Exception
+     * @throws ServiceException
      */
     public function createMethod($employee_id, $value)
     {
@@ -419,6 +422,7 @@ class IdBrokerClient extends BaseClient
      * @param int $uid
      * @param int $employee_id
      * @return null
+     * @throws ServiceException
      */
     public function deleteMethod($uid, $employee_id)
     {
@@ -437,6 +441,7 @@ class IdBrokerClient extends BaseClient
      * @param int $uid
      * @param int $employee_id
      * @return String[]
+     * @throws ServiceException
      */
     public function getMethod($uid, $employee_id)
     {
@@ -454,6 +459,7 @@ class IdBrokerClient extends BaseClient
      * Get a list of recovery methods for given user
      * @param String $employee_id
      * @return String[]
+     * @throws ServiceException
      */
     public function listMethod($employee_id)
     {
@@ -473,7 +479,7 @@ class IdBrokerClient extends BaseClient
      * @param string $employee_id The Employee ID of the user with that Method.
      * @param string code The recovery method verification code
      * @return String[]
-     * @throws MethodRateLimitException
+     * @throws ServiceException
      */
     public function verifyMethod($uid, $employee_id, $code)
     {
@@ -482,10 +488,6 @@ class IdBrokerClient extends BaseClient
 
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
-        } elseif ($statusCode === 400) {
-            throw new MethodVerifyException($result[ 'message' ]);
-        } elseif ($statusCode === 429) {
-            throw new MethodRateLimitException('Too many failures for this recovery method');
         }
 
         $this->reportUnexpectedResponse($result, 1541006448);
@@ -496,6 +498,7 @@ class IdBrokerClient extends BaseClient
      * @param string $uid The Method UID.
      * @param string $employee_id The Employee ID of the user with that Method.
      * @return bool
+     * @throws ServiceException
      */
     public function resendMethod($uid, $employee_id)
     {
@@ -504,8 +507,6 @@ class IdBrokerClient extends BaseClient
 
         if ($statusCode === 204 || $statusCode === 200) {
             return true;
-        } elseif ($statusCode === 400) {
-            throw new MethodResendException($result[ 'message' ]);
         }
 
         $this->reportUnexpectedResponse($result, 1541006732);
@@ -519,7 +520,7 @@ class IdBrokerClient extends BaseClient
      * @param string $password The desired (new) password, in plaintext.
      *
      * @return array An array of password metadata
-     * @throws Exception
+     * @throws ServiceException
      */
     public function setPassword(string $employeeId, string $password)
     {
@@ -539,7 +540,7 @@ class IdBrokerClient extends BaseClient
     /**
      * @param \GuzzleHttp\Command\Result $response
      * @param int $uniqueErrorCode
-     * @throws \Sil\Idp\IdBroker\Client\ServiceException
+     * @throws ServiceException
      */
     protected function reportUnexpectedResponse($response, $uniqueErrorCode)
     {
@@ -552,14 +553,14 @@ class IdBrokerClient extends BaseClient
             (int)$response[ 'statusCode' ]
         );
     }
-    
+
     /**
      * Update the specified user with the given information.
      *
      * @param array $config An array key/value pairs of attributes for the user.
      *     Must include at least an 'employee_id' entry.
      * @return array An array of information about the updated user.
-     * @throws Exception
+     * @throws ServiceException
      */
     public function updateUser(array $config = [ ])
     {
