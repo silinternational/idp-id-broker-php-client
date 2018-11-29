@@ -294,6 +294,11 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'do_not_disclose' => [
+                    'required' => false,
+                    'type' => 'boolean',
+                    'location' => 'json',
+                ],
             ],
         ],
         'createMethodInternal' => [
