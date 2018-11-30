@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Added support for recovery method endpoints.
+- Added `do_not_disclose` property on `user`
 
 ## [2.5.1] - 2018-11-01
 ### Fixed
