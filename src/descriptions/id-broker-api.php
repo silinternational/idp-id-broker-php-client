@@ -192,6 +192,28 @@
                 ],
             ],
         ],
+        'mfaUpdateInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/mfa/{id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'label' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+            ],
+        ],
         'mfaVerifyInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/mfa/{id}/verify',

@@ -19,6 +19,7 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
  * @method Result mfaCreateInternal(string[] $parameters) Create MFA. Parameters: employee_id, type, label
  * @method Result mfaDeleteInternal(string[] $parameters) Delete MFA. Parameters: id, employee_id
  * @method Result mfaListInternal(string[] $parameters) List MFAs. Parameters: employee_id
+ * @method Result mfaUpdateInternal(string[] $parameters) Update MFA. Parameters: id, employee_id, label
  * @method Result mfaVerifyInternal(string[] $parameters) Verify MFA. Parameters: id, employee_id, value
  * @method Result createMethodInternal(string[] $parameters) Create recovery method. Parameters: employee_id, value
  * @method Result deleteMethodInternal(string[] $parameters) Delete recovery method. Parameters: uid, employee_id
@@ -331,6 +332,7 @@ class IdBrokerClient extends BaseClient
     /**
      * Delete an MFA configuration
      * @param int $id
+     * @param string $employeeId
      * @return null
      * @throws ServiceException
      */
@@ -367,6 +369,30 @@ class IdBrokerClient extends BaseClient
         }
 
         $this->reportUnexpectedResponse($result, 1506710703);
+    }
+
+    /**
+     * Update an MFA configuration
+     * @param int $id
+     * @param string $employeeId
+     * @param string $label
+     * @return array
+     * @throws ServiceException
+     */
+    public function mfaUpdate($id, $employeeId, $label)
+    {
+        $result = $this->mfaUpdateInternal([
+            'id' => $id,
+            'employee_id' => $employeeId,
+            'label' => $label,
+        ]);
+        $statusCode = (int)$result[ 'statusCode' ];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1543879805);
     }
 
     /**
