@@ -318,7 +318,8 @@
                 ],
                 'do_not_disclose' => [
                     'required' => false,
-                    'type' => 'boolean',
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
             ],
