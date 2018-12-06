@@ -31,7 +31,7 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
  * @method Result setPasswordInternal(string[] $parameters) Set password. Parameters: employee_id, password
  * @method Result updateUserInternal(string[] $parameters) Update user. Parameters: employee_id, first_name, last_name,
  *                                                         display_name, username, email, active, locked, manager_email,
- *                                                         require_mfa, spouse_email, do_not_disclose
+ *                                                         require_mfa, spouse_email, hide
  */
 class IdBrokerClient extends BaseClient
 {

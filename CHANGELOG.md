@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Added support for recovery method endpoints.
-- Added `do_not_disclose` property on `user`
+- Added `hide` property on `user`
 - Added mfaUpdate() (`PUT /mfa/{mfaId}`) to update MFA label.
 
 ## [2.5.1] - 2018-11-01

@@ -316,7 +316,7 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
-                'do_not_disclose' => [
+                'hide' => [
                     'required' => false,
                     'type' => 'string',
                     'enum' => ['yes', 'no'],
