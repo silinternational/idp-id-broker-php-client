@@ -189,14 +189,14 @@ class IdBrokerClient extends BaseClient
     /**
      * Attempt to authenticate using a new user invite code
      *
-     * @param string $code The new user code.
+     * @param string $invite The new user invite code.
      * @return array|null An array of user information (if valid), or null.
      * @throws ServiceException
      */
-    public function authenticateNewUser(string $code)
+    public function authenticateNewUser(string $invite)
     {
-        $result = $this->authenticateNewUserInternal([
-            'code' => $code,
+        $result = $this->authenticateInternal([
+            'invite' => $invite,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 

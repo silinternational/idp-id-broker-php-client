@@ -30,10 +30,16 @@ Feature: Handling responses from the ID Broker API
         "email": "john_smith@example.com",
         "active": "yes",
         "locked": "no",
+        "hide": "no",
         "mfa": {
           "prompt": "no",
-          "nag": "yes",
+          "add": "yes",
+          "review": "no",
           "options": []
+        },
+        "method": {
+          "add": "no",
+          "review": "no"
         }
       }
       """
@@ -71,7 +77,7 @@ Feature: Handling responses from the ID Broker API
       And an exception SHOULD have been thrown
 
   Scenario: Handling a successful new user authentication
-    Given a call to "authenticate/newuser" will return a 200 with the following data:
+    Given a call to "authenticate" will return a 200 with the following data:
       """
       {
         "employee_id": "12345",
@@ -82,10 +88,16 @@ Feature: Handling responses from the ID Broker API
         "email": "john_smith@example.com",
         "active": "yes",
         "locked": "no",
+        "hide": "no",
         "mfa": {
           "prompt": "no",
-          "nag": "yes",
+          "add": "yes",
+          "review": "no",
           "options": []
+        },
+        "method": {
+          "add": "no",
+          "review": "no"
         }
       }
       """
@@ -95,7 +107,7 @@ Feature: Handling responses from the ID Broker API
     And an exception should NOT have been thrown
 
   Scenario: Handling an unsuccessful new user authentication
-    Given a call to "authenticate/newuser" will return a 400 with the following data:
+    Given a call to "authenticate" will return a 400 with the following data:
       """
       {
         "name": "Bad Request",
@@ -109,7 +121,7 @@ Feature: Handling responses from the ID Broker API
     And an exception should NOT have been thrown
 
   Scenario: Handling a new user authentication call that errors out
-    Given a call to "authenticate/newuser" will return a 500 with the following data:
+    Given a call to "authenticate" will return a 500 with the following data:
       """
       {
         "name": "Internal Server Error",

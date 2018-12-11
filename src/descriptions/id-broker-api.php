@@ -11,24 +11,17 @@
             'responseModel' => 'Result',
             'parameters' => [
                 'username' => [
-                    'required' => true,
+                    'required' => false,
                     'type' => 'string',
                     'location' => 'json',
                 ],
                 'password' => [
-                    'required' => true,
+                    'required' => false,
                     'type' => 'string',
                     'location' => 'json',
                 ],
-            ],
-        ],
-        'authenticateNewUserInternal' => [
-            'httpMethod' => 'POST',
-            'uri' => '/authentication/newuser',
-            'responseModel' => 'Result',
-            'parameters' => [
-                'code' => [
-                    'required' => true,
+                'invite' => [
+                    'required' => false,
                     'type' => 'string',
                     'location' => 'json',
                 ],

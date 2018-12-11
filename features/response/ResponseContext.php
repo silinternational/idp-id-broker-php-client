@@ -109,7 +109,7 @@ class ResponseContext implements Context
     public function iCallAuthenticateNewUserWithTheNecessaryData()
     {
         try {
-            $this->result = $this->getIdBrokerClient()->authenticateNewUser('zyx789');
+            $this->result = $this->getIdBrokerClient()->authenticateNewUser('xyz789');
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }
