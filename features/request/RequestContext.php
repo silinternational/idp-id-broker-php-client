@@ -299,6 +299,16 @@ class RequestContext implements Context
     }
 
     /**
+     * @When I call authenticateNewUser
+     */
+    public function iCallAuthenticateNewUser()
+    {
+        $this->getIdBrokerClient()->authenticateNewUser(
+            $this->requestData['code']
+        );
+    }
+
+    /**
      * @When I call createUser
      */
     public function iCallCreateuser()

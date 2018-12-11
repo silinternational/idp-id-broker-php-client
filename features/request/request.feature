@@ -48,6 +48,21 @@ Feature: Formatting requests for sending to the ID Broker API
         }
         """
 
+  Scenario: Authentication for new user
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide a "code" of "xzy789"
+    When I call authenticateNewUser
+    Then the method should be "POST"
+    And the url should be "https://api.example.com/authentication/newuser"
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "code": "xzy789"
+        }
+        """
+
   Scenario: Creating a user
     Given I am using a baseUri of "https://api.example.com/"
       And I have indicated not to validate the id broker ip

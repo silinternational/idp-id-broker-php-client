@@ -102,7 +102,19 @@ class ResponseContext implements Context
             $this->exceptionThrown = $e;
         }
     }
-    
+
+    /**
+     * @When I call authenticateNewUser with the necessary data
+     */
+    public function iCallAuthenticateNewUserWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->authenticateNewUser('zyx789');
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
     /**
      * @Then the result should NOT contain user information
      */
