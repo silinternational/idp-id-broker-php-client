@@ -9,6 +9,7 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 /**
  * IdP ID Broker API client implemented with Guzzle.
  * @method Result authenticateInternal(string[] $parameters) Authenticate user. Parameters: username, password
+ * @method Result authenticateNewUserInternal(string[] $parameters) Authenticate new user. Parameters: invite
  * @method Result createUserInternal(string[] $parameters) Create user. Parameters: employee_id, first_name,
  *                                                         last_name, display_name, username, email, active, locked,
  *                                                         manager_email, require_mfa, spouse_email
@@ -184,7 +185,30 @@ class IdBrokerClient extends BaseClient
         
         $this->reportUnexpectedResponse($result, 1490802360);
     }
-    
+
+    /**
+     * Attempt to authenticate using a new user invite code
+     *
+     * @param string $invite The new user invite code.
+     * @return array|null An array of user information (if valid), or null.
+     * @throws ServiceException
+     */
+    public function authenticateNewUser(string $invite)
+    {
+        $result = $this->authenticateNewUserInternal([
+            'invite' => $invite,
+        ]);
+        $statusCode = (int)$result[ 'statusCode' ];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        } elseif ($statusCode === 400) {
+            return null;
+        }
+
+        $this->reportUnexpectedResponse($result, 1544549972);
+    }
+
     /**
      * Create a user with the given information.
      *

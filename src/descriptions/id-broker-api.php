@@ -22,6 +22,18 @@
                 ],
             ],
         ],
+        'authenticateNewUserInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/authentication',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'invite' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
         'createUserInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/user',
