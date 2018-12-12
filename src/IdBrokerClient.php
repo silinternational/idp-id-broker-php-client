@@ -195,7 +195,7 @@ class IdBrokerClient extends BaseClient
      */
     public function authenticateNewUser(string $invite)
     {
-        $result = $this->authenticateInternal([
+        $result = $this->authenticateNewUserInternal([
             'invite' => $invite,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
