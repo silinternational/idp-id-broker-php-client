@@ -9,7 +9,7 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 /**
  * IdP ID Broker API client implemented with Guzzle.
  * @method Result authenticateInternal(string[] $parameters) Authenticate user. Parameters: username, password
- * @method Result authenticateNewUserInternal(string[] $parameters) Authenticate new user. Parameters: code
+ * @method Result authenticateNewUserInternal(string[] $parameters) Authenticate new user. Parameters: invite
  * @method Result createUserInternal(string[] $parameters) Create user. Parameters: employee_id, first_name,
  *                                                         last_name, display_name, username, email, active, locked,
  *                                                         manager_email, require_mfa, spouse_email
