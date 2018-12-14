@@ -351,6 +351,11 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'created' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
             ],
         ],
         'deleteMethodInternal' => [
