@@ -452,12 +452,18 @@ class IdBrokerClient extends BaseClient
      * Create a new recovery method
      * @param string $employee_id
      * @param string $value
+     * @param string $created If specified, indicates the record is to be created pre-verified.
      * @return String[]
      * @throws ServiceException
      */
-    public function createMethod($employee_id, $value)
+    public function createMethod($employee_id, $value, $created = '')
     {
-        $result = $this->createMethodInternal(compact('employee_id', 'value'));
+        $params = compact('employee_id', 'value');
+        if (! empty($created)) {
+            $params['created'] = $created;
+        }
+
+        $result = $this->createMethodInternal($params);
         $statusCode = (int)$result[ 'statusCode' ];
 
         if ($statusCode === 200) {
