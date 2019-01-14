@@ -166,7 +166,7 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => ['backupcode', 'totp', 'u2f'],
+                    'enum' => ['backupcode', 'totp', 'u2f', 'manager'],
                 ],
                 'label' => [
                     'required' => false,
