@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added `hide` property on `user`
 - Added mfaUpdate() (`PUT /mfa/{mfaId}`) to update MFA label.
 - Added authenticateNewUser() to authenticate using an invite code.
+- Added new MFA type, `manager`, for sending a "rescue" code to user's manager.
 
 ## [2.5.1] - 2018-11-01
 ### Fixed
