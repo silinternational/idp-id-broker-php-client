@@ -97,6 +97,17 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'hide' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
+                'groups' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
             ],
         ],
         'deactivateUserInternal' => [
@@ -332,6 +343,11 @@
                     'required' => false,
                     'type' => 'string',
                     'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
+                'groups' => [
+                    'required' => false,
+                    'type' => 'string',
                     'location' => 'json',
                 ],
             ],

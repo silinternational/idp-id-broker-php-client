@@ -12,7 +12,7 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
  * @method Result authenticateNewUserInternal(string[] $parameters) Authenticate new user. Parameters: invite
  * @method Result createUserInternal(string[] $parameters) Create user. Parameters: employee_id, first_name,
  *                                                         last_name, display_name, username, email, active, locked,
- *                                                         manager_email, require_mfa, spouse_email
+ *                                                         manager_email, require_mfa, spouse_email, hide, groups
  * @method Result deactivateUserInternal(string[] $parameters) Deactivate user. Parameters: employee_id, active
  * @method Result getSiteStatusInternal() Get site status.
  * @method Result getUserInternal(string[] $parameters) Get user. Parameters: employee_id
@@ -32,7 +32,7 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
  * @method Result setPasswordInternal(string[] $parameters) Set password. Parameters: employee_id, password
  * @method Result updateUserInternal(string[] $parameters) Update user. Parameters: employee_id, first_name, last_name,
  *                                                         display_name, username, email, active, locked, manager_email,
- *                                                         require_mfa, spouse_email, hide
+ *                                                         require_mfa, spouse_email, hide, groups
  */
 class IdBrokerClient extends BaseClient
 {
