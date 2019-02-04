@@ -634,15 +634,27 @@ class IdBrokerClient extends BaseClient
      * Determine whether any of the Id-broker's IPs are not in the
      * trusted ranges
      *
-     * @throws Exception
+     * @throws Exception if idBrokerUri is invalid, unresolvable, or untrusted
      */
-    private function assertTrustedBrokerIp() {
+    private function assertTrustedBrokerIp()
+    {
         $baseHost = parse_url($this->idBrokerUri, PHP_URL_HOST);
-        $idBrokerIp = gethostbyname(
-            $baseHost
-        );
+        if ($baseHost === null) {
+            throw new Exception(
+                'The configured idBrokerUri ' . $this->idBrokerUri . ' is not valid',
+                1549291514
+            );
+        }
 
-        if ( ! $this->isTrustedIpAddress($idBrokerIp)) {
+        $idBrokerIp = gethostbyname($baseHost . '.');
+        if ($idBrokerIp === $baseHost . '.') {
+            throw new Exception(
+                'Could not resolve idBrokerUri ' . $this->idBrokerUri,
+                1549292074
+            );
+        }
+
+        if (! $this->isTrustedIpAddress($idBrokerIp)) {
             throw new Exception(
                 'The Id Broker has an IP that is not trusted ... ' . $idBrokerIp,
                 1494531300
