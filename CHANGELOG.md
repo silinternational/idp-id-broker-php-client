@@ -5,12 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.6.0] - 2019-02-04
 ### Added
 - Added support for recovery method endpoints.
 - Added `hide` property on `user`
 - Added mfaUpdate() (`PUT /mfa/{mfaId}`) to update MFA label.
 - Added authenticateNewUser() to authenticate using an invite code.
 - Added new MFA type, `manager`, for sending a "rescue" code to user's manager.
+### Changed
+- Tighter validation on idBrokerUri
 
 ## [2.5.1] - 2018-11-01
 ### Fixed
@@ -57,7 +61,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial version of ID Broker API client.
 
-[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.0...HEAD
+[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.1...HEAD
+[2.6.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.1...2.6.0
 [2.5.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.4.0...2.5.0
 [2.4.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.3.0...2.4.0
