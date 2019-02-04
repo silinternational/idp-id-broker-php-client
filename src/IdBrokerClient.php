@@ -104,16 +104,17 @@ class IdBrokerClient extends BaseClient
 
     /**
      * Validates the config values for ASSERT_VALID_BROKER_IP_CONFIG and
-     *   ASSERT_VALID_BROKER_IP_CONFIG
+     *   TRUSTED_IPS_CONFIG.
      * Uses them to set $this->assertValidBrokerIp and $this->trustedIpRanges
      *
      * @param array the config values for the client
      *
      * @return null
      * @throws \InvalidArgumentException
-     * @throws \Exception
+     * @throws \Exception if assertValidBrokerIp is true and idBrokerUri is invalid, unresolvable, or untrusted
      */
-    private function initializeConfig($config) {
+    private function initializeConfig($config)
+    {
 
         if (isset($config[ self::ASSERT_VALID_BROKER_IP_CONFIG ])) {
             $this->assertValidBrokerIp = $config[ self::ASSERT_VALID_BROKER_IP_CONFIG ];
