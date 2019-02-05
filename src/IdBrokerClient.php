@@ -8,31 +8,26 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
- * @method Result authenticateInternal(string[] $parameters) Authenticate user. Parameters: username, password
- * @method Result authenticateNewUserInternal(string[] $parameters) Authenticate new user. Parameters: invite
- * @method Result createUserInternal(string[] $parameters) Create user. Parameters: employee_id, first_name,
- *                                                         last_name, display_name, username, email, active, locked,
- *                                                         manager_email, require_mfa, spouse_email, hide, groups
- * @method Result deactivateUserInternal(string[] $parameters) Deactivate user. Parameters: employee_id, active
+ * @method Result authenticateInternal(string[] $parameters) Authenticate user.
+ * @method Result authenticateNewUserInternal(string[] $parameters) Authenticate new user.
+ * @method Result createUserInternal(string[] $parameters) Create user.
+ * @method Result deactivateUserInternal(string[] $parameters) Deactivate user.
  * @method Result getSiteStatusInternal() Get site status.
- * @method Result getUserInternal(string[] $parameters) Get user. Parameters: employee_id
- * @method Result listUsersInternal(string[] $parameters) List users. Parameters: fields, username, email
- * @method Result mfaCreateInternal(string[] $parameters) Create MFA. Parameters: employee_id, type, label
- * @method Result mfaDeleteInternal(string[] $parameters) Delete MFA. Parameters: id, employee_id
- * @method Result mfaListInternal(string[] $parameters) List MFAs. Parameters: employee_id
- * @method Result mfaUpdateInternal(string[] $parameters) Update MFA. Parameters: id, employee_id, label
- * @method Result mfaVerifyInternal(string[] $parameters) Verify MFA. Parameters: id, employee_id, value
- * @method Result createMethodInternal(string[] $parameters) Create recovery method. Parameters: employee_id, value
- * @method Result deleteMethodInternal(string[] $parameters) Delete recovery method. Parameters: uid, employee_id
- * @method Result getMethodInternal(string[] $parameters) Get recovery method. Parameters: uid, employee_id
- * @method Result listMethodInternal(string[] $parameters) List recovery methods. Parameters: employee_id
- * @method Result verifyMethodInternal(string[] $parameters) Verify recovery method. Parameters: uid, employee_id, code
- * @method Result resendMethodInternal(string[] $parameters) Resend recovery method verification. Parameters: uid,
- *                                                           employee_id
- * @method Result setPasswordInternal(string[] $parameters) Set password. Parameters: employee_id, password
- * @method Result updateUserInternal(string[] $parameters) Update user. Parameters: employee_id, first_name, last_name,
- *                                                         display_name, username, email, active, locked, manager_email,
- *                                                         require_mfa, spouse_email, hide, groups
+ * @method Result getUserInternal(string[] $parameters) Get user.
+ * @method Result listUsersInternal(string[] $parameters) List users.
+ * @method Result mfaCreateInternal(string[] $parameters) Create MFA.
+ * @method Result mfaDeleteInternal(string[] $parameters) Delete MFA.
+ * @method Result mfaListInternal(string[] $parameters) List MFAs.
+ * @method Result mfaUpdateInternal(string[] $parameters) Update MFA.
+ * @method Result mfaVerifyInternal(string[] $parameters) Verify MFA.
+ * @method Result createMethodInternal(string[] $parameters) Create recovery method.
+ * @method Result deleteMethodInternal(string[] $parameters) Delete recovery method.
+ * @method Result getMethodInternal(string[] $parameters) Get recovery method.
+ * @method Result listMethodInternal(string[] $parameters) List recovery methods.
+ * @method Result verifyMethodInternal(string[] $parameters) Verify recovery method.
+ * @method Result resendMethodInternal(string[] $parameters) Resend recovery method verification.
+ * @method Result setPasswordInternal(string[] $parameters) Set password.
+ * @method Result updateUserInternal(string[] $parameters) Update user.
  */
 class IdBrokerClient extends BaseClient
 {
