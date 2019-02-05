@@ -635,20 +635,9 @@ class IdBrokerClient extends BaseClient
     private function assertTrustedBrokerIp()
     {
         $baseHost = parse_url($this->idBrokerUri, PHP_URL_HOST);
-        if ($baseHost === null) {
-            throw new Exception(
-                'The configured idBrokerUri ' . $this->idBrokerUri . ' is not valid',
-                1549291514
-            );
-        }
-
-        $idBrokerIp = gethostbyname($baseHost . '.');
-        if ($idBrokerIp === $baseHost . '.') {
-            throw new Exception(
-                'Could not resolve idBrokerUri ' . $this->idBrokerUri,
-                1549292074
-            );
-        }
+        $idBrokerIp = gethostbyname(
+            $baseHost
+        );
 
         if (! $this->isTrustedIpAddress($idBrokerIp)) {
             throw new Exception(
