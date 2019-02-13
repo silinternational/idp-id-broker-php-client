@@ -8,26 +8,6 @@ use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
- * @method Result authenticateInternal(string[] $parameters) Authenticate user.
- * @method Result authenticateNewUserInternal(string[] $parameters) Authenticate new user.
- * @method Result createUserInternal(string[] $parameters) Create user.
- * @method Result deactivateUserInternal(string[] $parameters) Deactivate user.
- * @method Result getSiteStatusInternal() Get site status.
- * @method Result getUserInternal(string[] $parameters) Get user.
- * @method Result listUsersInternal(string[] $parameters) List users.
- * @method Result mfaCreateInternal(string[] $parameters) Create MFA.
- * @method Result mfaDeleteInternal(string[] $parameters) Delete MFA.
- * @method Result mfaListInternal(string[] $parameters) List MFAs.
- * @method Result mfaUpdateInternal(string[] $parameters) Update MFA.
- * @method Result mfaVerifyInternal(string[] $parameters) Verify MFA.
- * @method Result createMethodInternal(string[] $parameters) Create recovery method.
- * @method Result deleteMethodInternal(string[] $parameters) Delete recovery method.
- * @method Result getMethodInternal(string[] $parameters) Get recovery method.
- * @method Result listMethodInternal(string[] $parameters) List recovery methods.
- * @method Result verifyMethodInternal(string[] $parameters) Verify recovery method.
- * @method Result resendMethodInternal(string[] $parameters) Resend recovery method verification.
- * @method Result setPasswordInternal(string[] $parameters) Set password.
- * @method Result updateUserInternal(string[] $parameters) Update user.
  */
 class IdBrokerClient extends BaseClient
 {
