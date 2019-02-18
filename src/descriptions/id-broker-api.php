@@ -108,6 +108,11 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'personal_email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
             ],
         ],
         'deactivateUserInternal' => [
@@ -346,6 +351,11 @@
                     'location' => 'json',
                 ],
                 'groups' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'personal_email' => [
                     'required' => false,
                     'type' => 'string',
                     'location' => 'json',

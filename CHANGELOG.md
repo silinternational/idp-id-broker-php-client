@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added mfaUpdate() (`PUT /mfa/{mfaId}`) to update MFA label.
 - Added authenticateNewUser() to authenticate using an invite code.
 - Added new MFA type, `manager`, for sending a "rescue" code to user's manager.
+- Added 'personal_email' and 'groups' properties on User.
 ### Changed
 - Tighter validation on idBrokerUri
 
