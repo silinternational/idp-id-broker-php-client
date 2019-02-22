@@ -102,7 +102,19 @@ class ResponseContext implements Context
             $this->exceptionThrown = $e;
         }
     }
-    
+
+    /**
+     * @When I call authenticateNewUser with the necessary data
+     */
+    public function iCallAuthenticateNewUserWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->authenticateNewUser('xyz789');
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
     /**
      * @Then the result should NOT contain user information
      */
@@ -322,5 +334,47 @@ class ResponseContext implements Context
     public function theResultShouldBeFalse()
     {
         Assert::assertSame($this->result, false);
+    }
+
+    /**
+     * @When I call createMethod with the necessary data
+     */
+    public function iCallCreatemethodWithTheNecessaryData()
+    {
+        $this->result = $this->getIdBrokerClient()->createMethod(
+            '123',
+            '111111'
+        );
+    }
+
+    /**
+     * @When I call verifyMethod with the necessary data
+     */
+    public function iCallVerifyMethodWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->verifyMethod(
+                '123',
+                '111111',
+                'dummy-method-submission'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When I call resendMethod with the necessary data
+     */
+    public function iCallResendMethodWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->resendMethod(
+                '123',
+                '111111'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
     }
 }

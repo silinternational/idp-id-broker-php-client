@@ -298,6 +298,16 @@ class RequestContext implements Context
     }
 
     /**
+     * @When I call authenticateNewUser
+     */
+    public function iCallAuthenticateNewUser()
+    {
+        $this->getIdBrokerClient()->authenticateNewUser(
+            $this->requestData['invite']
+        );
+    }
+
+    /**
      * @When I call createUser
      */
     public function iCallCreateuser()
@@ -362,5 +372,71 @@ class RequestContext implements Context
             $fields[] = $row['fieldName'];
         }
         $this->getIdBrokerClient()->listUsers($fields);
+    }
+
+    /**
+     * @When I call createMethod
+     */
+    public function iCallCreateMethod()
+    {
+        $this->getIdBrokerClient()->createMethod(
+            $this->requestData['employee_id'],
+            $this->requestData['value']
+        );
+    }
+
+    /**
+     * @When I call deleteMethod
+     */
+    public function iCallDeleteMethod()
+    {
+        $this->getIdBrokerClient()->deleteMethod(
+            $this->requestData['uid'],
+            $this->requestData['employee_id']
+        );
+    }
+
+    /**
+     * @When I call getMethod
+     */
+    public function iCallGetMethod()
+    {
+        $this->getIdBrokerClient()->getMethod(
+            $this->requestData['uid'],
+            $this->requestData['employee_id']
+        );
+    }
+
+    /**
+     * @When I call listMethod
+     */
+    public function iCallListMethod()
+    {
+        $this->getIdBrokerClient()->listMethod(
+            $this->requestData['employee_id']
+        );
+    }
+
+    /**
+     * @When I call verifyMethod
+     */
+    public function iCallVerifyMethod()
+    {
+        $this->getIdBrokerClient()->verifyMethod(
+            $this->requestData['uid'],
+            $this->requestData['employee_id'],
+            $this->requestData['code']
+        );
+    }
+
+    /**
+     * @When I call resendMethod
+     */
+    public function iCallResendMethod()
+    {
+        $this->getIdBrokerClient()->resendMethod(
+            $this->requestData['uid'],
+            $this->requestData['employee_id']
+        );
     }
 }

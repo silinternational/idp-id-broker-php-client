@@ -22,6 +22,18 @@
                 ],
             ],
         ],
+        'authenticateNewUserInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/authentication',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'invite' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
         'createUserInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/user',
@@ -81,6 +93,22 @@
                     'location' => 'json',
                 ],
                 'spouse_email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'hide' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
+                'groups' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'personal_email' => [
                     'required' => false,
                     'type' => 'string',
                     'location' => 'json',
@@ -154,7 +182,7 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => ['backupcode', 'totp', 'u2f'],
+                    'enum' => ['backupcode', 'totp', 'u2f', 'manager'],
                 ],
                 'label' => [
                     'required' => false,
@@ -189,6 +217,28 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri'
+                ],
+            ],
+        ],
+        'mfaUpdateInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/mfa/{id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'label' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
                 ],
             ],
         ],
@@ -293,6 +343,129 @@
                     'required' => false,
                     'type' => 'string',
                     'location' => 'json',
+                ],
+                'hide' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => ['yes', 'no'],
+                    'location' => 'json',
+                ],
+                'groups' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'personal_email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
+        'createMethodInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/method',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'value' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+                'created' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
+        'deleteMethodInternal' => [
+            'httpMethod' => 'DELETE',
+            'uri' => '/method/{uid}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+            ],
+        ],
+        'listMethodInternal' => [
+            'httpMethod' => 'GET',
+            'uri' => '/user/{employee_id}/method',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+            ],
+        ],
+        'getMethodInternal' => [
+            'httpMethod' => 'GET',
+            'uri' => '/method/{uid}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+            ],
+        ],
+        'verifyMethodInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/method/{uid}/verify',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'code' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
+        'resendMethodInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/method/{uid}/resend',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'uid' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
                 ],
             ],
         ],

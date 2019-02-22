@@ -48,6 +48,21 @@ Feature: Formatting requests for sending to the ID Broker API
         }
         """
 
+  Scenario: Authentication for new user
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide an "invite" of "xyz789"
+    When I call authenticateNewUser
+    Then the method should be "POST"
+    And the url should be "https://api.example.com/authentication"
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "invite": "xyz789"
+        }
+        """
+
   Scenario: Creating a user
     Given I am using a baseUri of "https://api.example.com/"
       And I have indicated not to validate the id broker ip
@@ -182,5 +197,97 @@ Feature: Formatting requests for sending to the ID Broker API
         """
         {
           "password": "correcthorsebatterystaple"
+        }
+        """
+
+  Scenario: Creating a recovery method
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "12345"
+    And I provide a "value" of "john_smith@example.com"
+    When I call createMethod
+    Then the method should be "POST"
+    And the url should be "https://api.example.com/method"
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "12345",
+          "value": "john_smith@example.com"
+        }
+        """
+
+  Scenario: Deleting a recovery method
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    And I provide a "uid" of "13579"
+    When I call deleteMethod
+    Then the method should be "DELETE"
+    And the url should be 'https://api.example.com/method/13579'
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
+        }
+        """
+
+  Scenario: Getting a recovery method
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    And I provide a "uid" of "13579"
+    When I call getMethod
+    Then the method should be "GET"
+    And the url should be 'https://api.example.com/method/13579'
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
+        }
+        """
+
+  Scenario: Listing recovery methods
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    When I call listMethod
+    Then the method should be "GET"
+    And the url should be 'https://api.example.com/user/123/method'
+    And an authorization header should be present
+
+  Scenario: Verifying a recovery method
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    And I provide a "uid" of "13579"
+    And I provide a "code" of "24680"
+    When I call verifyMethod
+    Then the method should be "PUT"
+    And the url should be 'https://api.example.com/method/13579/verify'
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123",
+          "code": "24680"
+        }
+        """
+
+  Scenario: Resending a recovery method
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have indicated not to validate the id broker ip
+    And I provide an "employee_id" of "123"
+    And I provide a "uid" of "13579"
+    When I call resendMethod
+    Then the method should be "PUT"
+    And the url should be 'https://api.example.com/method/13579/resend'
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
         }
         """
