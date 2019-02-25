@@ -208,12 +208,13 @@ Feature: Handling responses from the ID Broker API
     When I call setPassword with the necessary data
     Then an exception should NOT have been thrown
 
-  Scenario: Handling a rate-limited call to mfaVerify
-    Given a call to "mfaVerify" will return a 429 response
-    When I call mfaVerify with the necessary data
-    Then an MFA rate-limit exception SHOULD have been thrown
-
   Scenario: Handling a "correct" response from mfaVerify
+    Given a call to "mfaVerify" will return a 200 response
+    When I call mfaVerify with the necessary data
+    Then an exception should NOT have been thrown
+    And the result should be an array
+
+  Scenario: Handling a "correct," but empty response from mfaVerify
     Given a call to "mfaVerify" will return a 204 response
     When I call mfaVerify with the necessary data
     Then the result should be true
@@ -221,7 +222,12 @@ Feature: Handling responses from the ID Broker API
   Scenario: Handling a "wrong" response from mfaVerify
     Given a call to "mfaVerify" will return a 400 response
     When I call mfaVerify with the necessary data
-    Then the result should be false
+    Then an exception with status code 400 SHOULD have been thrown
+
+  Scenario: Handling a rate limit exception from mfaVerify
+    Given a call to "mfaVerify" will return a 429 response
+    When I call mfaVerify with the necessary data
+    Then an exception with status code 429 SHOULD have been thrown
 
   Scenario: Handling a successful createMethod call
     Given a call to "createMethod" will return a 200 response
@@ -233,3 +239,24 @@ Feature: Handling responses from the ID Broker API
     Given a call to "verifyMethod" will return a 200 response
     When I call verifyMethod with the necessary data
     Then the result should be an array
+
+  Scenario: Handling a "wrong" response from verifyMethod
+    Given a call to "verifyMethod" will return a 400 response
+    When I call verifyMethod with the necessary data
+    Then an exception with status code 400 SHOULD have been thrown
+
+  Scenario: Handling a "not found" exception from verifyMethod
+    Given a call to "verifyMethod" will return a 404 response
+    When I call verifyMethod with the necessary data
+    Then an exception with status code 404 SHOULD have been thrown
+
+  Scenario: Handling a "expired code" exception from verifyMethod
+    Given a call to "verifyMethod" will return a 410 response
+    When I call verifyMethod with the necessary data
+    Then an exception with status code 410 SHOULD have been thrown
+
+  Scenario: Handling a rate limit exception from verifyMethod
+    Given a call to "verifyMethod" will return a 429 response
+    When I call verifyMethod with the necessary data
+    Then an exception with status code 429 SHOULD have been thrown
+

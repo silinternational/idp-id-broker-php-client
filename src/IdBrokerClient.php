@@ -4,7 +4,6 @@ namespace Sil\Idp\IdBroker\Client;
 use Exception;
 use GuzzleHttp\Command\Result;
 use IPBlock;
-use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
@@ -400,7 +399,7 @@ class IdBrokerClient extends BaseClient
      * @param string $id The MFA ID.
      * @param string $employeeId The Employee ID of the user with that MFA.
      * @param string $value The MFA value being verified.
-     * @return bool
+     * @return bool|array
      * @throws MfaRateLimitException
      * @throws ServiceException
      */
@@ -413,12 +412,15 @@ class IdBrokerClient extends BaseClient
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
+        /*
+         * Accept a 204 for compatibility with earlier ID Broker versions
+         */
         if ($statusCode === 204) {
             return true;
-        } elseif ($statusCode === 400) {
-            return false;
-        } elseif ($statusCode === 429) {
-            throw new MfaRateLimitException('Too many recent failures for this MFA');
+        }
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
         }
 
         $this->reportUnexpectedResponse($result, 1506710704);
