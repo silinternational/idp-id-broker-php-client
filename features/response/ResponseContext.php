@@ -280,11 +280,16 @@ class ResponseContext implements Context
 
     /**
      * @Then an exception with status code :code SHOULD have been thrown
+     * @param $code
      */
     public function anExceptionWithStatusCodeShouldHaveBeenThrown($code)
     {
         Assert::assertInstanceOf(ServiceException::class, $this->exceptionThrown);
-        Assert::assertEquals($code, $this->exceptionThrown->httpStatusCode);
+        /**
+         * @var ServiceException $exception
+         */
+        $exception = $this->exceptionThrown;
+        Assert::assertEquals($code, $exception->httpStatusCode);
     }
 
     /**
