@@ -72,13 +72,13 @@
                 'active' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => ['yes', 'no'],
+                    'enum' => [ 'yes', 'no' ],
                     'location' => 'json',
                 ],
                 'locked' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => ['yes', 'no'],
+                    'enum' => [ 'yes', 'no' ],
                     'location' => 'json',
                 ],
                 'manager_email' => [
@@ -89,13 +89,13 @@
                 'require_mfa' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => ['yes', 'no'],
+                    'enum' => [ 'yes', 'no' ],
                     'location' => 'json',
                 ],
                 'hide' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => ['yes', 'no'],
+                    'enum' => [ 'yes', 'no' ],
                     'location' => 'json',
                 ],
                 'groups' => [
@@ -177,7 +177,7 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => ['backupcode', 'totp', 'u2f', 'manager'],
+                    'enum' => [ 'backupcode', 'totp', 'u2f', 'manager' ],
                 ],
                 'label' => [
                     'required' => false,
@@ -254,7 +254,7 @@
                 ],
                 'value' => [
                     'required' => true,
-                    'type' => ['string', 'object'],
+                    'type' => [ 'string', 'object' ],
                     'location' => 'json',
                 ],
             ],
@@ -314,13 +314,13 @@
                 'active' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => ['yes', 'no'],
+                    'enum' => [ 'yes', 'no' ],
                     'location' => 'json',
                 ],
                 'locked' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => ['yes', 'no'],
+                    'enum' => [ 'yes', 'no' ],
                     'location' => 'json',
                 ],
                 'manager_email' => [
@@ -331,13 +331,13 @@
                 'require_mfa' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => ['yes', 'no'],
+                    'enum' => [ 'yes', 'no' ],
                     'location' => 'json',
                 ],
                 'hide' => [
                     'required' => false,
                     'type' => 'string',
-                    'enum' => ['yes', 'no'],
+                    'enum' => [ 'yes', 'no' ],
                     'location' => 'json',
                 ],
                 'groups' => [
@@ -464,7 +464,7 @@
         'Result' => [
             'type' => 'object',
             'properties' => [
-                'statusCode' => ['location' => 'statusCode'],
+                'statusCode' => [ 'location' => 'statusCode' ],
             ],
             'additionalProperties' => [
                 'location' => 'json'
