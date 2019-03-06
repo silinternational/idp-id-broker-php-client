@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - 'mfaVerify' now returns the MFA object
 
+### Removed
+- Removed `spouse_email` from User
+
 ## [2.6.0] - 2019-02-04
 ### Added
 - Added support for recovery method endpoints.

@@ -92,11 +92,6 @@
                     'enum' => ['yes', 'no'],
                     'location' => 'json',
                 ],
-                'spouse_email' => [
-                    'required' => false,
-                    'type' => 'string',
-                    'location' => 'json',
-                ],
                 'hide' => [
                     'required' => false,
                     'type' => 'string',
@@ -337,11 +332,6 @@
                     'required' => false,
                     'type' => 'string',
                     'enum' => ['yes', 'no'],
-                    'location' => 'json',
-                ],
-                'spouse_email' => [
-                    'required' => false,
-                    'type' => 'string',
                     'location' => 'json',
                 ],
                 'hide' => [
