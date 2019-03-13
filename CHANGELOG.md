@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [3.0.0] - 2019-03-13
 ### Changed
 - 'mfaVerify' now returns the MFA object
+- change 'email' to not required on createUser to support onboarding use case
 ### Removed
 - Removed `spouse_email` from User
 

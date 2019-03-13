@@ -65,7 +65,7 @@
                     'location' => 'json',
                 ],
                 'email' => [
-                    'required' => true,
+                    'required' => false,
                     'type' => 'string',
                     'location' => 'json',
                 ],
