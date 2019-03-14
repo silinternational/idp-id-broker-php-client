@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [3.0.0] - 2019-03-13
+### Changed
+- 'mfaVerify' now returns the MFA object
+- change 'email' to not required on createUser to support onboarding use case
+### Removed
+- Removed `spouse_email` from User
+
 ## [2.6.0] - 2019-02-04
 ### Added
 - Added support for recovery method endpoints.
@@ -62,7 +69,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial version of ID Broker API client.
 
-[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.1...HEAD
+[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.0.0...HEAD
+[3.0.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.6.0...3.0.0
 [2.6.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.1...2.6.0
 [2.5.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.5.0...2.5.1
 [2.5.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.4.0...2.5.0

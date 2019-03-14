@@ -11,6 +11,7 @@ use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
 use Sil\Idp\IdBroker\Client\exceptions\MfaRateLimitException;
 use Sil\Idp\IdBroker\Client\IdBrokerClient;
+use Sil\Idp\IdBroker\Client\ServiceException;
 
 /**
  * Defines application features from the specific context.
@@ -275,6 +276,20 @@ class ResponseContext implements Context
     public function anExceptionShouldHaveBeenThrown()
     {
         Assert::assertInstanceOf(Exception::class, $this->exceptionThrown);
+    }
+
+    /**
+     * @Then an exception with status code :code SHOULD have been thrown
+     * @param $code
+     */
+    public function anExceptionWithStatusCodeShouldHaveBeenThrown($code)
+    {
+        Assert::assertInstanceOf(ServiceException::class, $this->exceptionThrown);
+        /**
+         * @var ServiceException $exception
+         */
+        $exception = $this->exceptionThrown;
+        Assert::assertEquals($code, $exception->httpStatusCode);
     }
 
     /**
