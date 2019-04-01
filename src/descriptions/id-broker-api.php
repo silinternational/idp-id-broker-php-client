@@ -276,6 +276,23 @@
                 ],
             ],
         ],
+        'validatePasswordInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/user/{employee_id}/pwdvalidate',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri',
+                ],
+                'password' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
+            ],
+        ],
         'updateUserInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}',

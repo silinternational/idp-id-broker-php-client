@@ -572,6 +572,35 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
+     * Validate a new password for a specified user, but do not save it.
+     *
+     * @param string $employeeId The Employee ID of the user for whom we
+     *     are validating a new password.
+     * @param string $password The desired password, in plaintext.
+     *
+     * @return bool
+     * @throws ServiceException
+     */
+    public function validatePassword(string $employeeId, string $password)
+    {
+        $result = $this->validatePasswordInternal([
+            'employee_id' => $employeeId,
+            'password' => $password,
+        ]);
+        $statusCode = (int)$result[ 'statusCode' ];
+
+        if ($statusCode >= 200 && $statusCode <= 299) {
+            return true;
+        }
+
+        if ($statusCode >= 400 && $statusCode <= 499) {
+            return false;
+        }
+
+        $this->reportUnexpectedResponse($result, 1490808839);
+    }
+
+    /**
      * @param \GuzzleHttp\Command\Result $response
      * @param int $uniqueErrorCode
      * @throws ServiceException
