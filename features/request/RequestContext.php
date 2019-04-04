@@ -355,6 +355,17 @@ class RequestContext implements Context
     }
 
     /**
+     * @When I call assessPassword
+     */
+    public function iCallAssessPassword()
+    {
+        $this->getIdBrokerClient()->assessPassword(
+            $this->requestData['employee_id'],
+            $this->requestData['password']
+        );
+    }
+
+    /**
      * @When I call updateUser
      */
     public function iCallUpdateuser()

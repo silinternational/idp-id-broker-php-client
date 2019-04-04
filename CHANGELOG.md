@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- new 'assessPassword' method, executes validation but does not save password
 
 ## [3.0.0] - 2019-03-13
 ### Changed
