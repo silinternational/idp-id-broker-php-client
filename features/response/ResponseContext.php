@@ -265,7 +265,7 @@ class ResponseContext implements Context
     /**
      * @When I call assessPassword with the necessary data
      */
-    public function iCallassessPasswordWithTheNecessaryData()
+    public function iCallAssessPasswordWithTheNecessaryData()
     {
         try {
             $this->result = $this->getIdBrokerClient()->assessPassword(
