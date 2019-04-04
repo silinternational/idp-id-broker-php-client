@@ -355,11 +355,11 @@ class RequestContext implements Context
     }
 
     /**
-     * @When I call validatePassword
+     * @When I call assessPassword
      */
-    public function iCallValidatepassword()
+    public function iCallassessPassword()
     {
-        $this->getIdBrokerClient()->validatePassword(
+        $this->getIdBrokerClient()->assessPassword(
             $this->requestData['employee_id'],
             $this->requestData['password']
         );

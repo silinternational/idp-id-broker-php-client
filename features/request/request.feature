@@ -199,9 +199,9 @@ Feature: Formatting requests for sending to the ID Broker API
     And I have indicated not to validate the id broker ip
     And I provide an "employee_id" of "123"
     And I provide a "password" of "correcthorsebatterystaple"
-    When I call validatePassword
+    When I call assessPassword
     Then the method should be "PUT"
-    And the url should be 'https://api.example.com/user/123/pwdvalidate'
+    And the url should be 'https://api.example.com/user/123/password/assess'
     And an authorization header should be present
     And the body should equal the following:
         """

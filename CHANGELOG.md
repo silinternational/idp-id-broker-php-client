@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- new 'validatePassword' method, executes validation but does not save password
+- new 'assessPassword' method, executes validation but does not save password
 
 ## [3.0.0] - 2019-03-13
 ### Changed

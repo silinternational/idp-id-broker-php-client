@@ -208,14 +208,14 @@ Feature: Handling responses from the ID Broker API
     When I call setPassword with the necessary data
     Then an exception should NOT have been thrown
 
-  Scenario: Handling a successful validatePassword call
-    Given a call to "validatePassword" will return a 204 response
-    When I call validatePassword with the necessary data
+  Scenario: Handling a successful assessPassword call
+    Given a call to "assessPassword" will return a 204 response
+    When I call assessPassword with the necessary data
     Then the result should be true
 
-  Scenario: Handling a negative validatePassword call
-    Given a call to "validatePassword" will return a 400 response
-    When I call validatePassword with the necessary data
+  Scenario: Handling a negative assessPassword call
+    Given a call to "assessPassword" will return a 409 response
+    When I call assessPassword with the necessary data
     Then the result should be false
 
   Scenario: Handling a "correct" response from mfaVerify

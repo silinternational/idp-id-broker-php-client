@@ -581,9 +581,9 @@ class IdBrokerClient extends BaseClient
      * @return bool
      * @throws ServiceException
      */
-    public function validatePassword(string $employeeId, string $password)
+    public function assessPassword(string $employeeId, string $password)
     {
-        $result = $this->validatePasswordInternal([
+        $result = $this->assessPasswordInternal([
             'employee_id' => $employeeId,
             'password' => $password,
         ]);

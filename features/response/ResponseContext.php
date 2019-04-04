@@ -263,12 +263,12 @@ class ResponseContext implements Context
     }
 
     /**
-     * @When I call validatePassword with the necessary data
+     * @When I call assessPassword with the necessary data
      */
-    public function iCallValidatepasswordWithTheNecessaryData()
+    public function iCallassessPasswordWithTheNecessaryData()
     {
         try {
-            $this->result = $this->getIdBrokerClient()->validatePassword(
+            $this->result = $this->getIdBrokerClient()->assessPassword(
                 '12345',
                 'correcthorsebatterystaple'
             );

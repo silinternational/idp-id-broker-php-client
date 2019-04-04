@@ -276,9 +276,9 @@
                 ],
             ],
         ],
-        'validatePasswordInternal' => [
+        'assessPasswordInternal' => [
             'httpMethod' => 'PUT',
-            'uri' => '/user/{employee_id}/pwdvalidate',
+            'uri' => '/user/{employee_id}/password/assess',
             'responseModel' => 'Result',
             'parameters' => [
                 'employee_id' => [
