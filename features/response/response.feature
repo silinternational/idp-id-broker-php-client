@@ -216,7 +216,12 @@ Feature: Handling responses from the ID Broker API
   Scenario: Handling a negative assessPassword call
     Given a call to "assessPassword" will return a 409 response
     When I call assessPassword with the necessary data
-    Then the result should be false
+    Then an exception with status code 409 SHOULD have been thrown
+
+  Scenario: Handling a negative assessPassword call
+    Given a call to "assessPassword" will return a 422 response
+    When I call assessPassword with the necessary data
+    Then an exception with status code 422 SHOULD have been thrown
 
   Scenario: Handling a "correct" response from mfaVerify
     Given a call to "mfaVerify" will return a 200 response

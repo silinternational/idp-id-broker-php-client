@@ -593,10 +593,6 @@ class IdBrokerClient extends BaseClient
             return true;
         }
 
-        if ($statusCode >= 400 && $statusCode <= 499) {
-            return false;
-        }
-
         $this->reportUnexpectedResponse($result, 1554404870);
     }
 
