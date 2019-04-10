@@ -263,6 +263,21 @@ class ResponseContext implements Context
     }
 
     /**
+     * @When I call assessPassword with the necessary data
+     */
+    public function iCallAssessPasswordWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->assessPassword(
+                '12345',
+                'correcthorsebatterystaple'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
      * @Then an exception should NOT have been thrown
      */
     public function anExceptionShouldNotHaveBeenThrown()
