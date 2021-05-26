@@ -664,7 +664,7 @@ class IdBrokerClient extends BaseClient
     {
         foreach ($this->trustedIpRanges as $trustedIpBlock) {
             $addr = Factory::addressFromString($ipAddress);
-            if ($trustedIpBlock->contains($addr)) {
+            if ($addr !== null && $trustedIpBlock->contains($addr)) {
                 return true;
             }
         }
