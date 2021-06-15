@@ -3,7 +3,8 @@ namespace Sil\Idp\IdBroker\Client;
 
 use Exception;
 use GuzzleHttp\Command\Result;
-use IPBlock;
+use IPLib\Range\RangeInterface;
+use IPLib\Factory;
 
 /**
  * IdP ID Broker API client implemented with Guzzle.
@@ -20,7 +21,7 @@ class IdBrokerClient extends BaseClient
     /**
      * The list of trusted IP address ranges (aka. blocks).
      *
-     * @var IPBlock[]
+     * @var RangeInterface[]
      */
     private $trustedIpRanges = [ ];
 
@@ -51,7 +52,7 @@ class IdBrokerClient extends BaseClient
         }
 
         $this->idBrokerUri = $baseUri;
-        
+
         if (empty($accessToken)) {
             throw new \InvalidArgumentException(
                 'Please provide an access token for the ID Broker.',
@@ -127,8 +128,7 @@ class IdBrokerClient extends BaseClient
         }
 
         foreach ($newTrustedIpRanges as $nextIpRange) {
-            $ipBlock = IPBlock::create($nextIpRange);
-            $this->trustedIpRanges[ ] = $ipBlock;
+            $this->trustedIpRanges[] = Factory::rangeFromString($nextIpRange);
         }
 
         $this->assertTrustedBrokerIp();
@@ -151,13 +151,13 @@ class IdBrokerClient extends BaseClient
             'password' => $password,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
-        
+
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
         } elseif ($statusCode === 400) {
             return null;
         }
-        
+
         $this->reportUnexpectedResponse($result, 1490802360);
     }
 
@@ -196,14 +196,14 @@ class IdBrokerClient extends BaseClient
     {
         $result = $this->createUserInternal($config);
         $statusCode = (int)$result[ 'statusCode' ];
-        
+
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
-        
+
         $this->reportUnexpectedResponse($result, 1490802526);
     }
-    
+
     /**
      * Deactivate a user.
      *
@@ -217,12 +217,12 @@ class IdBrokerClient extends BaseClient
             'active' => 'no',
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
-        
+
         if ($statusCode !== 200) {
             $this->reportUnexpectedResponse($result, 1490808523);
         }
     }
-    
+
     /**
      * Convert the result of the Guzzle call to an array without a status code.
      *
@@ -252,7 +252,7 @@ class IdBrokerClient extends BaseClient
 
         $this->reportUnexpectedResponse($result, 1490806100);
     }
-    
+
     /**
      * Get information about the specified user.
      *
@@ -267,16 +267,16 @@ class IdBrokerClient extends BaseClient
             'employee_id' => $employeeId,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
-        
+
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
         } elseif ($statusCode === 204) {
             return null;
         }
-        
+
         $this->reportUnexpectedResponse($result, 1490808555);
     }
-    
+
     /**
      * Get a list of all users.
      *
@@ -296,11 +296,11 @@ class IdBrokerClient extends BaseClient
         $config = array_merge($config, $search);
         $result = $this->listUsersInternal($config);
         $statusCode = (int)$result[ 'statusCode' ];
-        
+
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
-        
+
         $this->reportUnexpectedResponse($result, 1490808715);
     }
 
@@ -625,11 +625,11 @@ class IdBrokerClient extends BaseClient
     {
         $result = $this->updateUserInternal($config);
         $statusCode = (int)$result[ 'statusCode' ];
-        
+
         if ($statusCode === 200) {
             return $this->getResultAsArrayWithoutStatusCode($result);
         }
-        
+
         $this->reportUnexpectedResponse($result, 1490808841);
     }
 
@@ -663,7 +663,8 @@ class IdBrokerClient extends BaseClient
     private function isTrustedIpAddress($ipAddress)
     {
         foreach ($this->trustedIpRanges as $trustedIpBlock) {
-            if ($trustedIpBlock->containsIP($ipAddress)) {
+            $addr = Factory::addressFromString($ipAddress);
+            if ($addr !== null && $trustedIpBlock->contains($addr)) {
                 return true;
             }
         }
