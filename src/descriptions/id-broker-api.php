@@ -184,6 +184,11 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
             ],
         ],
         'mfaDeleteInternal' => [
@@ -212,6 +217,11 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri'
+                ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
                 ],
             ],
         ],
@@ -256,6 +266,11 @@
                     'required' => true,
                     'type' => [ 'string', 'object' ],
                     'location' => 'json',
+                ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
                 ],
             ],
         ],

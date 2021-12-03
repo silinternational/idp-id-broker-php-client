@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Breaking Change
+- Added parameter for $rpOrigin to mfaCreate, mfaList, and mfaVerify methods. This
+  parameter is needed for WebAuthn MFA methods. 
+- Updated to PHP 7.4 and added a lot of type declarations and other linter updates
 
 ## [3.2.0] - 2021-05-26
 ### Changed
