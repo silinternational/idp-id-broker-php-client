@@ -332,12 +332,12 @@ class IdBrokerClient extends BaseClient
 
     /**
      * Delete an MFA configuration
-     * @param int $id
+     * @param string $id
      * @param string $employeeId
      * @return null
      * @throws ServiceException
      */
-    public function mfaDelete(int $id, string $employeeId)
+    public function mfaDelete(string $id, string $employeeId)
     {
         $result = $this->mfaDeleteInternal([
             'id' => $id,
@@ -376,13 +376,13 @@ class IdBrokerClient extends BaseClient
 
     /**
      * Update an MFA configuration
-     * @param int $id
+     * @param string $id
      * @param string $employeeId
      * @param string $label
      * @return array
      * @throws ServiceException
      */
-    public function mfaUpdate(int $id, string $employeeId, string $label): array
+    public function mfaUpdate(string $id, string $employeeId, string $label): array
     {
         $result = $this->mfaUpdateInternal([
             'id' => $id,
@@ -458,12 +458,12 @@ class IdBrokerClient extends BaseClient
 
     /**
      * Delete a recovery method
-     * @param int $uid
-     * @param int $employee_id
+     * @param string $uid
+     * @param string $employee_id
      * @return null
      * @throws ServiceException
      */
-    public function deleteMethod(int $uid, int $employee_id)
+    public function deleteMethod(string $uid, string $employee_id)
     {
         $result = $this->deleteMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result[ 'statusCode' ];
