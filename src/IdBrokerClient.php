@@ -478,11 +478,11 @@ class IdBrokerClient extends BaseClient
     /**
      * View a single recovery method
      * @param int $uid
-     * @param int $employee_id
+     * @param string $employee_id
      * @return String[]
      * @throws ServiceException
      */
-    public function getMethod(int $uid, int $employee_id): array
+    public function getMethod(int $uid, string $employee_id): array
     {
         $result = $this->getMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result[ 'statusCode' ];
