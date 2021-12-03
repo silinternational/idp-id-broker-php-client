@@ -77,7 +77,7 @@ class BaseClient extends GuzzleClient
      * @return Description|mixed
      * @throws \Exception
      */
-    private function getDescriptionFromConfig(array $config): Description
+    private function getDescriptionFromConfig(array $config)
     {
         // If a description was provided, return it.
         if (isset($config['description'])) {
