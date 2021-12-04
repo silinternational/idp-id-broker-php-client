@@ -177,7 +177,7 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => [ 'backupcode', 'totp', 'u2f', 'manager' ],
+                    'enum' => [ 'backupcode', 'totp', 'u2f', 'webauthn', 'manager' ],
                 ],
                 'label' => [
                     'required' => false,
