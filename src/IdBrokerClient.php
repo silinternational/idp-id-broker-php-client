@@ -402,12 +402,12 @@ class IdBrokerClient extends BaseClient
      * Verify an MFA value
      * @param string $id The MFA ID.
      * @param string $employeeId The Employee ID of the user with that MFA.
-     * @param string $value The MFA value being verified.
+     * @param string|array $value The MFA value being verified.
      * @return bool|array
      * @throws MfaRateLimitException
      * @throws ServiceException
      */
-    public function mfaVerify(string $id, string $employeeId, string $value, string $rpOrigin = '')
+    public function mfaVerify(string $id, string $employeeId, $value, string $rpOrigin = '')
     {
         $result = $this->mfaVerifyInternal([
             'id' => $id,
