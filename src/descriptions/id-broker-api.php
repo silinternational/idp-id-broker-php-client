@@ -20,6 +20,11 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
             ],
         ],
         'authenticateNewUserInternal' => [
@@ -31,6 +36,11 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
+                ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
                 ],
             ],
         ],

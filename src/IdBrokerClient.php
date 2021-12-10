@@ -141,14 +141,16 @@ class IdBrokerClient extends BaseClient
      *
      * @param string $username The username.
      * @param string $password The password (in plaintext).
+     * @param string $rpOrigin The Relying Party origin
      * @return array|null An array of user information (if valid), or null.
      * @throws ServiceException
      */
-    public function authenticate(string $username, string $password): ?array
+    public function authenticate(string $username, string $password, string $rpOrigin = ''): ?array
     {
         $result = $this->authenticateInternal([
             'username' => $username,
             'password' => $password,
+            'rpOrigin' => $rpOrigin,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
@@ -165,13 +167,15 @@ class IdBrokerClient extends BaseClient
      * Attempt to authenticate using a new user invite code
      *
      * @param string $invite The new user invite code.
+     * @param string $rpOrigin The Relying Party origin
      * @return array|null An array of user information (if valid), or null.
      * @throws ServiceException
      */
-    public function authenticateNewUser(string $invite): ?array
+    public function authenticateNewUser(string $invite, string $rpOrigin = ''): ?array
     {
         $result = $this->authenticateNewUserInternal([
             'invite' => $invite,
+            'rpOrigin' => $rpOrigin,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
