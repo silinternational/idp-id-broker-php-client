@@ -507,4 +507,17 @@ class RequestContext implements Context
             $this->requestData['label']
         );
     }
+
+    /**
+     * @When I call mfaVerify
+     */
+    public function iCallMfaverify()
+    {
+        $this->getIdBrokerClient()->mfaVerify(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['value'],
+            $this->rpOrigin
+        );
+    }
 }
