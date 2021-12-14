@@ -37,11 +37,6 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
-                'rpOrigin' => [
-                    'required' => false,
-                    'type' => 'string',
-                    'location' => 'query',
-                ],
             ],
         ],
         'createUserInternal' => [

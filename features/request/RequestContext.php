@@ -305,8 +305,7 @@ class RequestContext implements Context
     public function iCallAuthenticateNewUser()
     {
         $this->getIdBrokerClient()->authenticateNewUser(
-            $this->requestData['invite'],
-            $this->rpOrigin
+            $this->requestData['invite']
         );
     }
 

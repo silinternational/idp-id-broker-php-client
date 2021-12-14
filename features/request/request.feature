@@ -51,12 +51,11 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Authentication for new user
     Given I am using a baseUri of "https://api.example.com/"
-      And I have provided an rpOrigin of "https://login.example.com"
       And I have indicated not to validate the id broker ip
       And I provide an "invite" of "xyz789"
     When I call authenticateNewUser
     Then the method should be "POST"
-      And the url should be "https://api.example.com/authentication?rpOrigin=https%3A%2F%2Flogin.example.com"
+      And the url should be "https://api.example.com/authentication"
       And an authorization header should be present
       And the body should equal the following:
         """
