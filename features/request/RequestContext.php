@@ -19,6 +19,7 @@ use Sil\Idp\IdBroker\Client\IdBrokerClient;
 class RequestContext implements Context
 {
     private $baseUri;
+    private $rpOrigin;
     private $requestData = [];
     private $requestHistory = [];
     private $config = [];
@@ -293,7 +294,8 @@ class RequestContext implements Context
     {
         $this->getIdBrokerClient()->authenticate(
             $this->requestData['username'],
-            $this->requestData['password']
+            $this->requestData['password'],
+            $this->rpOrigin
         );
     }
 
@@ -448,6 +450,74 @@ class RequestContext implements Context
         $this->getIdBrokerClient()->resendMethod(
             $this->requestData['uid'],
             $this->requestData['employee_id']
+        );
+    }
+
+    /**
+     * @Given I have provided an rpOrigin of :rpOrigin
+     */
+    public function iHaveProvidedAnRporiginOf($rpOrigin)
+    {
+        $this->rpOrigin = $rpOrigin;
+    }
+
+    /**
+     * @When I call mfaCreate
+     */
+    public function iCallMfacreate()
+    {
+        $this->getIdBrokerClient()->mfaCreate(
+            $this->requestData['employee_id'],
+            $this->requestData['type'],
+            $this->requestData['label'],
+            $this->rpOrigin
+        );
+    }
+
+    /**
+     * @When I call deleteMfa
+     */
+    public function iCallDeletemfa()
+    {
+        $this->getIdBrokerClient()->mfaDelete(
+            $this->requestData['id'],
+            $this->requestData['employee_id']
+        );
+    }
+
+    /**
+     * @When I call mfaList
+     */
+    public function iCallMfalist()
+    {
+        $this->getIdBrokerClient()->mfaList(
+            $this->requestData['employee_id'],
+            $this->rpOrigin
+        );
+    }
+
+    /**
+     * @When I call mfaUpdate
+     */
+    public function iCallMfaupdate()
+    {
+        $this->getIdBrokerClient()->mfaUpdate(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['label']
+        );
+    }
+
+    /**
+     * @When I call mfaVerify
+     */
+    public function iCallMfaverify()
+    {
+        $this->getIdBrokerClient()->mfaVerify(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['value'],
+            $this->rpOrigin
         );
     }
 }

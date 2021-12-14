@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.0.0] - 2021-12-14
+### Breaking Change
+- Added parameter for $rpOrigin to mfaCreate, mfaList, mfaVerify, and authenticateUser
+  methods. This parameter is needed for WebAuthn MFA methods. 
+- Updated to PHP 7.4 and added a lot of type declarations and other linter updates
+
 ## [3.2.0] - 2021-05-26
 ### Changed
 - changed IP address range library to remove dependency on php gmp extension
@@ -77,7 +83,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial version of ID Broker API client.
 
-[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.2.0...HEAD
+[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/4.0.0...HEAD
+[4.0.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.2.0...4.0.0
 [3.2.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.0.0...3.1.0
 [3.0.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/2.6.0...3.0.0

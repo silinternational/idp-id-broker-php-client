@@ -20,6 +20,11 @@
                     'type' => 'string',
                     'location' => 'json',
                 ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
             ],
         ],
         'authenticateNewUserInternal' => [
@@ -177,12 +182,17 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => [ 'backupcode', 'totp', 'u2f', 'manager' ],
+                    'enum' => [ 'backupcode', 'totp', 'u2f', 'webauthn', 'manager' ],
                 ],
                 'label' => [
                     'required' => false,
                     'type' => 'string',
                     'location' => 'json',
+                ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
                 ],
             ],
         ],
@@ -212,6 +222,11 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri'
+                ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
                 ],
             ],
         ],
@@ -256,6 +271,11 @@
                     'required' => true,
                     'type' => [ 'string', 'object' ],
                     'location' => 'json',
+                ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
                 ],
             ],
         ],

@@ -23,11 +23,11 @@ class IdBrokerClient extends BaseClient
      *
      * @var RangeInterface[]
      */
-    private $trustedIpRanges = [ ];
+    private array $trustedIpRanges = [];
 
-    private $assertValidBrokerIp = true;
+    private bool $assertValidBrokerIp = true;
 
-    private $idBrokerUri;
+    private string $idBrokerUri;
 
     /**
      * Constructor.
@@ -88,7 +88,7 @@ class IdBrokerClient extends BaseClient
      * @throws \InvalidArgumentException
      * @throws \Exception if assertValidBrokerIp is true and idBrokerUri is invalid, unresolvable, or untrusted
      */
-    private function initializeConfig($config)
+    private function initializeConfig(array $config)
     {
 
         if (isset($config[ self::ASSERT_VALID_BROKER_IP_CONFIG ])) {
@@ -141,14 +141,16 @@ class IdBrokerClient extends BaseClient
      *
      * @param string $username The username.
      * @param string $password The password (in plaintext).
+     * @param string $rpOrigin The Relying Party origin
      * @return array|null An array of user information (if valid), or null.
      * @throws ServiceException
      */
-    public function authenticate(string $username, string $password)
+    public function authenticate(string $username, string $password, string $rpOrigin = ''): ?array
     {
         $result = $this->authenticateInternal([
             'username' => $username,
             'password' => $password,
+            'rpOrigin' => $rpOrigin,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
@@ -168,7 +170,7 @@ class IdBrokerClient extends BaseClient
      * @return array|null An array of user information (if valid), or null.
      * @throws ServiceException
      */
-    public function authenticateNewUser(string $invite)
+    public function authenticateNewUser(string $invite): ?array
     {
         $result = $this->authenticateNewUserInternal([
             'invite' => $invite,
@@ -192,7 +194,7 @@ class IdBrokerClient extends BaseClient
      * @return array An array of information about the new user.
      * @throws ServiceException
      */
-    public function createUser(array $config = [ ])
+    public function createUser(array $config = [ ]): array
     {
         $result = $this->createUserInternal($config);
         $statusCode = (int)$result[ 'statusCode' ];
@@ -229,7 +231,7 @@ class IdBrokerClient extends BaseClient
      * @param Result $result The result of a Guzzle call.
      * @return array
      */
-    protected function getResultAsArrayWithoutStatusCode($result)
+    protected function getResultAsArrayWithoutStatusCode(Result $result): array
     {
         unset($result[ 'statusCode' ]);
         return $result->toArray();
@@ -241,7 +243,7 @@ class IdBrokerClient extends BaseClient
      * @return string "OK".
      * @throws ServiceException
      */
-    public function getSiteStatus()
+    public function getSiteStatus(): string
     {
         $result = $this->getSiteStatusInternal();
         $statusCode = (int)$result[ 'statusCode' ];
@@ -261,7 +263,7 @@ class IdBrokerClient extends BaseClient
      *     null if no such user was found.
      * @throws ServiceException
      */
-    public function getUser(string $employeeId)
+    public function getUser(string $employeeId): ?array
     {
         $result = $this->getUserInternal([
             'employee_id' => $employeeId,
@@ -282,12 +284,12 @@ class IdBrokerClient extends BaseClient
      *
      * @param array|null $fields (Optional:) The list of fields desired about
      *     each user in the result.
-     * @param  array|null $search (Optional:) An array of fields to search on,
+     * @param array|null $search (Optional:) An array of fields to search on,
      *     example ['username' => 'billy']
      * @return array An array with a sub-array about each user.
      * @throws ServiceException
      */
-    public function listUsers($fields = null, $search = [ ])
+    public function listUsers(array $fields = null, ?array $search = []): array
     {
         $config = [ ];
         if ($fields !== null) {
@@ -308,16 +310,18 @@ class IdBrokerClient extends BaseClient
      * Create a new MFA configuration
      * @param string $employee_id
      * @param string $type
-     * @param string $label
+     * @param string|null $label
+     * @param string|null $rpOrigin
      * @return array|null
      * @throws ServiceException
      */
-    public function mfaCreate($employee_id, $type, $label = null)
+    public function mfaCreate(string $employee_id, string $type, string $label = null, string $rpOrigin = ''): ?array
     {
         $result = $this->mfaCreateInternal([
             'employee_id' => $employee_id,
             'type' => $type,
             'label' => $label,
+            'rpOrigin' => $rpOrigin,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
@@ -330,12 +334,12 @@ class IdBrokerClient extends BaseClient
 
     /**
      * Delete an MFA configuration
-     * @param int $id
+     * @param string $id
      * @param string $employeeId
      * @return null
      * @throws ServiceException
      */
-    public function mfaDelete($id, $employeeId)
+    public function mfaDelete(string $id, string $employeeId)
     {
         $result = $this->mfaDeleteInternal([
             'id' => $id,
@@ -343,7 +347,7 @@ class IdBrokerClient extends BaseClient
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
-        if ($statusCode === 204) {
+        if ($statusCode === 204 || $statusCode === 200) {
             return null;
         }
 
@@ -353,13 +357,15 @@ class IdBrokerClient extends BaseClient
     /**
      * Get a list of MFA configurations for given user
      * @param string $employee_id
+     * @param string $rpOrigin
      * @return array
      * @throws ServiceException
      */
-    public function mfaList($employee_id)
+    public function mfaList(string $employee_id, string $rpOrigin = ''): array
     {
         $result = $this->mfaListInternal([
             'employee_id' => $employee_id,
+            'rpOrigin' => $rpOrigin,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
@@ -372,13 +378,13 @@ class IdBrokerClient extends BaseClient
 
     /**
      * Update an MFA configuration
-     * @param int $id
+     * @param string $id
      * @param string $employeeId
      * @param string $label
      * @return array
      * @throws ServiceException
      */
-    public function mfaUpdate($id, $employeeId, $label)
+    public function mfaUpdate(string $id, string $employeeId, string $label): array
     {
         $result = $this->mfaUpdateInternal([
             'id' => $id,
@@ -398,17 +404,19 @@ class IdBrokerClient extends BaseClient
      * Verify an MFA value
      * @param string $id The MFA ID.
      * @param string $employeeId The Employee ID of the user with that MFA.
-     * @param string $value The MFA value being verified.
+     * @param string|array $value The MFA value being verified.
+     * @param string $rpOrigin The Relying Party Origin, for WebAuthn MFA options.
      * @return bool|array
      * @throws MfaRateLimitException
      * @throws ServiceException
      */
-    public function mfaVerify($id, $employeeId, $value)
+    public function mfaVerify(string $id, string $employeeId, $value, string $rpOrigin = '')
     {
         $result = $this->mfaVerifyInternal([
             'id' => $id,
             'employee_id' => $employeeId,
             'value' => $value,
+            'rpOrigin' => $rpOrigin,
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
@@ -434,7 +442,7 @@ class IdBrokerClient extends BaseClient
      * @return String[]
      * @throws ServiceException
      */
-    public function createMethod($employee_id, $value, $created = '')
+    public function createMethod(string $employee_id, string $value, string $created = ''): array
     {
         $params = compact('employee_id', 'value');
         if (! empty($created)) {
@@ -453,12 +461,12 @@ class IdBrokerClient extends BaseClient
 
     /**
      * Delete a recovery method
-     * @param int $uid
-     * @param int $employee_id
+     * @param string $uid
+     * @param string $employee_id
      * @return null
      * @throws ServiceException
      */
-    public function deleteMethod($uid, $employee_id)
+    public function deleteMethod(string $uid, string $employee_id)
     {
         $result = $this->deleteMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result[ 'statusCode' ];
@@ -472,12 +480,12 @@ class IdBrokerClient extends BaseClient
 
     /**
      * View a single recovery method
-     * @param int $uid
-     * @param int $employee_id
+     * @param string $uid
+     * @param string $employee_id
      * @return String[]
      * @throws ServiceException
      */
-    public function getMethod($uid, $employee_id)
+    public function getMethod(string $uid, string $employee_id): array
     {
         $result = $this->getMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result[ 'statusCode' ];
@@ -495,7 +503,7 @@ class IdBrokerClient extends BaseClient
      * @return String[]
      * @throws ServiceException
      */
-    public function listMethod($employee_id)
+    public function listMethod(string $employee_id): array
     {
         $result = $this->listMethodInternal(compact('employee_id'));
         $statusCode = (int)$result[ 'statusCode' ];
@@ -515,7 +523,7 @@ class IdBrokerClient extends BaseClient
      * @return String[]
      * @throws ServiceException
      */
-    public function verifyMethod($uid, $employee_id, $code)
+    public function verifyMethod(string $uid, string $employee_id, string $code): array
     {
         $result = $this->verifyMethodInternal(compact('uid', 'employee_id', 'code'));
         $statusCode = (int)$result[ 'statusCode' ];
@@ -534,7 +542,7 @@ class IdBrokerClient extends BaseClient
      * @return bool
      * @throws ServiceException
      */
-    public function resendMethod($uid, $employee_id)
+    public function resendMethod(string $uid, string $employee_id): bool
     {
         $result = $this->resendMethodInternal(compact('uid', 'employee_id'));
         $statusCode = (int)$result[ 'statusCode' ];
@@ -556,7 +564,7 @@ class IdBrokerClient extends BaseClient
      * @return array An array of password metadata
      * @throws ServiceException
      */
-    public function setPassword(string $employeeId, string $password)
+    public function setPassword(string $employeeId, string $password): array
     {
         $result = $this->setPasswordInternal([
             'employee_id' => $employeeId,
@@ -581,7 +589,7 @@ class IdBrokerClient extends BaseClient
      * @return bool
      * @throws ServiceException
      */
-    public function assessPassword(string $employeeId, string $password)
+    public function assessPassword(string $employeeId, string $password): bool
     {
         $result = $this->assessPasswordInternal([
             'employee_id' => $employeeId,
@@ -597,11 +605,11 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
-     * @param \GuzzleHttp\Command\Result $response
+     * @param Result $response
      * @param int $uniqueErrorCode
      * @throws ServiceException
      */
-    protected function reportUnexpectedResponse($response, $uniqueErrorCode)
+    protected function reportUnexpectedResponse(Result $response, int $uniqueErrorCode)
     {
         throw new ServiceException(
             sprintf(
@@ -621,7 +629,7 @@ class IdBrokerClient extends BaseClient
      * @return array An array of information about the updated user.
      * @throws ServiceException
      */
-    public function updateUser(array $config = [ ])
+    public function updateUser(array $config = [ ]): array
     {
         $result = $this->updateUserInternal($config);
         $statusCode = (int)$result[ 'statusCode' ];
@@ -660,7 +668,7 @@ class IdBrokerClient extends BaseClient
      * @param string $ipAddress The IP address in question.
      * @return bool
      */
-    private function isTrustedIpAddress($ipAddress)
+    private function isTrustedIpAddress(string $ipAddress): bool
     {
         foreach ($this->trustedIpRanges as $trustedIpBlock) {
             $addr = Factory::addressFromString($ipAddress);

@@ -97,7 +97,8 @@ class ResponseContext implements Context
         try {
             $this->result = $this->getIdBrokerClient()->authenticate(
                 'john_smith',
-                'dummy password'
+                'dummy password',
+                'https://login.example.com'
             );
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
@@ -332,7 +333,8 @@ class ResponseContext implements Context
             $this->result = $this->getIdBrokerClient()->mfaVerify(
                 '123',
                 '111111',
-                'dummy-mfa-submission'
+                'dummy-mfa-submission',
+                'https://login.example.com'
             );
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
