@@ -338,3 +338,13 @@ Feature: Formatting requests for sending to the ID Broker API
           "employee_id": "123"
         }
         """
+
+  Scenario: Listing mfa options
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have provided an rpOrigin of "https://login.example.com"
+      And I have indicated not to validate the id broker ip
+      And I provide an "employee_id" of "123"
+    When I call mfaList
+      Then the method should be "GET"
+      And the url should be "https://api.example.com/user/123/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
+      And an authorization header should be present

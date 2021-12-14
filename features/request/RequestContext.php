@@ -484,4 +484,15 @@ class RequestContext implements Context
             $this->requestData['employee_id']
         );
     }
+
+    /**
+     * @When I call mfaList
+     */
+    public function iCallMfalist()
+    {
+        $this->getIdBrokerClient()->mfaList(
+            $this->requestData['employee_id'],
+            $this->rpOrigin
+        );
+    }
 }
