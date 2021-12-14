@@ -407,6 +407,7 @@ class IdBrokerClient extends BaseClient
      * @param string $id The MFA ID.
      * @param string $employeeId The Employee ID of the user with that MFA.
      * @param string|array $value The MFA value being verified.
+     * @param string $rpOrigin The Relying Party Origin, for WebAuthn MFA options.
      * @return bool|array
      * @throws MfaRateLimitException
      * @throws ServiceException
