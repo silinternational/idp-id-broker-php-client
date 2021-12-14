@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Breaking Change
-- Added parameter for $rpOrigin to mfaCreate, mfaList, mfaVerify, authenticateUser, and authenticateNewUser 
+- Added parameter for $rpOrigin to mfaCreate, mfaList, mfaVerify, and authenticateUser
   methods. This parameter is needed for WebAuthn MFA methods. 
 - Updated to PHP 7.4 and added a lot of type declarations and other linter updates
 
