@@ -460,4 +460,17 @@ class RequestContext implements Context
     {
         $this->rpOrigin = $rpOrigin;
     }
+
+    /**
+     * @When I call mfaCreate
+     */
+    public function iCallMfacreate()
+    {
+        $this->getIdBrokerClient()->mfaCreate(
+            $this->requestData['employee_id'],
+            $this->requestData['type'],
+            $this->requestData['label'],
+            $this->rpOrigin
+        );
+    }
 }
