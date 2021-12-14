@@ -213,12 +213,12 @@ Feature: Handling responses from the ID Broker API
     When I call assessPassword with the necessary data
     Then the result should be true
 
-  Scenario: Handling a negative assessPassword call
+  Scenario: Handling a negative assessPassword call (reused password)
     Given a call to "assessPassword" will return a 409 response
     When I call assessPassword with the necessary data
     Then an exception with status code 409 SHOULD have been thrown
 
-  Scenario: Handling a negative assessPassword call
+  Scenario: Handling a negative assessPassword call (insufficient password)
     Given a call to "assessPassword" will return a 422 response
     When I call assessPassword with the necessary data
     Then an exception with status code 422 SHOULD have been thrown
