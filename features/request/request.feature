@@ -311,7 +311,7 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide a "type" of "webauthn"
       And I provide a "label" of "Blue security key"
     When I call mfaCreate
-      Then the method should be "POST"
+    Then the method should be "POST"
       And the url should be "https://api.example.com/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
       And an authorization header should be present
       And the body should equal the following:
@@ -345,7 +345,7 @@ Feature: Formatting requests for sending to the ID Broker API
       And I have indicated not to validate the id broker ip
       And I provide an "employee_id" of "123"
     When I call mfaList
-      Then the method should be "GET"
+    Then the method should be "GET"
       And the url should be "https://api.example.com/user/123/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
       And an authorization header should be present
 
@@ -356,7 +356,7 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide an "employee_id" of "123"
       And I provide an "label" of "Purple security key"
     When I call mfaUpdate
-      Then the method should be "PUT"
+    Then the method should be "PUT"
       And the url should be 'https://api.example.com/mfa/789'
       And an authorization header should be present
       And the body should equal the following:
