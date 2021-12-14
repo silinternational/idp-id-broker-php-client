@@ -19,6 +19,7 @@ use Sil\Idp\IdBroker\Client\IdBrokerClient;
 class RequestContext implements Context
 {
     private $baseUri;
+    private $rpOrigin;
     private $requestData = [];
     private $requestHistory = [];
     private $config = [];
@@ -293,7 +294,8 @@ class RequestContext implements Context
     {
         $this->getIdBrokerClient()->authenticate(
             $this->requestData['username'],
-            $this->requestData['password']
+            $this->requestData['password'],
+            $this->rpOrigin
         );
     }
 
@@ -303,7 +305,8 @@ class RequestContext implements Context
     public function iCallAuthenticateNewUser()
     {
         $this->getIdBrokerClient()->authenticateNewUser(
-            $this->requestData['invite']
+            $this->requestData['invite'],
+            $this->rpOrigin
         );
     }
 
@@ -449,5 +452,13 @@ class RequestContext implements Context
             $this->requestData['uid'],
             $this->requestData['employee_id']
         );
+    }
+
+    /**
+     * @Given I have provided an rpOrigin of :rpOrigin
+     */
+    public function iHaveProvidedAnRporiginOf($rpOrigin)
+    {
+        $this->rpOrigin = $rpOrigin;
     }
 }
