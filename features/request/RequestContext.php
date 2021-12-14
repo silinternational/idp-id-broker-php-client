@@ -473,4 +473,15 @@ class RequestContext implements Context
             $this->rpOrigin
         );
     }
+
+    /**
+     * @When I call deleteMfa
+     */
+    public function iCallDeletemfa()
+    {
+        $this->getIdBrokerClient()->mfaDelete(
+            $this->requestData['id'],
+            $this->requestData['employee_id']
+        );
+    }
 }

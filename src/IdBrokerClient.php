@@ -349,7 +349,7 @@ class IdBrokerClient extends BaseClient
         ]);
         $statusCode = (int)$result[ 'statusCode' ];
 
-        if ($statusCode === 204) {
+        if ($statusCode === 204 || $statusCode === 200) {
             return null;
         }
 

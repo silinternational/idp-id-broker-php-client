@@ -322,3 +322,19 @@ Feature: Formatting requests for sending to the ID Broker API
           "label": "Blue security key"
         }
         """
+
+  Scenario: Deleting an mfa option
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide an "employee_id" of "123"
+      And I provide an "id" of "789"
+    When I call deleteMfa
+    Then the method should be "DELETE"
+      And the url should be 'https://api.example.com/mfa/789'
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
+        }
+        """
