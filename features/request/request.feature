@@ -33,12 +33,13 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Authentication
     Given I am using a baseUri of "https://api.example.com/"
+      And I have provided an rpOrigin of "https://login.example.com"
       And I have indicated not to validate the id broker ip
       And I provide a "username" of "john_smith"
       And I provide a "password" of "correcthorsebatterystaple"
     When I call authenticate
     Then the method should be "POST"
-      And the url should be "https://api.example.com/authentication"
+      And the url should be "https://api.example.com/authentication?rpOrigin=https%3A%2F%2Flogin.example.com"
       And an authorization header should be present
       And the body should equal the following:
         """
@@ -50,13 +51,13 @@ Feature: Formatting requests for sending to the ID Broker API
 
   Scenario: Authentication for new user
     Given I am using a baseUri of "https://api.example.com/"
-    And I have indicated not to validate the id broker ip
-    And I provide an "invite" of "xyz789"
+      And I have indicated not to validate the id broker ip
+      And I provide an "invite" of "xyz789"
     When I call authenticateNewUser
     Then the method should be "POST"
-    And the url should be "https://api.example.com/authentication"
-    And an authorization header should be present
-    And the body should equal the following:
+      And the url should be "https://api.example.com/authentication"
+      And an authorization header should be present
+      And the body should equal the following:
         """
         {
           "invite": "xyz789"
@@ -299,5 +300,88 @@ Feature: Formatting requests for sending to the ID Broker API
         """
         {
           "employee_id": "123"
+        }
+        """
+
+  Scenario: Creating an mfa option
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I have provided an rpOrigin of "https://login.example.com"
+      And I provide an "employee_id" of "12345"
+      And I provide a "type" of "webauthn"
+      And I provide a "label" of "Blue security key"
+    When I call mfaCreate
+    Then the method should be "POST"
+      And the url should be "https://api.example.com/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "12345",
+          "type": "webauthn",
+          "label": "Blue security key"
+        }
+        """
+
+  Scenario: Deleting an mfa option
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide an "employee_id" of "123"
+      And I provide an "id" of "789"
+    When I call deleteMfa
+    Then the method should be "DELETE"
+      And the url should be 'https://api.example.com/mfa/789'
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
+        }
+        """
+
+  Scenario: Listing mfa options
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have provided an rpOrigin of "https://login.example.com"
+      And I have indicated not to validate the id broker ip
+      And I provide an "employee_id" of "123"
+    When I call mfaList
+    Then the method should be "GET"
+      And the url should be "https://api.example.com/user/123/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
+      And an authorization header should be present
+
+  Scenario: Update an mfa option
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide an "id" of "789"
+      And I provide an "employee_id" of "123"
+      And I provide an "label" of "Purple security key"
+    When I call mfaUpdate
+    Then the method should be "PUT"
+      And the url should be 'https://api.example.com/mfa/789'
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "123",
+          "label": "Purple security key"
+        }
+        """
+
+  Scenario: Verifying an mfa option
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have provided an rpOrigin of "https://login.example.com"
+      And I have indicated not to validate the id broker ip
+      And I provide an "id" of "789"
+      And I provide an "employee_id" of "123"
+      And I provide a "value" of "01234987"
+    When I call mfaVerify
+    Then the method should be "POST"
+      And the url should be 'https://api.example.com/mfa/789/verify?rpOrigin=https%3A%2F%2Flogin.example.com'
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "123",
+          "value": "01234987"
         }
         """

@@ -9,6 +9,7 @@ class BaseClient extends GuzzleClient
 {
     /**
      * @param array $config
+     * @throws \Exception
      */
     public function __construct(array $config = [])
     {
@@ -42,8 +43,12 @@ class BaseClient extends GuzzleClient
             $mergedConfig
         );
     }
-    
-    private function getHttpClientFromConfig(array $config)
+
+    /**
+     * @param array $config
+     * @return HttpClient
+     */
+    private function getHttpClientFromConfig(array $config): HttpClient
     {
         // If a client was provided, return it.
         if (isset($config['http_client'])) {
@@ -51,9 +56,7 @@ class BaseClient extends GuzzleClient
         }
         
         // Create a Guzzle HttpClient.
-        $clientOptions = isset($config['http_client_options'])
-            ? $config['http_client_options']
-            : [];
+        $clientOptions = $config['http_client_options'] ?? [];
         $client = new HttpClient($clientOptions);
         
         // Attach request retry logic.
@@ -68,7 +71,12 @@ class BaseClient extends GuzzleClient
         
         return $client;
     }
-    
+
+    /**
+     * @param array $config
+     * @return Description|mixed
+     * @throws \Exception
+     */
     private function getDescriptionFromConfig(array $config)
     {
         // If a description was provided, return it.
