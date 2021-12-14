@@ -495,4 +495,16 @@ class RequestContext implements Context
             $this->rpOrigin
         );
     }
+
+    /**
+     * @When I call mfaUpdate
+     */
+    public function iCallMfaupdate()
+    {
+        $this->getIdBrokerClient()->mfaUpdate(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['label']
+        );
+    }
 }
