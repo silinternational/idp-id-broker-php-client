@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [4.0.1] - 2022-01-26
+### Fixed
+- Switch to using our standard PHP 7.4 docker image for CI/CD tests
+
 ## [4.0.0] - 2021-12-14
 ### Breaking Change
 - Added parameter for $rpOrigin to mfaCreate, mfaList, mfaVerify, and authenticateUser
@@ -83,7 +87,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Initial version of ID Broker API client.
 
-[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/4.0.0...HEAD
+[Unreleased]: https://github.com/silinternational/idp-id-broker-php-client/compare/4.0.1...HEAD
+[4.0.1]: https://github.com/silinternational/idp-id-broker-php-client/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.2.0...4.0.0
 [3.2.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.1.0...3.2.0
 [3.1.0]: https://github.com/silinternational/idp-id-broker-php-client/compare/3.0.0...3.1.0
