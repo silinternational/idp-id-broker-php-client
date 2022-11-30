@@ -344,14 +344,15 @@ class ResponseContext implements Context
     /**
      * @When I call mfaVerifyRegistration with the necessary data
      */
-    public function iCallMfaverifyRegistrationWithTheNecessaryData()
+    public function iCallMfaVerifyRegistrationWithTheNecessaryData()
     {
         try {
-            $this->result = $this->getIdBrokerClient()->mfaVerifyRegistration(
+            $this->result = $this->getIdBrokerClient()->mfaVerify(
                 '123',
                 '111111',
                 'dummy-mfa-submission',
-                'https://login.example.com'
+                'https://login.example.com',
+                'registration',
             );
         } catch (Exception $e) {
             $this->exceptionThrown = $e;

@@ -405,54 +405,26 @@ class IdBrokerClient extends BaseClient
      * @param string $id The MFA ID.
      * @param string $employeeId The Employee ID of the user with that MFA.
      * @param string|array $value The MFA value being verified.
-     * @param string $rpOrigin The Relying Party Origin, for WebAuthn MFA options.
+     * @param string $rpOrigin (optional) The Relying Party Origin, for WebAuthn MFA options.
+     * @param string $type (optional) For now, either blank or 'registration', for WebAuthn MFA options.
      * @return bool|array
      * @throws MfaRateLimitException
      * @throws ServiceException
      */
-    public function mfaVerify(string $id, string $employeeId, $value, string $rpOrigin = '')
+    public function mfaVerify(string $id, string $employeeId, $value, string $rpOrigin = '', string $type = '')
     {
-        $result = $this->mfaVerifyInternal([
+        $config = [
             'id' => $id,
             'employee_id' => $employeeId,
             'value' => $value,
             'rpOrigin' => $rpOrigin,
-        ]);
-        $statusCode = (int)$result[ 'statusCode' ];
+        ];
 
-        /*
-         * Accept a 204 for compatibility with earlier ID Broker versions
-         */
-        if ($statusCode === 204) {
-            return true;
+        if ($type != '') {
+            $config['type'] = $type;
         }
 
-        if ($statusCode === 200) {
-            return $this->getResultAsArrayWithoutStatusCode($result);
-        }
-
-        $this->reportUnexpectedResponse($result, 1506710704);
-    }
-
-    /**
-     * Verify an MFA registration (only for webauthn)
-     * @param string $id The MFA ID.
-     * @param string $employeeId The Employee ID of the user with that MFA.
-     * @param string|array $value The MFA value being verified.
-     * @param string $rpOrigin The Relying Party Origin, for WebAuthn MFA options.
-     * @return bool|array
-     * @throws MfaRateLimitException
-     * @throws ServiceException
-     */
-    public function mfaVerifyRegistration(string $id, string $employeeId, $value, string $rpOrigin = '')
-    {
-        $result = $this->mfaVerifyInternal([
-            'id' => $id,
-            'type' => 'registration',
-            'employee_id' => $employeeId,
-            'value' => $value,
-            'rpOrigin' => $rpOrigin,
-        ]);
+        $result = $this->mfaVerifyInternal($config);
         $statusCode = (int)$result[ 'statusCode' ];
 
         /*

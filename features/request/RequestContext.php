@@ -526,11 +526,12 @@ class RequestContext implements Context
      */
     public function iCallMfaVerifyRegistration()
     {
-        $this->getIdBrokerClient()->mfaVerifyRegistration(
+        $this->getIdBrokerClient()->mfaVerify(
             $this->requestData['id'],
             $this->requestData['employee_id'],
             $this->requestData['value'],
-            $this->rpOrigin
+            $this->rpOrigin,
+            'registration',
         );
     }
 }
