@@ -342,6 +342,23 @@ class ResponseContext implements Context
     }
 
     /**
+     * @When I call mfaVerifyRegistration with the necessary data
+     */
+    public function iCallMfaverifyRegistrationWithTheNecessaryData()
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->mfaVerifyRegistration(
+                '123',
+                '111111',
+                'dummy-mfa-submission',
+                'https://login.example.com'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
      * @When an MFA rate-limit exception SHOULD have been thrown
      */
     public function anMfaRateLimitExceptionShouldHaveBeenThrown()

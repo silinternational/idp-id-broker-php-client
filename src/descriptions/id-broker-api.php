@@ -254,11 +254,16 @@
         ],
         'mfaVerifyInternal' => [
             'httpMethod' => 'POST',
-            'uri' => '/mfa/{id}/verify',
+            'uri' => '/mfa/{id}/verify/{type}',
             'responseModel' => 'Result',
             'parameters' => [
                 'id' => [
                     'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'type' => [
+                    'required' => false,
                     'type' => 'string',
                     'location' => 'uri'
                 ],
