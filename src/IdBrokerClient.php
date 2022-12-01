@@ -355,7 +355,7 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
-     * Delete an MFA webauthn configuration
+     * Delete a specific MFA webauthn configuration
      * @param string $id
      * @param string $employeeId
      * @param string $webauthnID
@@ -425,10 +425,11 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
-     * Update an MFA Webauthn configuration
+     * Update a specific MFA Webauthn configuration
      * @param string $id
      * @param string $employeeId
      * @param string $label
+     * @param string $webauthnID
      * @return array
      * @throws ServiceException
      */
