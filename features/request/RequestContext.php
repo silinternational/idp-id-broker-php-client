@@ -486,6 +486,18 @@ class RequestContext implements Context
     }
 
     /**
+     * @When I call deleteMfaWebauthn
+     */
+    public function iCallDeleteMfaWebauthn()
+    {
+        $this->getIdBrokerClient()->mfaDeleteWebauthn(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['webauthn_id'],
+        );
+    }
+
+    /**
      * @When I call mfaList
      */
     public function iCallMfalist()
@@ -505,6 +517,19 @@ class RequestContext implements Context
             $this->requestData['id'],
             $this->requestData['employee_id'],
             $this->requestData['label']
+        );
+    }
+
+    /**
+     * @When I call mfaUpdateWebauthn
+     */
+    public function iCallMfaUpdateWebauthn()
+    {
+        $this->getIdBrokerClient()->mfaUpdateWebauthn(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['label'],
+            $this->requestData['webauthn_id'],
         );
     }
 
