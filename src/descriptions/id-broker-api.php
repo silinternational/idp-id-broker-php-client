@@ -254,7 +254,7 @@
         ],
         'mfaVerifyInternal' => [
             'httpMethod' => 'POST',
-            'uri' => '/mfa/{id}/verify/{type}',
+            'uri' => '/mfa/{id}/verify',
             'responseModel' => 'Result',
             'parameters' => [
                 'id' => [
@@ -262,8 +262,30 @@
                     'type' => 'string',
                     'location' => 'uri'
                 ],
-                'type' => [
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'value' => [
+                    'required' => true,
+                    'type' => [ 'string', 'object' ],
+                    'location' => 'json',
+                ],
+                'rpOrigin' => [
                     'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
+            ],
+        ],
+        'mfaVerifyRegistrationInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/mfa/{id}/verify/registration',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
                     'type' => 'string',
                     'location' => 'uri'
                 ],

@@ -421,10 +421,11 @@ class IdBrokerClient extends BaseClient
         ];
 
         if ($type != '') {
-            $config['type'] = $type;
+            $result = $this->mfaVerifyRegistrationInternal($config);
+        } else {
+            $result = $this->mfaVerifyInternal($config);
         }
 
-        $result = $this->mfaVerifyInternal($config);
         $statusCode = (int)$result[ 'statusCode' ];
 
         /*

@@ -376,7 +376,7 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide a "value" of "01234987"
     When I call mfaVerify
     Then the method should be "POST"
-      And the url should be 'https://api.example.com/mfa/789/verify/?rpOrigin=https%3A%2F%2Flogin.example.com'
+      And the url should be 'https://api.example.com/mfa/789/verify?rpOrigin=https%3A%2F%2Flogin.example.com'
       And an authorization header should be present
       And the body should equal the following:
         """
