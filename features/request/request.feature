@@ -328,7 +328,7 @@ Feature: Formatting requests for sending to the ID Broker API
       And I have indicated not to validate the id broker ip
       And I provide an "employee_id" of "123"
       And I provide an "id" of "789"
-    When I call deleteMfa
+    When I call mfaDelete
     Then the method should be "DELETE"
       And the url should be 'https://api.example.com/mfa/789'
       And an authorization header should be present
@@ -345,7 +345,7 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide an "employee_id" of "123"
       And I provide an "id" of "456"
       And I provide an "webauthn_id" of "789"
-    When I call deleteMfaWebauthn
+    When I call mfaDeleteWebauthn
     Then the method should be "DELETE"
       And the url should be 'https://api.example.com/mfa/456/webauthn/789'
       And an authorization header should be present
