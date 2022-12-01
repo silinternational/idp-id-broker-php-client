@@ -385,3 +385,23 @@ Feature: Formatting requests for sending to the ID Broker API
           "value": "01234987"
         }
         """
+
+
+  Scenario: Verifying an mfa registration
+    Given I am using a baseUri of "https://api.example.com/"
+    And I have provided an rpOrigin of "https://login.example.com"
+    And I have indicated not to validate the id broker ip
+    And I provide an "id" of "789"
+    And I provide an "employee_id" of "123"
+    And I provide a "value" of "01234987"
+    When I call mfaVerifyRegistration
+    Then the method should be "POST"
+    And the url should be 'https://api.example.com/mfa/789/verify/registration?rpOrigin=https%3A%2F%2Flogin.example.com'
+    And an authorization header should be present
+    And the body should equal the following:
+        """
+        {
+          "employee_id": "123",
+          "value": "01234987"
+        }
+        """

@@ -279,6 +279,33 @@
                 ],
             ],
         ],
+        'mfaVerifyRegistrationInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/mfa/{id}/verify/registration',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'value' => [
+                    'required' => true,
+                    'type' => [ 'string', 'object' ],
+                    'location' => 'json',
+                ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
+            ],
+        ],
         'setPasswordInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}/password',
