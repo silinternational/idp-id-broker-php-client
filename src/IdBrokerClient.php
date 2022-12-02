@@ -355,6 +355,30 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
+     * Delete a specific MFA webauthn configuration
+     * @param string $id
+     * @param string $employeeId
+     * @param string $webauthnID
+     * @return null
+     * @throws ServiceException
+     */
+    public function mfaDeleteWebauthn(string $id, string $employeeId, string $webauthnID)
+    {
+        $result = $this->mfaDeleteWebauthnInternal([
+            'id' => $id,
+            'employee_id' => $employeeId,
+            'webauthn_id' => $webauthnID,
+        ]);
+        $statusCode = (int)$result[ 'statusCode' ];
+
+        if ($statusCode === 204 || $statusCode === 200) {
+            return null;
+        }
+
+        $this->reportUnexpectedResponse($result, 1669902932);
+    }
+
+    /**
      * Get a list of MFA configurations for given user
      * @param string $employee_id
      * @param string $rpOrigin
@@ -398,6 +422,32 @@ class IdBrokerClient extends BaseClient
         }
 
         $this->reportUnexpectedResponse($result, 1543879805);
+    }
+
+    /**
+     * Update a specific MFA Webauthn configuration
+     * @param string $id
+     * @param string $employeeId
+     * @param string $label
+     * @param string $webauthnID
+     * @return array
+     * @throws ServiceException
+     */
+    public function mfaUpdateWebauthn(string $id, string $employeeId, string $label, string $webauthnID): array
+    {
+        $result = $this->mfaUpdateWebauthnInternal([
+            'id' => $id,
+            'employee_id' => $employeeId,
+            'label' => $label,
+            'webauthn_id' => $webauthnID,
+        ]);
+        $statusCode = (int)$result[ 'statusCode' ];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1669902940);
     }
 
     /**

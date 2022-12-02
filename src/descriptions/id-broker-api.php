@@ -213,6 +213,28 @@
                 ],
             ],
         ],
+        'mfaDeleteWebauthnInternal' => [
+            'httpMethod' => 'DELETE',
+            'uri' => '/mfa/{id}/webauthn/{webauthn_id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'webauthn_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+            ],
+        ],
         'mfaListInternal' => [
             'httpMethod' => 'GET',
             'uri' => '/user/{employee_id}/mfa',
@@ -236,6 +258,33 @@
             'responseModel' => 'Result',
             'parameters' => [
                 'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'label' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+            ],
+        ],
+        'mfaUpdateWebauthnInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/mfa/{id}/webauthn/{webauthn_id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'webauthn_id' => [
                     'required' => true,
                     'type' => 'string',
                     'location' => 'uri'
