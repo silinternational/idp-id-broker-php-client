@@ -244,6 +244,27 @@ Feature: Handling responses from the ID Broker API
     When I call mfaVerify with the necessary data
     Then an exception with status code 429 SHOULD have been thrown
 
+  Scenario: Handling a "correct" response from mfaVerifyRegistration
+    Given a call to "mfaVerifyRegistration" will return a 200 response
+    When I call mfaVerifyRegistration with the necessary data
+    Then an exception should NOT have been thrown
+    And the result should be an array
+
+  Scenario: Handling a "correct," but empty response from mfaVerifyRegistration
+    Given a call to "mfaVerifyRegistration" will return a 204 response
+    When I call mfaVerifyRegistration with the necessary data
+    Then the result should be true
+
+  Scenario: Handling a "wrong" response from mfaVerifyRegistration
+    Given a call to "mfaVerifyRegistration" will return a 400 response
+    When I call mfaVerifyRegistration with the necessary data
+    Then an exception with status code 400 SHOULD have been thrown
+
+  Scenario: Handling a rate limit exception from mfaVerifyRegistration
+    Given a call to "mfaVerifyRegistration" will return a 429 response
+    When I call mfaVerifyRegistration with the necessary data
+    Then an exception with status code 429 SHOULD have been thrown
+
   Scenario: Handling a successful createMethod call
     Given a call to "createMethod" will return a 200 response
     When I call createMethod with the necessary data

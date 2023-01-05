@@ -464,7 +464,7 @@ class RequestContext implements Context
     /**
      * @When I call mfaCreate
      */
-    public function iCallMfacreate()
+    public function iCallMfaCreate()
     {
         $this->getIdBrokerClient()->mfaCreate(
             $this->requestData['employee_id'],
@@ -475,9 +475,9 @@ class RequestContext implements Context
     }
 
     /**
-     * @When I call deleteMfa
+     * @When I call mfaDelete
      */
-    public function iCallDeletemfa()
+    public function iCallMfaDelete()
     {
         $this->getIdBrokerClient()->mfaDelete(
             $this->requestData['id'],
@@ -486,9 +486,21 @@ class RequestContext implements Context
     }
 
     /**
+     * @When I call mfaDeleteWebauthn
+     */
+    public function iCallMfaDeleteWebauthn()
+    {
+        $this->getIdBrokerClient()->mfaDeleteWebauthn(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['webauthn_id'],
+        );
+    }
+
+    /**
      * @When I call mfaList
      */
-    public function iCallMfalist()
+    public function iCallMfaList()
     {
         $this->getIdBrokerClient()->mfaList(
             $this->requestData['employee_id'],
@@ -499,7 +511,7 @@ class RequestContext implements Context
     /**
      * @When I call mfaUpdate
      */
-    public function iCallMfaupdate()
+    public function iCallMfaUpdate()
     {
         $this->getIdBrokerClient()->mfaUpdate(
             $this->requestData['id'],
@@ -509,15 +521,42 @@ class RequestContext implements Context
     }
 
     /**
+     * @When I call mfaUpdateWebauthn
+     */
+    public function iCallMfaUpdateWebauthn()
+    {
+        $this->getIdBrokerClient()->mfaUpdateWebauthn(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['label'],
+            $this->requestData['webauthn_id'],
+        );
+    }
+
+    /**
      * @When I call mfaVerify
      */
-    public function iCallMfaverify()
+    public function iCallMfaVerify()
     {
         $this->getIdBrokerClient()->mfaVerify(
             $this->requestData['id'],
             $this->requestData['employee_id'],
             $this->requestData['value'],
             $this->rpOrigin
+        );
+    }
+
+    /**
+     * @When I call mfaVerifyRegistration
+     */
+    public function iCallMfaVerifyRegistration()
+    {
+        $this->getIdBrokerClient()->mfaVerify(
+            $this->requestData['id'],
+            $this->requestData['employee_id'],
+            $this->requestData['value'],
+            $this->rpOrigin,
+            'registration',
         );
     }
 }

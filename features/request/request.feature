@@ -328,9 +328,26 @@ Feature: Formatting requests for sending to the ID Broker API
       And I have indicated not to validate the id broker ip
       And I provide an "employee_id" of "123"
       And I provide an "id" of "789"
-    When I call deleteMfa
+    When I call mfaDelete
     Then the method should be "DELETE"
       And the url should be 'https://api.example.com/mfa/789'
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "123"
+        }
+        """
+
+  Scenario: Deleting an mfa webauthn option
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide an "employee_id" of "123"
+      And I provide an "id" of "456"
+      And I provide an "webauthn_id" of "789"
+    When I call mfaDeleteWebauthn
+    Then the method should be "DELETE"
+      And the url should be 'https://api.example.com/mfa/456/webauthn/789'
       And an authorization header should be present
       And the body should equal the following:
         """
@@ -354,10 +371,29 @@ Feature: Formatting requests for sending to the ID Broker API
       And I have indicated not to validate the id broker ip
       And I provide an "id" of "789"
       And I provide an "employee_id" of "123"
-      And I provide an "label" of "Purple security key"
+      And I provide an "label" of "Authy1"
     When I call mfaUpdate
     Then the method should be "PUT"
       And the url should be 'https://api.example.com/mfa/789'
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "123",
+          "label": "Authy1"
+        }
+        """
+
+  Scenario: Update an mfa webauthn option
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide an "id" of "456"
+      And I provide an "employee_id" of "123"
+      And I provide an "label" of "Purple security key"
+      And I provide an "webauthn_id" of "789"
+    When I call mfaUpdateWebauthn
+    Then the method should be "PUT"
+      And the url should be 'https://api.example.com/mfa/456/webauthn/789'
       And an authorization header should be present
       And the body should equal the following:
         """
@@ -377,6 +413,26 @@ Feature: Formatting requests for sending to the ID Broker API
     When I call mfaVerify
     Then the method should be "POST"
       And the url should be 'https://api.example.com/mfa/789/verify?rpOrigin=https%3A%2F%2Flogin.example.com'
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "123",
+          "value": "01234987"
+        }
+        """
+
+
+  Scenario: Verifying an mfa registration
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have provided an rpOrigin of "https://login.example.com"
+      And I have indicated not to validate the id broker ip
+      And I provide an "id" of "789"
+      And I provide an "employee_id" of "123"
+      And I provide a "value" of "01234987"
+    When I call mfaVerifyRegistration
+    Then the method should be "POST"
+      And the url should be 'https://api.example.com/mfa/789/verify/registration?rpOrigin=https%3A%2F%2Flogin.example.com'
       And an authorization header should be present
       And the body should equal the following:
         """

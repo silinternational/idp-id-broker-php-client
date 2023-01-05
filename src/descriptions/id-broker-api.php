@@ -213,6 +213,28 @@
                 ],
             ],
         ],
+        'mfaDeleteWebauthnInternal' => [
+            'httpMethod' => 'DELETE',
+            'uri' => '/mfa/{id}/webauthn/{webauthn_id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'webauthn_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+            ],
+        ],
         'mfaListInternal' => [
             'httpMethod' => 'GET',
             'uri' => '/user/{employee_id}/mfa',
@@ -252,9 +274,63 @@
                 ],
             ],
         ],
+        'mfaUpdateWebauthnInternal' => [
+            'httpMethod' => 'PUT',
+            'uri' => '/mfa/{id}/webauthn/{webauthn_id}',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'webauthn_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'label' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+            ],
+        ],
         'mfaVerifyInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/mfa/{id}/verify',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'uri'
+                ],
+                'employee_id' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'json'
+                ],
+                'value' => [
+                    'required' => true,
+                    'type' => [ 'string', 'object' ],
+                    'location' => 'json',
+                ],
+                'rpOrigin' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
+            ],
+        ],
+        'mfaVerifyRegistrationInternal' => [
+            'httpMethod' => 'POST',
+            'uri' => '/mfa/{id}/verify/registration',
             'responseModel' => 'Result',
             'parameters' => [
                 'id' => [
