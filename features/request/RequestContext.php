@@ -557,6 +557,7 @@ class RequestContext implements Context
             $this->requestData['value'],
             $this->rpOrigin,
             'registration',
+            $this->requestData['label'],
         );
     }
 }
