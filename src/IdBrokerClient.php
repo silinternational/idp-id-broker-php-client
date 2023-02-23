@@ -461,8 +461,14 @@ class IdBrokerClient extends BaseClient
      * @throws MfaRateLimitException
      * @throws ServiceException
      */
-    public function mfaVerify(string $id, string $employeeId, $value, string $rpOrigin = '', string $type = '', string $label = '')
-    {
+    public function mfaVerify(
+        string $id,
+        string $employeeId,
+        $value,
+        string $rpOrigin = '',
+        string $type = '',
+        string $label = ''
+    ) {
         $config = [
             'id' => $id,
             'employee_id' => $employeeId,
@@ -471,7 +477,9 @@ class IdBrokerClient extends BaseClient
         ];
 
         if ($type != '') {
-            $config['label'] = $label;
+            if ( !empty($label)) {
+                $config['label'] = $label;
+            }
             $result = $this->mfaVerifyRegistrationInternal($config);
         } else {
             $result = $this->mfaVerifyInternal($config);
