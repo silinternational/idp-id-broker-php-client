@@ -430,6 +430,7 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide an "id" of "789"
       And I provide an "employee_id" of "123"
       And I provide a "value" of "01234987"
+      And I provide a "label" of "Yubikey"
     When I call mfaVerifyRegistration
     Then the method should be "POST"
       And the url should be 'https://api.example.com/mfa/789/verify/registration?rpOrigin=https%3A%2F%2Flogin.example.com'
@@ -438,6 +439,7 @@ Feature: Formatting requests for sending to the ID Broker API
         """
         {
           "employee_id": "123",
-          "value": "01234987"
+          "value": "01234987",
+          "label": "Yubikey"
         }
         """

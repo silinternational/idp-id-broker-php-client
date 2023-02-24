@@ -348,6 +348,11 @@
                     'type' => [ 'string', 'object' ],
                     'location' => 'json',
                 ],
+                'label' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
+                ],
                 'rpOrigin' => [
                     'required' => false,
                     'type' => 'string',
