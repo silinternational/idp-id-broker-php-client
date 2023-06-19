@@ -717,9 +717,13 @@ class IdBrokerClient extends BaseClient
     private function assertTrustedBrokerIp()
     {
         $baseHost = parse_url($this->idBrokerUri, PHP_URL_HOST);
-        $idBrokerIp = gethostbyname(
-            $baseHost
-        );
+        $idBrokerIp = gethostbyname($baseHost);
+        if ($idBrokerIp == $baseHost) {
+            throw new Exception(
+                'DNS lookup failure on broker host ' . $baseHost,
+                1687147214
+            );
+        }
 
         if (! $this->isTrustedIpAddress($idBrokerIp)) {
             throw new Exception(
