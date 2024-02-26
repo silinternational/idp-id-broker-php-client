@@ -12,3 +12,4 @@ jobs:
         uses: actions/checkout@v4
       - name: Tests
         run: docker-compose run --rm php ./run-tests.sh
+
