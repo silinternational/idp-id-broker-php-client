@@ -143,6 +143,15 @@ Feature: Formatting requests for sending to the ID Broker API
         }
         """
 
+  Scenario: Updating a users last_login_utc
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I provide an "employee_id" of "12345"
+    When I call updateUserLastLogin
+    Then the method should be "PUT"
+      And the url should be "https://api.example.com/user/12345/update-last-login"
+      And an authorization header should be present
+      
   Scenario: Deactivating a user
     Given I am using a baseUri of "https://api.example.com/"
       And I have indicated not to validate the id broker ip

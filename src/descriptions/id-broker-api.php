@@ -470,6 +470,18 @@
                 ],
             ],
         ],
+        'updateUserLastLoginInternal' => [
+          'httpMethod' => 'PUT',
+          'uri' => '/user/{employee_id}/update-last-login',
+          'responseModel' => 'Result',
+          'parameters' => [
+            'employee_id' => [
+                'required' => true,
+                'type' => 'string',
+                'location' => 'uri',
+            ],
+          ],
+        ],
         'createMethodInternal' => [
             'httpMethod' => 'POST',
             'uri' => '/method',
