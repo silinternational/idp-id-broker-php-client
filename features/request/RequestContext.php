@@ -376,6 +376,14 @@ class RequestContext implements Context
     }
 
     /**
+     * @When I call updateUserLastLogin
+     */
+    public function iCallUpdateuserlastlogin()
+    {
+      $this->getIdBrokerClient()->updateUserLastLogin($this->requestData['employee_id']);
+    }
+
+    /**
      * @When I call listUsers and ask for these fields:
      */
     public function iCallListusersAndAskForTheseFields(TableNode $table)

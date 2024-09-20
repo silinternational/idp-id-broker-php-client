@@ -709,6 +709,26 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
+     * Update the User last_login_utc by calling the internal method
+     * @param string $employeeId
+     * @return array An array of information about the updated user only including last_login_utc and employee_id
+     * @throws ServiceException
+     */
+    public function updateUserLastLogin(string $employeeId): array
+    {
+        $result = $this->updateUserLastLoginInternal([
+            'employee_id' => $employeeId,
+        ]);
+        $statusCode = (int)$result[ 'statusCode' ];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1490808841);
+    }
+
+    /**
      * Determine whether any of the Id-broker's IPs are not in the
      * trusted ranges
      *
