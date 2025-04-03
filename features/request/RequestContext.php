@@ -478,7 +478,8 @@ class RequestContext implements Context
             $this->requestData['employee_id'],
             $this->requestData['type'],
             $this->requestData['label'],
-            $this->rpOrigin
+            $this->rpOrigin,
+            $this->requestData['recovery_email'] ?? '',
         );
     }
 
