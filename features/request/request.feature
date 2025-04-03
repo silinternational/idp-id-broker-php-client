@@ -328,7 +328,8 @@ Feature: Formatting requests for sending to the ID Broker API
         {
           "employee_id": "12345",
           "type": "webauthn",
-          "label": "Blue security key"
+          "label": "Blue security key",
+          "recovery_email": ""
         }
         """
 
