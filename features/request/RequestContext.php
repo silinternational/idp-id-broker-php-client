@@ -474,13 +474,22 @@ class RequestContext implements Context
      */
     public function iCallMfaCreate()
     {
-        $this->getIdBrokerClient()->mfaCreate(
-            $this->requestData['employee_id'],
-            $this->requestData['type'],
-            $this->requestData['label'],
-            $this->rpOrigin,
-            $this->requestData['recovery_email'],
-        );
+        if (empty($this->requestData['recovery_email'])) {
+            $this->getIdBrokerClient()->mfaCreate(
+                $this->requestData['employee_id'],
+                $this->requestData['type'],
+                $this->requestData['label'],
+                $this->rpOrigin,
+            );
+        } else {
+            $this->getIdBrokerClient()->mfaCreate(
+                $this->requestData['employee_id'],
+                $this->requestData['type'],
+                $this->requestData['label'],
+                $this->rpOrigin,
+                $this->requestData['recovery_email'],
+            );
+        }
     }
 
     /**

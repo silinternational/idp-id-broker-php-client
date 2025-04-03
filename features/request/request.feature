@@ -319,7 +319,6 @@ Feature: Formatting requests for sending to the ID Broker API
       And I provide an "employee_id" of "12345"
       And I provide a "type" of "webauthn"
       And I provide a "label" of "Blue security key"
-      And I provide a "recovery_email" of "recovery@example.com"
     When I call mfaCreate
     Then the method should be "POST"
       And the url should be "https://api.example.com/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
@@ -329,6 +328,27 @@ Feature: Formatting requests for sending to the ID Broker API
         {
           "employee_id": "12345",
           "type": "webauthn",
+          "label": "Blue security key"
+        }
+        """
+
+  Scenario: Creating an mfa recovery option
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+      And I have provided an rpOrigin of "https://login.example.com"
+      And I provide an "employee_id" of "12345"
+      And I provide a "type" of "recovery"
+      And I provide a "label" of "Blue security key"
+      And I provide a "recovery_email" of "recovery@example.com"
+    When I call mfaCreate
+    Then the method should be "POST"
+      And the url should be "https://api.example.com/mfa?rpOrigin=https%3A%2F%2Flogin.example.com"
+      And an authorization header should be present
+      And the body should equal the following:
+        """
+        {
+          "employee_id": "12345",
+          "type": "recovery",
           "label": "Blue security key",
           "recovery_email": "recovery@example.com"
         }
