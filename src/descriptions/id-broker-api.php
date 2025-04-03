@@ -182,7 +182,7 @@
                     'required' => true,
                     'type' => 'string',
                     'location' => 'json',
-                    'enum' => [ 'backupcode', 'totp', 'u2f', 'webauthn', 'manager' ],
+                    'enum' => [ 'backupcode', 'totp', 'u2f', 'webauthn', 'manager', 'recovery' ],
                 ],
                 'label' => [
                     'required' => false,
@@ -193,6 +193,11 @@
                     'required' => false,
                     'type' => 'string',
                     'location' => 'query',
+                ],
+                'recovery_email' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'location' => 'json',
                 ],
             ],
         ],
