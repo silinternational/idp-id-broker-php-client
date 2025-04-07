@@ -318,7 +318,6 @@ class IdBrokerClient extends BaseClient
      */
     public function mfaCreate(string $employee_id, string $type, string $label = null, string $rpOrigin = '', string $recovery_email = ''): ?array
     {
-        var_dump($recovery_email);
         $result = $this->mfaCreateInternal([
             'employee_id' => $employee_id,
             'type' => $type,
