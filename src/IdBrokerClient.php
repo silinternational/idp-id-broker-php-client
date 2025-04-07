@@ -312,17 +312,20 @@ class IdBrokerClient extends BaseClient
      * @param string $type
      * @param string|null $label
      * @param string|null $rpOrigin
+     * @param string|null $recovery_email
      * @return array|null
      * @throws ServiceException
      */
-    public function mfaCreate(string $employee_id, string $type, string $label = null, string $rpOrigin = ''): ?array
+    public function mfaCreate(string $employee_id, string $type, string $label = null, string $rpOrigin = '', string $recovery_email = ''): ?array
     {
         $result = $this->mfaCreateInternal([
             'employee_id' => $employee_id,
             'type' => $type,
             'label' => $label,
             'rpOrigin' => $rpOrigin,
+            'recovery_email'=> $recovery_email
         ]);
+
         $statusCode = (int)$result[ 'statusCode' ];
 
         if ($statusCode === 200) {
