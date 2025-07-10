@@ -365,6 +365,24 @@
                 ],
             ],
         ],
+        'searchUsersInternal' => [
+            'httpMethod' => 'GET',
+            'uri' => '/user',
+            'responseModel' => 'Result',
+            'parameters' => [
+                'search' => [
+                    'required' => true,
+                    'type' => 'string',
+                    'location' => 'query',
+                ],
+                'mask' => [
+                    'required' => false,
+                    'type' => 'string',
+                    'enum' => [ 'yes', 'no' ],
+                    'location' => 'query',
+                ],
+            ]
+        ],
         'setPasswordInternal' => [
             'httpMethod' => 'PUT',
             'uri' => '/user/{employee_id}/password',
