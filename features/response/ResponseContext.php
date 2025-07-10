@@ -1,7 +1,6 @@
 <?php
 namespace Sil\Idp\IdBroker\Client\features\response;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
 use Exception;
