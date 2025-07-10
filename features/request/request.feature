@@ -188,10 +188,10 @@ Feature: Formatting requests for sending to the ID Broker API
     Then the method should be "GET"
       And the url should be 'https://api.example.com/user?fields=employee_id%2Cactive'
 
-  Scenario: Searching users
+  Scenario: Searching users and masking personal info in results
     Given I am using a baseUri of "https://api.example.com/"
       And I have indicated not to validate the id broker ip
-    When I call listUsers to search for "john_smith" and mask personal info
+    When I call searchUsersMasked to search for "john_smith"
     Then the method should be "GET"
       And the url should be 'https://api.example.com/user?search=john_smith&mask=yes'
 
