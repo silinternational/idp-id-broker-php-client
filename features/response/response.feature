@@ -296,3 +296,29 @@ Feature: Handling responses from the ID Broker API
     When I call verifyMethod with the necessary data
     Then an exception with status code 429 SHOULD have been thrown
 
+  Scenario: Handling a successful searchUsersMasked call
+    Given a call to "searchUsersMasked" will return a 200 with the following data:
+      """
+      [
+        {"employee_id": "11111", "username": "john_smith"},
+        {"employee_id": "22222", "username": "john_doe"}
+      ]
+      """
+    When I call searchUsersMasked with the necessary data
+    Then the result SHOULD contain a list of users' information
+    And the result should be an array
+    And an exception should NOT have been thrown
+
+  Scenario: Handling a searchUsersMasked call that errors out
+    Given a call to "searchUsersMasked" will return a 500 with the following data:
+      """
+      {
+        "name": "Internal Server Error",
+        "message": "Some error message.",
+        "code": 0,
+        "status": 500
+      }
+      """
+    When I call searchUsersMasked with the necessary data
+    Then the result should NOT contain a list of users' information
+    And an exception SHOULD have been thrown

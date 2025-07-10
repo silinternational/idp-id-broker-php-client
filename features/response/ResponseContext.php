@@ -248,6 +248,20 @@ class ResponseContext implements Context
     }
 
     /**
+     * @When I call searchUsersMasked with the necessary data
+     */
+    public function iCallSearchusersmaskedWithTheNecessaryData(): void
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->searchUsersMasked(
+                'john'
+            );
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
      * @When I call setPassword with the necessary data
      */
     public function iCallSetpasswordWithTheNecessaryData()
