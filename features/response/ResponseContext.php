@@ -1,7 +1,6 @@
 <?php
 namespace Sil\Idp\IdBroker\Client\features\response;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
 use Exception;
@@ -243,6 +242,20 @@ class ResponseContext implements Context
                 'employee_id' => '12345',
                 'first_name' => 'John',
             ]);
+        } catch (Exception $e) {
+            $this->exceptionThrown = $e;
+        }
+    }
+
+    /**
+     * @When I call searchUsersMasked with the necessary data
+     */
+    public function iCallSearchusersmaskedWithTheNecessaryData(): void
+    {
+        try {
+            $this->result = $this->getIdBrokerClient()->searchUsersMasked(
+                'john'
+            );
         } catch (Exception $e) {
             $this->exceptionThrown = $e;
         }

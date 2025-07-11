@@ -396,6 +396,14 @@ class RequestContext implements Context
     }
 
     /**
+     * @When I call searchUsersMasked to search for :searchText
+     */
+    public function iCallSearchusersmaskedToSearchFor($searchText): void
+    {
+        $this->getIdBrokerClient()->searchUsersMasked($searchText);
+    }
+
+    /**
      * @When I call createMethod
      */
     public function iCallCreateMethod()

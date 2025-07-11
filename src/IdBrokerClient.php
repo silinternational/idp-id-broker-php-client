@@ -625,6 +625,28 @@ class IdBrokerClient extends BaseClient
     }
 
     /**
+     * Search for users and mask personal information in results.
+     *
+     * @param string $searchText The text to search for (across multiple fields).
+     * @return array An array with a sub-array about each user.
+     * @throws ServiceException
+     */
+    public function searchUsersMasked(string $searchText): array
+    {
+        $result = $this->searchUsersInternal([
+            'search' => $searchText,
+            'mask' => 'yes',
+        ]);
+        $statusCode = (int)$result['statusCode'];
+
+        if ($statusCode === 200) {
+            return $this->getResultAsArrayWithoutStatusCode($result);
+        }
+
+        $this->reportUnexpectedResponse($result, 1752153244);
+    }
+
+    /**
      * Set the password for the specified user.
      *
      * @param string $employeeId The Employee ID of the user whose password we
