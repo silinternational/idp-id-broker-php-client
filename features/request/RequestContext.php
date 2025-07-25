@@ -1,9 +1,11 @@
 <?php
+
 namespace Sil\Idp\IdBroker\Client\features\request;
 
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -576,5 +578,14 @@ class RequestContext implements Context
             'registration',
             $this->requestData['label'],
         );
+    }
+
+    #[Then('the user agent should be :expectedUserAgent')]
+    public function theUserAgentShouldBe($expectedUserAgent): void
+    {
+        $request = $this->getRequestFromHistory();
+        $actualUserAgents = $request->getHeader('User-Agent');
+        $actualUserAgent = array_pop($actualUserAgents);
+        $this->assertSame($expectedUserAgent, $actualUserAgent);
     }
 }
