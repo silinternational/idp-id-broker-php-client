@@ -580,12 +580,21 @@ class RequestContext implements Context
         );
     }
 
-    #[Then('the user agent should be :expectedUserAgent')]
-    public function theUserAgentShouldBe($expectedUserAgent): void
+    #[Then('the user agent should start with :expectedPrefix')]
+    public function theUserAgentShouldStartWith($expectedPrefix): void
     {
         $request = $this->getRequestFromHistory();
         $actualUserAgents = $request->getHeader('User-Agent');
         $actualUserAgent = array_pop($actualUserAgents);
-        $this->assertSame($expectedUserAgent, $actualUserAgent);
+        Assert::assertStringStartsWith($expectedPrefix, $actualUserAgent);
+    }
+
+    #[Then('the user agent should end with the current version of this library')]
+    public function theUserAgentShouldEndWithTheCurrentVersionOfThisLibrary(): void
+    {
+        $request = $this->getRequestFromHistory();
+        $actualUserAgents = $request->getHeader('User-Agent');
+        $actualUserAgent = array_pop($actualUserAgents);
+        Assert::assertStringEndsWith(IdBrokerClient::VERSION_MAJOR, $actualUserAgent);
     }
 }

@@ -12,6 +12,15 @@ use IPLib\Factory;
 class IdBrokerClient extends BaseClient
 {
     /**
+     * The major version number for this version of this library.
+     *
+     * NOTE: Update this manually.
+     *
+     * @var string
+     */
+    public const VERSION_MAJOR = '4';
+
+    /**
      * The key for the constructor's config parameter that refers
      * to the trusted IP ranges.
      */
@@ -73,6 +82,9 @@ class IdBrokerClient extends BaseClient
             'access_token' => $accessToken,
             'http_client_options' => [
                 'timeout' => 30,
+                'headers' => [
+                    'User-Agent' => 'IdpIdBrokerPhpClient/' . static::VERSION_MAJOR,
+                ],
             ],
         ], $config));
     }

@@ -487,4 +487,5 @@ Feature: Formatting requests for sending to the ID Broker API
     Given I am using a baseUri of "https://api.example.com/"
       And I have indicated not to validate the id broker ip
     When I call getSiteStatus
-    Then the user agent should be "IdpIdBrokerPhpClient/4"
+    Then the user agent should start with "IdpIdBrokerPhpClient/"
+     And the user agent should end with the current version of this library
