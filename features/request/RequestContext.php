@@ -1,9 +1,11 @@
 <?php
+
 namespace Sil\Idp\IdBroker\Client\features\request;
 
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -576,5 +578,23 @@ class RequestContext implements Context
             'registration',
             $this->requestData['label'],
         );
+    }
+
+    #[Then('the user agent should start with :expectedPrefix')]
+    public function theUserAgentShouldStartWith($expectedPrefix): void
+    {
+        $request = $this->getRequestFromHistory();
+        $actualUserAgents = $request->getHeader('User-Agent');
+        $actualUserAgent = array_pop($actualUserAgents);
+        Assert::assertStringStartsWith($expectedPrefix, $actualUserAgent);
+    }
+
+    #[Then('the user agent should end with the current version of this library')]
+    public function theUserAgentShouldEndWithTheCurrentVersionOfThisLibrary(): void
+    {
+        $request = $this->getRequestFromHistory();
+        $actualUserAgents = $request->getHeader('User-Agent');
+        $actualUserAgent = array_pop($actualUserAgents);
+        Assert::assertStringEndsWith(IdBrokerClient::VERSION_MAJOR, $actualUserAgent);
     }
 }

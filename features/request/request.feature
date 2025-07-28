@@ -482,3 +482,10 @@ Feature: Formatting requests for sending to the ID Broker API
           "label": "Yubikey"
         }
         """
+
+  Scenario: Ensuring the correct User-Agent is used
+    Given I am using a baseUri of "https://api.example.com/"
+      And I have indicated not to validate the id broker ip
+    When I call getSiteStatus
+    Then the user agent should start with "IdpIdBrokerPhpClient/"
+     And the user agent should end with the current version of this library
